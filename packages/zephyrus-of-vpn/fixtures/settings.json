@@ -1,0 +1,4 @@
+{
+  "allowed_countries": ["US", "CA"],
+  "min_client_version": "5.0"
+}
