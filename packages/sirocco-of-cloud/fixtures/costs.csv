@@ -1,0 +1,16 @@
+date,account,service,region,resource_id,cost,owner,environment,usage_type,usage_hours,charge_type
+2026-09-01,prod-acct,EC2,us-east-1,i-web1,1200,web-team,prod,BoxUsage,720,Usage
+2026-09-01,prod-acct,RDS,us-east-1,db-1,900,data-team,prod,InstanceUsage,720,Usage
+2026-09-01,prod-acct,S3,us-east-1,bucket-logs,150,,prod,TimedStorage,,Usage
+2026-09-01,prod-acct,DataTransfer,us-east-1,,100,,prod,DataTransfer-Out-Bytes,,Usage
+2026-09-01,dev-acct,EC2,us-east-1,i-dev1,300,dev-team,dev,BoxUsage,720,Usage
+2026-09-01,dev-acct,EC2,us-east-1,i-dev2,80,dev-team,dev,BoxUsage,200,Usage
+2026-10-01,prod-acct,EC2,us-east-1,i-web1,1250,web-team,prod,BoxUsage,744,Usage
+2026-10-01,prod-acct,RDS,us-east-1,db-1,910,data-team,prod,InstanceUsage,744,Usage
+2026-10-01,prod-acct,S3,us-east-1,bucket-logs,160,,prod,TimedStorage,,Usage
+2026-10-01,prod-acct,DataTransfer,us-east-1,,450,,prod,DataTransfer-Out-Bytes,,Usage
+2026-10-01,prod-acct,EC2,ap-southeast-2,i-test9,600,,test,BoxUsage,744,Usage
+2026-10-01,prod-acct,AWS Marketplace,global,fw-subscription,400,security,prod,Marketplace,,Usage
+2026-10-01,dev-acct,EC2,us-east-1,i-dev1,310,dev-team,dev,BoxUsage,744,Usage
+2026-10-01,dev-acct,EC2,us-east-1,i-dev2,85,dev-team,dev,BoxUsage,210,Usage
+2026-10-01,dev-acct,Credit,global,,-50,,,Promotional credit,,Credit

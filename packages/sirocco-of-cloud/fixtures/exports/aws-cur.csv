@@ -1,0 +1,4 @@
+lineItem/UsageStartDate,lineItem/UsageAccountId,lineItem/ProductCode,product/region,lineItem/ResourceId,lineItem/UsageType,lineItem/LineItemType,lineItem/UnblendedCost
+2026-09-01T00:00:00Z,111122223333,AmazonEC2,us-east-1,i-web1,BoxUsage:m6i.large,Usage,1200
+2026-10-01T00:00:00Z,111122223333,AmazonEC2,us-east-1,i-web1,BoxUsage:m6i.large,Usage,1250
+2026-10-01T00:00:00Z,111122223333,AmazonEC2,sa-east-1,i-odd1,BoxUsage:m6i.large,Usage,300

@@ -1,0 +1,58 @@
+{
+  "name": "sirocco-of-cloud",
+  "version": "0.1.0",
+  "description": "Sirocco of Cloud: Cloud bill review from AWS, Azure or Google Cloud cost exports: services that jumped month on month, spend with no owner tag, spend in regions you do not use, dev and test resources charged around the clock, data egress, and commitments about to expire. Drafts notes for owners; never changes a cloud account.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "sirocco-of-cloud": "bin/sirocco-of-cloud.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/sirocco-of-cloud.js demo",
+    "eval": "node bin/sirocco-of-cloud.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/sirocco-of-cloud"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/sirocco-of-cloud#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "finops",
+    "cloud-cost",
+    "aws",
+    "azure",
+    "gcp",
+    "cost-and-usage-report"
+  ]
+}
