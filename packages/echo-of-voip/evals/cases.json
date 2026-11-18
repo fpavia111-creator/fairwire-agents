@@ -1,0 +1,329 @@
+{
+  "suite": "echo-of-voip",
+  "root": "..",
+  "data_note": "Fictional calls in ../fixtures. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "echo_check",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.calls": 37,
+          "result.minutes": 114.2,
+          "result.poor_calls": 6,
+          "result.poor_pct": 16.2,
+          "result.open": 11,
+          "result.high": 3
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "echo_check",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "one_way_audio",
+          "HQ-016",
+          "poor_call",
+          "BR-001",
+          "MOS 2.9",
+          "site_poor_share",
+          "Warehouse",
+          "trunk_poor_share",
+          "carrier-b",
+          "poor_hour",
+          "14:00",
+          "short_dropped_calls"
+        ]
+      }
+    },
+    {
+      "id": "phone-numbers-masked",
+      "tool": "echo_check",
+      "args": {
+        "calls": "fixtures/calls.csv"
+      },
+      "expect": {
+        "not_contains": [
+          "555 0100 777"
+        ],
+        "matches": [
+          "TEL-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "looser-jitter-limit",
+      "tool": "echo_check",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings-loose.json"
+      },
+      "expect": {
+        "equals": {
+          "result.poor_calls": 1,
+          "result.high": 2
+        },
+        "not_contains": [
+          "site_poor_share"
+        ]
+      }
+    },
+    {
+      "id": "explain-warehouse",
+      "tool": "echo_explain",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json",
+        "site": "Warehouse"
+      },
+      "expect": {
+        "contains": [
+          "site_poor_share",
+          "poor_call"
+        ],
+        "equals": {
+          "result.findings": 6
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "echo_draft_provider_ticket",
+      "approve": "Pat Example",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 10,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "echo_check",
+      "mode": "review",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.calls": 37,
+          "result.minutes": 114.2,
+          "result.poor_calls": 6,
+          "result.poor_pct": 16.2,
+          "result.open": 11,
+          "result.high": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "echo_check",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "echo_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "calls"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "echo_check",
+      "args": {
+        "calls": "../../../outside.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "echo_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "echo_write_report",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "echo-calls.csv",
+          "echo-calls.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "echo_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "echo_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-pbx-change-codec",
+      "tool": "pbx_change_codec",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-provider-ticket-submit",
+      "tool": "provider_ticket_submit",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "echo_draft_provider_ticket",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "echo_draft_provider_ticket",
+      "mode": "review",
+      "args": {
+        "calls": "fixtures/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "echo_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "echo_check",
+      "args": {
+        "calls": "fixtures/intl/de/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.calls": 37,
+          "result.minutes": 114.2,
+          "result.poor_calls": 6,
+          "result.poor_pct": 16.2,
+          "result.open": 11,
+          "result.high": 3
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "echo_check",
+      "args": {
+        "calls": "fixtures/intl/ja/calls.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.calls": 37,
+          "result.minutes": 114.2,
+          "result.poor_calls": 6,
+          "result.poor_pct": 16.2,
+          "result.open": 11,
+          "result.high": 3
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

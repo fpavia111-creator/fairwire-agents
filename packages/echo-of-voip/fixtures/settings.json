@@ -1,0 +1,5 @@
+{
+  "mos_min": 3.6,
+  "jitter_ms_max": 30,
+  "poor_share_pct": 20
+}

@@ -1,0 +1,58 @@
+{
+  "name": "echo-of-voip",
+  "version": "0.1.0",
+  "description": "Echo of Voip: Call quality review from a phone system or SBC call-detail export: low MOS, packet loss, jitter and latency over your limits, one-way audio, short dropped calls, and sites or trunks where poor calls cluster. Drafts a ticket for the voice provider; never changes a codec or route.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "echo-of-voip": "bin/echo-of-voip.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/echo-of-voip.js demo",
+    "eval": "node bin/echo-of-voip.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/echo-of-voip"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/echo-of-voip#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "voip",
+    "call-quality",
+    "mos",
+    "jitter",
+    "sip",
+    "cdr"
+  ]
+}

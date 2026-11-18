@@ -14,6 +14,11 @@ import { AgentRuntime } from './runtime.js';
 import { adaptRecords } from './sources.js';
 import { ONE_CLICK_CATEGORIES } from './manifest.js';
 import { parseCsvRows } from './csv.js';
+import { createHash } from 'node:crypto';
+
+// A fixed pseudonym key, so two runs give the same pseudonyms (with audit off the runtime
+// would otherwise make a new key for each run).
+const TEST_PII_KEY = createHash('sha256').update('fairwire contract tests: fictional fixtures only').digest();
 
 const FILE_ARG = /\.(csv|tsv|txt|json|jsonl|xlsx|log|zone)$/i;
 const VOLATILE = /(^|_)(ms|at|time|generated|ran|date_written|written_at|elapsed|file|files|draft|path|dir|out_dir|report|html|csv|md)$/i;
@@ -48,7 +53,7 @@ export function agentContract({ manifest, casesFile }) {
   const runs = manifest.tools.filter((t) => decision(t) !== 'block');
   const caseFor = (t) => cases.find((c) => c.tool === t.name && (!c.expect || !c.expect.status || ['executed', 'needs_approval'].includes(c.expect.status)));
   const sandbox = () => { const d = mkdtempSync(join(tmpdir(), `${manifest.name}-contract-`)); cpSync(srcRoot, d, { recursive: true, filter: (p) => !/[\\/](node_modules|fairwire-out|\.fairwire)([\\/]|$)/.test(p) }); return d; };
-  const rtIn = (root, opts = {}) => new AgentRuntime(manifest, { root, stateDir: join(root, '.fairwire-test'), audit: false, ...opts });
+  const rtIn = (root, opts = {}) => new AgentRuntime(manifest, { root, stateDir: join(root, '.fairwire-test'), audit: false, piiKey: TEST_PII_KEY, ...opts });
   async function run(rt, tool, args) {
     const first = await rt.call(tool, args);
     if (first.status !== 'needs_approval') return first;
