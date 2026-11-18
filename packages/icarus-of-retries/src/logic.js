@@ -29,7 +29,7 @@ export const SETTINGS_SCHEMA = { type: 'object', additionalProperties: false, pr
 } };
 export const DEFAULTS = Object.freeze({ min_gap_seconds: 1, retry_share_pct: 10, server_error_pct: 5, retryable_4xx: [408, 409, 425, 429] });
 
-const failed = (st) => st === null || st >= 500 || st === 429;
+const failed = (st) => st === null || st >= 400;
 
 export function reviewRetries(rows, settings = {}) {
   const s = { ...DEFAULTS, ...settings };

@@ -29,7 +29,7 @@ function fmtNumber(s, mk, decimals) {
 function fmtDate(s, mk) {
   const us = /^(\d{1,2})\/(\d{1,2})\/(\d{4})( \d{1,2}:\d{2})?$/.exec(String(s).trim()); // the English fixtures write US dates too
   if (us) return mk.date(us[3], us[1].padStart(2, '0'), us[2].padStart(2, '0')) + (us[4] || '');
-  const m = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}:\d{2})(?::\d{2})?)?(Z|[+-]\d{2}:?\d{2})?$/.exec(String(s).trim());
+  const m = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}:\d{2}(?::\d{2})?))?(Z|[+-]\d{2}:?\d{2})?$/.exec(String(s).trim());
   if (!m || m[5]) return s; // keep zoned timestamps exactly
   return mk.date(m[1], m[2], m[3]) + (m[4] ? ` ${m[4]}` : '');
 }

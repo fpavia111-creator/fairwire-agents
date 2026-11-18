@@ -1,0 +1,4 @@
+{
+  "retry_share_pct": 25,
+  "server_error_pct": 10
+}

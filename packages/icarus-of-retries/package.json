@@ -1,0 +1,58 @@
+{
+  "name": "icarus-of-retries",
+  "version": "0.1.0",
+  "description": "Icarus of Retries: Retry cost review from API or LLM request logs: tokens and bytes spent on retries, retries of errors that cannot succeed (4xx), retry storms with no back-off, 429s retried before Retry-After, and endpoints whose retry share is highest. Drafts notes for the service owner.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "icarus-of-retries": "bin/icarus-of-retries.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/icarus-of-retries.js demo",
+    "eval": "node bin/icarus-of-retries.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/icarus-of-retries"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/icarus-of-retries#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "retries",
+    "api",
+    "rate-limits",
+    "429",
+    "llm",
+    "backoff"
+  ]
+}

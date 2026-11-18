@@ -1,0 +1,4 @@
+{
+  "min_gap_seconds": 1,
+  "retry_share_pct": 10
+}
