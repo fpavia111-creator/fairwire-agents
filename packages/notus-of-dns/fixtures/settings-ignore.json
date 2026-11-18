@@ -1,0 +1,4 @@
+{
+  "internal_resolvers": ["10.0.0.53"],
+  "ignore_domains": ["tunnel.example.net"]
+}
