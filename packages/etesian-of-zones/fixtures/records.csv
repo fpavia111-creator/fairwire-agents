@@ -1,0 +1,15 @@
+zone,name,type,value,ttl
+example.com,@,A,203.0.113.10,3600
+example.com,www,CNAME,example.com.,3600
+example.com,shop,CNAME,example-shop.azurewebsites.net.,3600
+example.com,docs,CNAME,example-docs.github.io.,3600
+example.com,promo2024,CNAME,promo2024-example.s3-website-us-east-1.amazonaws.com.,3600
+example.com,intranet,A,10.20.0.15,3600
+example.com,legacy,A,198.51.100.77,3600
+example.com,mail,A,203.0.113.25,3600
+example.com,mail,A,203.0.113.25,3600
+example.com,status,CNAME,status-page.example.net.,30
+example.com,status,TXT,"verification=abc123",3600
+example.com,*.preview,A,203.0.113.40,3600
+example.com,api,A,203.0.113.30,1209600
+corp.example.com,fileserver,A,10.20.0.40,3600

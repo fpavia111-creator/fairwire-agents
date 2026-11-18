@@ -1,0 +1,5 @@
+{
+  "public_zones": ["example.com"],
+  "owned_cidrs": ["203.0.113.0/24"],
+  "active_cloud_hosts": ["example-shop.azurewebsites.net", "example-docs.github.io"]
+}
