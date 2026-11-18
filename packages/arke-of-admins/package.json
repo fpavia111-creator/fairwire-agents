@@ -1,0 +1,57 @@
+{
+  "name": "arke-of-admins",
+  "version": "0.1.0",
+  "description": "Arke of Admins: Privileged role review from directory role exports: more global administrators than your cap, standing assignments where you use just-in-time, admins without MFA, admin accounts that also read mail, roles held by guests, break-glass accounts that signed in or lack an exclusion note. Names masked for the model. Drafts notes; never removes a role.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "arke-of-admins": "bin/arke-of-admins.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/arke-of-admins.js demo",
+    "eval": "node bin/arke-of-admins.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/arke-of-admins"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/arke-of-admins#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "privileged-access",
+    "pim",
+    "global-admin",
+    "break-glass",
+    "entra-id"
+  ]
+}

@@ -1,0 +1,11 @@
+Benutzer;display_name;Rolle;assignment_type;user_type;Zwei-Faktor;E-Mail;Letzte Anmeldung;break_glass;note
+aortiz@corp.example;Ana Ortiz;Global Administrator;Eligible;Member;fido2;no;17.11.2026;no;
+bkim@corp.example;Ben Kim;Global Administrator;Active (permanent);Member;authenticator app;yes;17.11.2026;no;
+cdiaz@corp.example;Cy Diaz;Global Administrator;Eligible;Member;fido2;no;16.11.2026;no;
+dlee@corp.example;Dee Lee;Global Administrator;Eligible;Member;;no;15.11.2026;no;
+emoss@corp.example;Eli Moss;Global Administrator;Eligible;Member;fido2;no;10.11.2026;no;
+emoss@corp.example;Eli Moss;Exchange Administrator;Eligible;Member;fido2;no;10.11.2026;no;
+partner_it#EXT#@corp.example;Partner IT;User Administrator;Active (permanent);Guest;authenticator app;no;12.11.2026;no;
+fnunez@corp.example;Fay Nunez;Security Administrator;Eligible;Member;fido2;no;01.06.2026;no;
+bg1@corp.example;Emergency Access 1;Global Administrator;Active (permanent);Member;fido2;no;14.11.2026;yes;"Sealed envelope in safe; alert to SOC"
+bg2@corp.example;Emergency Access 2;Global Administrator;Active (permanent);Member;fido2;no;01.03.2026;yes;
