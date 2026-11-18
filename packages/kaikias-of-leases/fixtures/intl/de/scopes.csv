@@ -1,0 +1,3 @@
+scope;Startzeit;Endzeit;Vollständiger Name
+10.10.1.0/24;10.10.1.100;10.10.1.199;Users floor 1
+10.10.2.0/24;10.10.2.50;10.10.2.59;Printers
