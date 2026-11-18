@@ -1,0 +1,7 @@
+{
+  "prices": {
+    "large-model-x": { "input_per_mtok": 15, "output_per_mtok": 75, "cached_per_mtok": 1.5 },
+    "small-model-y": { "input_per_mtok": 1, "output_per_mtok": 5, "cached_per_mtok": 0.1 }
+  },
+  "large_models": ["large-model-x"]
+}

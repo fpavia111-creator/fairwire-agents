@@ -77,7 +77,7 @@ export function reviewUsage(rows, settings = {}) {
   const untagged = reqs.filter((r) => !r.app);
   if (untagged.length) items.push(finding('no_app_tag', 'low', '(no app)', `${untagged.length} request(s) have no app or project tag${priced ? ` (${money(untagged)} of spend)` : ''}.`, 'Give every API key or project a name and an owner.', { subject: '(no app)', requests: untagged.length }));
 
-  const by = (key) => { const m = {}; for (const r of reqs) { const k = key(r); const e = m[k] || (m[k] = { requests: 0, prompt_tokens: 0, output_tokens: 0, cost: priced ? 0 : null }); e.requests++; e.prompt_tokens += r.prompt; e.output_tokens += r.output; if (priced) e.cost = round2(e.cost + (r.cost || 0)); } return Object.fromEntries(Object.entries(m).sort(([a], [b]) => (a < b ? -1 : 1))); };
+  const by = (key) => { const m = {}; for (const r of reqs) { const k = key(r); const e = m[k] || (m[k] = { requests: 0, prompt_tokens: 0, output_tokens: 0, cost: priced ? 0 : null }); e.requests++; e.prompt_tokens += r.prompt; e.output_tokens += r.output; if (priced) e.cost += r.cost || 0; } for (const e of Object.values(m)) if (priced) e.cost = round2(e.cost); return Object.fromEntries(Object.entries(m).sort(([a], [b]) => (a < b ? -1 : 1))); };
   const promptTotal = reqs.reduce((t, r) => t + r.prompt, 0);
   return { requests: reqs.length, prompt_tokens: promptTotal, output_tokens: reqs.reduce((t, r) => t + r.output, 0), cached_pct: pct(reqs.reduce((t, r) => t + Math.min(r.cached, r.prompt), 0), promptTotal), cost: money(reqs), by_app: by(appOf), by_model: by((r) => r.model), items };
 }

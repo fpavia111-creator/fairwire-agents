@@ -1,0 +1,24 @@
+Anfrage-ID;at;Anwendung;Benutzer;Modell;Token;output_tokens;cached_tokens;stop_reason;Datenmenge (Bytes);prompt
+req-101;16.11.2026 09:01;support-bot;agent1@example.test;small-model-y;1.200;300;0;end_turn;5.200;Summarize our refund policy for a customer in plain words
+req-102;16.11.2026 09:02;support-bot;agent2@example.test;small-model-y;1.200;300;0;end_turn;5.200;Summarize our refund policy for a customer in plain words
+req-103;16.11.2026 09:03;support-bot;agent3@example.test;small-model-y;1.200;300;0;end_turn;5.200;Summarize our refund policy for a customer in plain words
+req-104;16.11.2026 09:04;support-bot;agent4@example.test;small-model-y;1.200;300;0;end_turn;5.200;Summarize our refund policy for a customer in plain words
+req-105;16.11.2026 09:05;support-bot;agent5@example.test;small-model-y;1.200;300;0;end_turn;5.200;Summarize our refund policy for a customer in plain words
+req-106;16.11.2026 09:06;support-bot;agent6@example.test;small-model-y;1.200;300;0;end_turn;5.200;Summarize our refund policy for a customer in plain words
+req-107;16.11.2026 09:30;support-bot;agent1@example.test;small-model-y;1.200;280;1.000;end_turn;5.200;Summarize our refund policy for a customer in plain words
+req-201;16.11.2026 10:00;doc-summarizer;ana.ortiz@example.test;large-model-x;80.000;2.000;0;end_turn;320.000;Summarize the attached contract number one
+req-202;16.11.2026 10:10;doc-summarizer;ana.ortiz@example.test;large-model-x;82.000;4.096;0;max_tokens;900.000;Summarize the attached contract number two
+req-203;16.11.2026 10:20;doc-summarizer;ben.kim@example.test;large-model-x;78.000;2.100;0;end_turn;310.000;Summarize the attached contract number three
+req-204;16.11.2026 10:30;doc-summarizer;ben.kim@example.test;large-model-x;3.000;1.024;0;length;12.000;List the renewal dates in this short memo
+req-205;16.11.2026 10:40;doc-summarizer;ben.kim@example.test;large-model-x;2.500;1.024;0;length;11.000;List the parties named in this short memo
+req-301;16.11.2026 11:04;code-helper;dev1@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 1 in this snippet please
+req-302;16.11.2026 11:08;code-helper;dev2@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 2 in this snippet please
+req-303;16.11.2026 11:12;code-helper;dev3@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 3 in this snippet please
+req-304;16.11.2026 11:16;code-helper;dev4@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 4 in this snippet please
+req-305;16.11.2026 11:20;code-helper;dev5@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 5 in this snippet please
+req-306;16.11.2026 11:24;code-helper;dev6@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 6 in this snippet please
+req-307;16.11.2026 11:28;code-helper;dev7@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 7 in this snippet please
+req-308;16.11.2026 11:32;code-helper;dev8@example.test;large-model-x;200;40;0;end_turn;900;Rename variable number 8 in this snippet please
+req-401;16.11.2026 12:01;;;small-model-y;900;200;0;end_turn;4.000;Draft a polite reply to ticket 1 about a late order
+req-402;16.11.2026 12:02;;;small-model-y;900;200;0;end_turn;4.000;Draft a polite reply to ticket 2 about a late order
+req-403;16.11.2026 12:03;;;large-model-x;900;200;0;end_turn;4.000;Draft a polite reply to ticket 3 about a late order
