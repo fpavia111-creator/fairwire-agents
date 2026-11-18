@@ -1,0 +1,11 @@
+user,display_name,enabled,user_type,is_admin,mfa_registered,methods,excluded,last_sign_in,last_mfa,department
+aortiz@example.test,Ana Ortiz,true,Member,yes,yes,"authenticator app, sms",no,2026-11-17,2026-11-17,IT
+bkim@example.test,Ben Kim,true,Member,yes,yes,"fido2, authenticator app",no,2026-11-17,2026-11-17,IT
+cdiaz@example.test,Cy Diaz,true,Member,no,no,,no,2026-11-16,,Sales
+dlee@example.test,Dee Lee,true,Member,no,yes,"sms, voice",no,2026-11-15,2026-11-15,Sales
+emoss@example.test,Eli Moss,true,Member,no,yes,authenticator app,yes,2026-11-14,2026-08-01,Finance
+fnunez@example.test,Fay Nunez,true,Member,no,yes,authenticator app,no,2026-11-17,2026-06-30,Finance
+gpark@example.test,Gus Park,true,Member,no,yes,"passkey, authenticator app",no,2026-11-17,2026-11-17,Finance
+reception@example.test,Reception Desk,true,Shared mailbox,no,no,,no,2026-11-17,,Facilities
+breakglass1@example.test,Emergency Access 1,true,Member,yes,no,,yes,2026-06-01,,IT
+hquinn@example.test,Hal Quinn,false,Member,no,no,,no,2026-03-01,,Sales

@@ -1,0 +1,11 @@
+Benutzer;display_name;Aktiviert;user_type;is_admin;mfa_registered;methods;excluded;Letzte Anmeldung;last_mfa;Abteilung
+aortiz@example.test;Ana Ortiz;true;Member;yes;yes;authenticator app, sms;no;17.11.2026;17.11.2026;IT
+bkim@example.test;Ben Kim;true;Member;yes;yes;fido2, authenticator app;no;17.11.2026;17.11.2026;IT
+cdiaz@example.test;Cy Diaz;true;Member;no;no;;no;16.11.2026;;Sales
+dlee@example.test;Dee Lee;true;Member;no;yes;sms, voice;no;15.11.2026;15.11.2026;Sales
+emoss@example.test;Eli Moss;true;Member;no;yes;authenticator app;yes;14.11.2026;01.08.2026;Finance
+fnunez@example.test;Fay Nunez;true;Member;no;yes;authenticator app;no;17.11.2026;30.06.2026;Finance
+gpark@example.test;Gus Park;true;Member;no;yes;passkey, authenticator app;no;17.11.2026;17.11.2026;Finance
+reception@example.test;Reception Desk;true;Shared mailbox;no;no;;no;17.11.2026;;Facilities
+breakglass1@example.test;Emergency Access 1;true;Member;yes;no;;yes;01.06.2026;;IT
+hquinn@example.test;Hal Quinn;false;Member;no;no;;no;01.03.2026;;Sales
