@@ -1,0 +1,4 @@
+{
+  "allowed_countries": ["US", "CA"],
+  "service_accounts": ["svc-*"]
+}

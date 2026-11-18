@@ -1,0 +1,4 @@
+Date (UTC),Request ID,User,User principal name,Application,IP address,Location,Status,Failure reason,Client app
+2026-11-16 09:00:00,req-1,Ana Ortiz,aortiz@corp.example,Office 365,198.51.100.11,US,Success,,Browser
+2026-11-16 09:40:00,req-2,Ana Ortiz,aortiz@corp.example,Office 365,203.0.113.90,RO,Success,,Browser
+2026-11-16 10:00:00,req-3,Cy Diaz,cdiaz@corp.example,Exchange Online,198.51.100.12,US,Success,,IMAP4

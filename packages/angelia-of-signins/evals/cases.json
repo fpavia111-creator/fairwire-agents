@@ -1,0 +1,336 @@
+{
+  "suite": "angelia-of-signins",
+  "root": "..",
+  "data_note": "Fictional sign-ins in ../fixtures. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.events": 44,
+          "result.accounts": 21,
+          "result.failures": 35,
+          "result.addresses": 9,
+          "result.open": 8,
+          "result.high": 3
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "password_spray",
+          "12 different accounts",
+          "success_after_failures",
+          "after 10 failures",
+          "two_places_at_once",
+          "from RO",
+          "legacy_protocol",
+          "IMAP4",
+          "country_not_allowed",
+          "service_account_interactive",
+          "Azure Portal",
+          "failed_burst",
+          "11 failed",
+          "disabled_account_attempts"
+        ]
+      }
+    },
+    {
+      "id": "accounts-and-addresses-masked",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "not_contains": [
+          "corp.example",
+          "203.0.113.66",
+          "bkim"
+        ],
+        "matches": [
+          "USR-[0-9a-f]{8}",
+          "IP-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "entra-layout",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "fixtures/exports/entra-signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.events": 3,
+          "result.open": 3,
+          "result.high": 1
+        },
+        "contains": [
+          "entra_signins"
+        ]
+      }
+    },
+    {
+      "id": "explain-account",
+      "tool": "angelia_explain",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json",
+        "account": "aortiz@corp.example"
+      },
+      "expect": {
+        "contains": [
+          "two_places_at_once",
+          "country_not_allowed"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "angelia_draft_security_note",
+      "approve": "Pat Example",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 6,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "angelia_check",
+      "mode": "review",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.events": 44,
+          "result.accounts": 21,
+          "result.failures": 35,
+          "result.addresses": 9,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "angelia_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "signins"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "../../../outside.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "angelia_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "angelia_write_report",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "angelia-signins.csv",
+          "angelia-signins.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "angelia_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "angelia_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-idp-block-user",
+      "tool": "idp_block_user",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-idp-add-named-location",
+      "tool": "idp_add_named_location",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "angelia_draft_security_note",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "angelia_draft_security_note",
+      "mode": "review",
+      "args": {
+        "signins": "fixtures/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "angelia_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "fixtures/intl/de/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.events": 44,
+          "result.accounts": 21,
+          "result.failures": 35,
+          "result.addresses": 9,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "angelia_check",
+      "args": {
+        "signins": "fixtures/intl/ja/signins.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.events": 44,
+          "result.accounts": 21,
+          "result.failures": 35,
+          "result.addresses": 9,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

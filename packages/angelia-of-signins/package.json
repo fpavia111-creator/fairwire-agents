@@ -1,0 +1,57 @@
+{
+  "name": "angelia-of-signins",
+  "version": "0.1.0",
+  "description": "Angelia of Signins: Sign-in log review from Entra ID, Okta or Google exports: password spraying from one address, failed-login bursts, legacy protocols, sign-ins from countries outside your list, the same account in two far-apart places, sign-in attempts on disabled accounts and service accounts used interactively. Names masked for the model. Drafts notes; never blocks an account.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "angelia-of-signins": "bin/angelia-of-signins.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/angelia-of-signins.js demo",
+    "eval": "node bin/angelia-of-signins.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/angelia-of-signins"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/angelia-of-signins#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "sign-in-logs",
+    "entra-id",
+    "okta",
+    "password-spray",
+    "identity-threat"
+  ]
+}

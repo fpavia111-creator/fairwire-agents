@@ -1,0 +1,45 @@
+at,user,app,client_ip,country,result,failure_reason,client_app,interactive
+2026-11-16 03:00:00,user0@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:03:00,user1@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:06:00,user2@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:09:00,user3@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:12:00,user4@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:15:00,user5@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:18:00,user6@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:21:00,user7@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:24:00,user8@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:27:00,user9@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:30:00,user10@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 03:33:00,user11@corp.example,Office 365,203.0.113.66,NL,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:00:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:01:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:02:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:03:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:04:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:05:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:06:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:07:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:08:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:09:00,bkim@corp.example,Office 365,198.51.100.70,US,Failure,Invalid username or password,Browser,Yes
+2026-11-16 04:12:00,bkim@corp.example,Office 365,198.51.100.70,US,Success,,Browser,Yes
+2026-11-16 09:00:00,aortiz@corp.example,Office 365,198.51.100.11,US,Success,,Browser,Yes
+2026-11-16 09:50:00,aortiz@corp.example,Office 365,203.0.113.90,RO,Success,,Browser,Yes
+2026-11-16 10:00:00,cdiaz@corp.example,Exchange Online,198.51.100.12,US,Success,,IMAP4,Yes
+2026-11-16 10:05:00,svc-report@corp.example,Azure Portal,198.51.100.13,US,Success,,Browser,Yes
+2026-11-16 10:06:00,svc-report@corp.example,Reporting API,198.51.100.13,US,Success,,Service,No
+2026-11-16 11:00:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:02:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:04:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:06:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:08:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:10:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:12:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:14:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:16:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:18:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 11:20:00,dlee@corp.example,Office 365,198.51.100.14,US,Failure,Invalid password,Browser,Yes
+2026-11-16 12:00:00,old.hand@corp.example,Office 365,198.51.100.15,US,Failure,User account is disabled,Browser,Yes
+2026-11-16 12:01:00,old.hand@corp.example,Office 365,198.51.100.15,US,Failure,User account is disabled,Browser,Yes
+2026-11-16 08:30:00,emma@corp.example,Office 365,198.51.100.24,US,Success,,Browser,Yes
+2026-11-16 08:30:00,fred@corp.example,Office 365,198.51.100.24,US,Success,,Browser,Yes
+2026-11-16 08:30:00,gina@corp.example,Office 365,198.51.100.24,US,Success,,Browser,Yes
