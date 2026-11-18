@@ -1,0 +1,57 @@
+{
+  "name": "skiron-of-patches",
+  "version": "0.1.0",
+  "description": "Skiron of Patches: Patch status review from WSUS, Intune, SCCM or any patch export: critical and high updates missing beyond your days-to-patch, devices that stopped reporting, pending reboots, updates that keep failing, operating systems past end of support, and the updates missing on the most devices. Drafts notes; never installs anything.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "skiron-of-patches": "bin/skiron-of-patches.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/skiron-of-patches.js demo",
+    "eval": "node bin/skiron-of-patches.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/skiron-of-patches"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/skiron-of-patches#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "patch-management",
+    "wsus",
+    "intune",
+    "sccm",
+    "vulnerability"
+  ]
+}

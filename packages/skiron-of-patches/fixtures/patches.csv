@@ -1,0 +1,49 @@
+device,os,group,update,title,severity,state,released,last_scan,failures
+PC-101,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-101,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-101,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Installed,2026-11-11,2026-11-17 08:00:00,0
+PC-101,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-102,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-102,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-102,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Installed,2026-11-11,2026-11-17 08:00:00,0
+PC-102,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-103,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-103,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-103,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Installed,2026-11-11,2026-11-17 08:00:00,0
+PC-103,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-104,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-104,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-104,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Installed,2026-11-11,2026-11-17 08:00:00,0
+PC-104,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-105,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-105,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-105,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Installed,2026-11-11,2026-11-17 08:00:00,0
+PC-105,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-106,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-106,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-106,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Installed,2026-11-11,2026-11-17 08:00:00,0
+PC-106,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-107,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Missing,2026-10-14,2026-11-17 08:00:00,0
+PC-107,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-107,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Missing,2026-11-11,2026-11-17 08:00:00,0
+PC-107,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-108,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-108,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Missing,2026-10-14,2026-11-17 08:00:00,0
+PC-108,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Installed,2026-11-11,2026-11-17 08:00:00,0
+PC-108,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Missing,2026-08-13,2026-11-17 08:00:00,0
+PC-109,Windows 11 Pro 24H2,Office,KB5040001,Cumulative Update 2026-10,Critical,Failed,2026-10-14,2026-11-17 08:00:00,3
+PC-109,Windows 11 Pro 24H2,Office,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-109,Windows 11 Pro 24H2,Office,KB5040010,Cumulative Update 2026-11,Critical,Missing,2026-11-11,2026-11-17 08:00:00,0
+PC-109,Windows 11 Pro 24H2,Office,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+PC-110,Windows 10 Pro 22H2,Shop floor,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-110,Windows 10 Pro 22H2,Shop floor,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+PC-110,Windows 10 Pro 22H2,Shop floor,KB5040010,Cumulative Update 2026-11,Critical,Missing,2026-11-11,2026-11-17 08:00:00,0
+PC-110,Windows 10 Pro 22H2,Shop floor,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+SRV-201,Windows Server 2022,Servers,KB5040001,Cumulative Update 2026-10,Critical,Installed,2026-10-14,2026-11-17 08:00:00,0
+SRV-201,Windows Server 2022,Servers,KB5040002,.NET Update 2026-10,Important,Installed,2026-10-14,2026-11-17 08:00:00,0
+SRV-201,Windows Server 2022,Servers,KB5040010,Cumulative Update 2026-11,Critical,Pending reboot,2026-11-11,2026-11-17 08:00:00,0
+SRV-201,Windows Server 2022,Servers,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-11-17 08:00:00,0
+SRV-202,Windows Server 2022,Servers,KB5040001,Cumulative Update 2026-10,Critical,Missing,2026-10-14,2026-10-20 08:00:00,0
+SRV-202,Windows Server 2022,Servers,KB5040002,.NET Update 2026-10,Important,Missing,2026-10-14,2026-10-20 08:00:00,0
+SRV-202,Windows Server 2022,Servers,KB5040010,Cumulative Update 2026-11,Critical,Missing,2026-11-11,2026-10-20 08:00:00,0
+SRV-202,Windows Server 2022,Servers,KB5039999,Servicing Stack 2026-08,Moderate,Installed,2026-08-13,2026-10-20 08:00:00,0

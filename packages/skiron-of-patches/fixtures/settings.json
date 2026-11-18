@@ -1,0 +1,4 @@
+{
+  "days_to_patch": { "critical": 14, "important": 30 },
+  "stale_scan_days": 7
+}
