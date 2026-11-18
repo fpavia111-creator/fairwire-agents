@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firewall rule review</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1c1a;--mut:#6b6760;--line:#e4e0d8;--ok:#1f7a4d;--bad:#b42318;--warn:#a15c07;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#161514;--fg:#ecebe8;--mut:#a29d94;--line:#34312d;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--card:#1f1e1c}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,Segoe UI,"Hiragino Sans","Yu Gothic UI","Microsoft YaHei","PingFang SC","Malgun Gothic","Apple SD Gothic Neo","Noto Sans CJK",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:24px 16px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px}
+.mut{color:var(--mut)}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tiles{display:flex;gap:12px;flex-wrap:wrap}.tile{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:120px}
+.tile b{display:block;font-size:22px}code{font-size:13px;overflow-wrap:anywhere}pre{overflow-x:auto}
+.wrap{overflow-x:auto;max-width:100%}svg,img{max-width:100%;height:auto}figure{margin:16px 0}p,li,h1,h2,h3{overflow-wrap:break-word}
+</style></head><body><main>
+<h1>Firewall rule review</h1>
+<p class="mut">11 rule(s), 10 enabled (9 allow, 1 deny): 13 open finding(s), 3 high.</p>
+<h2>By finding</h2><div class="wrap"><table><thead><tr><th scope="col">code</th><th scope="col">severity</th><th scope="col">count</th></tr></thead><tbody>
+<tr><td>allow_without_logging</td><td>low</td><td>1</td></tr>
+<tr><td>any_any_allow</td><td>high</td><td>1</td></tr>
+<tr><td>disabled_rule</td><td>info</td><td>1</td></tr>
+<tr><td>duplicate_rule</td><td>low</td><td>1</td></tr>
+<tr><td>expired_temporary_rule</td><td>medium</td><td>1</td></tr>
+<tr><td>internet_to_risky_port</td><td>high</td><td>2</td></tr>
+<tr><td>no_owner_or_ticket</td><td>low</td><td>1</td></tr>
+<tr><td>shadowed_rule</td><td>medium</td><td>1</td></tr>
+<tr><td>unused_rule</td><td>low</td><td>4</td></tr>
+</tbody></table></div>
+<h2>By rule</h2><div class="wrap"><table><thead><tr><th scope="col">rule</th><th scope="col">findings</th></tr></thead><tbody>
+<tr><td>any-any-test</td><td>any_any_allow allow_without_logging no_owner_or_ticket</td></tr>
+<tr><td>rdp-from-internet</td><td>internet_to_risky_port</td></tr>
+<tr><td>temp-vendor-ftp</td><td>internet_to_risky_port expired_temporary_rule unused_rule</td></tr>
+<tr><td>allow-web-out-copy</td><td>shadowed_rule unused_rule</td></tr>
+<tr><td>allow-dns-out-2</td><td>duplicate_rule unused_rule</td></tr>
+<tr><td>legacy-smb</td><td>unused_rule</td></tr>
+<tr><td>old-rule</td><td>disabled_rule</td></tr>
+</tbody></table></div>
+<h2>All rows (13)</h2>
+<div class="wrap"><table><thead><tr><th scope="col">severity</th><th scope="col">code</th><th scope="col">subject</th><th scope="col">message</th><th scope="col">fix</th><th scope="col">status</th></tr></thead><tbody>
+<tr><td>high</td><td>any_any_allow</td><td>any-any-test</td><td>Rule any-any-test allows any source to any destination on any service (trust to trust).</td><td>Replace it with rules for the traffic that is actually needed, then remove it.</td><td>open</td></tr>
+<tr><td>high</td><td>internet_to_risky_port</td><td>rdp-from-internet</td><td>Rule rdp-from-internet allows the internet to reach 10.0.5.20 on RDP (3389).</td><td>Put this service behind the VPN or a gateway, or limit the source to known addresses.</td><td>open</td></tr>
+<tr><td>high</td><td>internet_to_risky_port</td><td>temp-vendor-ftp</td><td>Rule temp-vendor-ftp allows the internet to reach 10.0.5.30 on FTP (21).</td><td>Put this service behind the VPN or a gateway, or limit the source to known addresses.</td><td>open</td></tr>
+<tr><td>medium</td><td>expired_temporary_rule</td><td>temp-vendor-ftp</td><td>Rule temp-vendor-ftp was meant to end on 2026-09-30 and is still enabled.</td><td>Disable it, or renew it with a new end date and ticket.</td><td>open</td></tr>
+<tr><td>medium</td><td>shadowed_rule</td><td>allow-web-out-copy</td><td>Rule allow-web-out-copy never takes effect: earlier rule allow-web-out (allow) already matches all of its traffic.</td><td>Remove the later rule.</td><td>open</td></tr>
+<tr><td>low</td><td>allow_without_logging</td><td>any-any-test</td><td>Allow rule any-any-test does not log.</td><td>Turn on logging at session end so the rule can be reviewed and investigated.</td><td>open</td></tr>
+<tr><td>low</td><td>duplicate_rule</td><td>allow-dns-out-2</td><td>Rule allow-dns-out-2 is the same as rule allow-dns-out.</td><td>Remove one of the two after checking which one the owner expects.</td><td>open</td></tr>
+<tr><td>low</td><td>no_owner_or_ticket</td><td>any-any-test</td><td>Allow rule any-any-test has no owner.</td><td>Record who asked for it and why, or remove it.</td><td>open</td></tr>
+<tr><td>low</td><td>unused_rule</td><td>allow-dns-out-2</td><td>Allow rule allow-dns-out-2 has no hits.</td><td>Confirm with the owner, then disable it for a cycle before deleting it.</td><td>open</td></tr>
+<tr><td>low</td><td>unused_rule</td><td>allow-web-out-copy</td><td>Allow rule allow-web-out-copy has no hits.</td><td>Confirm with the owner, then disable it for a cycle before deleting it.</td><td>open</td></tr>
+<tr><td>low</td><td>unused_rule</td><td>legacy-smb</td><td>Allow rule legacy-smb has no hits.</td><td>Confirm with the owner, then disable it for a cycle before deleting it.</td><td>open</td></tr>
+<tr><td>low</td><td>unused_rule</td><td>temp-vendor-ftp</td><td>Allow rule temp-vendor-ftp has not been hit since 2026-08-02.</td><td>Confirm with the owner, then disable it for a cycle before deleting it.</td><td>open</td></tr>
+<tr><td>info</td><td>disabled_rule</td><td>old-rule</td><td>Rule old-rule is disabled but still in the policy.</td><td>Delete it in the next change window if nobody needs it back.</td><td>open</td></tr>
+</tbody></table></div>
+<h2>Limits</h2><ul><li>Reads only the files you export and give it. It does not log in to a firewall, switch, controller, cloud console, identity provider or any other live system.</li><li>Shadowing is judged from zones, addresses and ports as exported; address objects and groups are compared by name unless the export expands them, and application-based rules are not modelled.</li><li>Hit counts reset when a firewall reboots or a rule is edited; an unused rule is a question for its owner, not a deletion list.</li><li>Thresholds are working defaults in a settings file you control; they are not a vendor rule, a requirement of any standard or a security guarantee.</li><li>It changes nothing on a live device, firewall, DNS zone, directory or cloud account. Every change it suggests is a draft that one named person applies.</li></ul>
+<p class="mut" style="margin-top:32px">Written by a Fairwire agent from your files. Nothing was sent or changed.</p>
+</main></body></html>

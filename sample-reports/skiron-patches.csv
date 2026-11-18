@@ -1,0 +1,12 @@
+severity,code,subject,message,fix,status,owner,decision
+high,overdue_critical,PC-107,"PC-107 is missing 1 critical update(s) past 14 days (oldest KB5040001, released 2026-10-14).","Install them now, or record an exception with a reason and an end date.",open,,
+high,overdue_critical,PC-109,"PC-109 is missing 1 critical update(s) past 14 days (oldest KB5040001, released 2026-10-14).","Install them now, or record an exception with a reason and an end date.",open,,
+high,overdue_critical,SRV-202,"SRV-202 is missing 1 critical update(s) past 14 days (oldest KB5040001, released 2026-10-14).","Install them now, or record an exception with a reason and an end date.",open,,
+high,unsupported_os,PC-110,"PC-110 runs Windows 10 Pro 22H2, which is past its vendor end of support.","Upgrade or replace it; until then, isolate it and confirm whether extended security updates are paid for.",open,,
+medium,not_reporting,SRV-202,SRV-202 last reported its patch state on 2026-10-20.,Check that the device is on and its update agent is running; its findings below may be out of date.,open,,
+medium,overdue_update,PC-108,"PC-108 is missing 2 other update(s) past your policy (oldest KB5039999, moderate, released 2026-08-13).",Install them in the next patch window.,open,,
+medium,overdue_update,SRV-202,"SRV-202 is missing 1 other update(s) past your policy (oldest KB5040002, important, released 2026-10-14).",Install them in the next patch window.,open,,
+medium,repeated_failure,PC-109,PC-109 failed to install KB5040001 (3 failed attempts).,Read the install error on the device; disk space and a stuck update service are common causes.,open,,
+low,pending_reboot,SRV-201,SRV-201 has updates waiting for a restart.,Schedule a restart; the updates do not protect the device until then.,open,,
+low,widely_missing,KB5040001,KB5040001 is missing on 3 of 12 devices (25%).,Check that the update is approved and targeted to these devices before chasing each one.,open,,
+low,widely_missing,KB5040010,KB5040010 is missing on 4 of 12 devices (33.3%).,Check that the update is approved and targeted to these devices before chasing each one.,open,,

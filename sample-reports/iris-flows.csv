@@ -1,0 +1,10 @@
+severity,code,subject,message,fix,status,owner,decision
+high,cleartext_protocol,10.0.2.15,"10.0.2.15 exchanged 52 KB with 1 outside address(es) over Telnet (port 23), which is not encrypted.","Replace Telnet with its encrypted form (SSH, SFTP, IMAPS, SNMPv3, LDAPS).",open,,
+high,inbound_risky_port,10.0.5.20,"1 outside address(es) reached 10.0.5.20 on RDP (port 3389) in 2 flow(s), 278 KB.","Close the port at the edge or put it behind the VPN; if it is meant to be open, add it to allowed_inbound with a note.",open,,
+high,inbound_risky_port,10.0.5.30,"1 outside address(es) reached 10.0.5.30 on SMB (port 445) in 1 flow(s), 4.2 KB.","Close the port at the edge or put it behind the VPN; if it is meant to be open, add it to allowed_inbound with a note.",open,,
+high,large_upload_after_hours,10.0.3.50,10.0.3.50 sent 700 MB to 203.0.113.200 outside business hours in 2 flow(s).,"Confirm with the host owner that this was a planned backup or sync; if not, treat it as a possible data leak.",open,,
+medium,cleartext_protocol,10.0.2.40,"10.0.2.40 exchanged 7.3 MB with 1 outside address(es) over HTTP (port 80), which is not encrypted.",Move the service or client to HTTPS.,open,,
+medium,possible_port_scan,10.0.9.99,10.0.9.99 tried 22 different ports on 10.0.5.20 with tiny flows.,"Ask who runs scans from this host; if nobody, check the host.",open,,
+low,small_packets,10.0.7.7,10.0.7.7 averaged 60 bytes per packet over 2000 packets.,Look at what sends many tiny packets; batching or a longer polling interval may help.,open,,
+low,top_destination_share,203.0.113.200,203.0.113.200 received 94.3% of the bytes sent out (720 MB).,Confirm what service this is and that it is expected.,open,,
+low,top_talker_share,10.0.3.50,10.0.3.50 carried 94.2% of all bytes (720 MB of 764 MB).,"Check whether this host should be on its own link, scheduled off-peak or rate-limited.",open,,

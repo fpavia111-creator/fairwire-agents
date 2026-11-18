@@ -1,0 +1,11 @@
+severity,code,subject,message,fix,status,owner,decision
+high,region_not_allowed,prod-acct,"prod-acct spent 600 in ap-southeast-2 in 2026-10, a region outside your list.","Find what runs there and who started it; stop it if nobody owns it, and consider a policy that blocks the region.",open,,
+medium,commitment_expiring,SP-001,Compute Savings Plan SP-001 ends on 2026-12-31 (in 43 days); it covers 700 a month.,"Decide whether to renew, change or let it lapse, based on the last three months of use.",open,,
+medium,month_jump,prod-acct,AWS Marketplace in prod-acct cost 400 in 2026-10 against 0 in 2026-09 (+400).,Ask the account owner what changed; look at new resources and usage types first.,open,,
+medium,month_jump,prod-acct,EC2 in prod-acct cost 1850 in 2026-10 against 1200 in 2026-09 (+650).,Ask the account owner what changed; look at new resources and usage types first.,open,,
+medium,untagged_spend,2026-10,1210 of 4165 spent in 2026-10 (29.1%) has no owner tag.,"Tag the resources, or enforce an owner tag with a policy so new resources cannot be created without one.",open,,
+low,dev_always_on,dev-acct,dev resource i-dev1 in dev-acct ran 744 of 744 hours in 2026-10 (310).,"Stop it nights and weekends with a schedule, if nobody needs it then.",open,,
+low,dev_always_on,prod-acct,test resource i-test9 in prod-acct ran 744 of 744 hours in 2026-10 (600).,"Stop it nights and weekends with a schedule, if nobody needs it then.",open,,
+low,egress_share,prod-acct,Data transfer out was 450 of 3770 in prod-acct in 2026-10 (11.9%).,"Find the largest sources of outbound traffic; a CDN, compression or keeping traffic in one region often helps.",open,,
+low,marketplace_charge,prod-acct,prod-acct paid 400 for a marketplace product (fw-subscription) in 2026-10.,Confirm with its owner that it is still used and on the right contract.,open,,
+low,month_jump,prod-acct,DataTransfer in prod-acct cost 450 in 2026-10 against 100 in 2026-09 (+350).,Ask the account owner what changed; look at new resources and usage types first.,open,,

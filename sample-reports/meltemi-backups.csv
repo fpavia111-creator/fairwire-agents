@@ -1,0 +1,9 @@
+severity,code,subject,message,fix,status,owner,decision
+high,no_recent_good_backup,FILE-01,FILE-01 has no good backup in the last 24 hours (last good run 2026-11-14 01:30:00).,Run the job now and fix whatever stopped it.,open,,
+high,not_covered,APP-02,APP-02 is on your critical list but no backup job in the export protects it.,Add it to a backup job today and run a first backup.,open,,
+medium,no_offsite_copy,FILE-01,FILE-01 has no offsite or immutable copy since 2026-11-02.,Add a copy job to an offsite or immutable target.,open,,
+medium,no_offsite_copy,MAIL-01,MAIL-01 has no offsite or immutable copy in the export.,Add a copy job to an offsite or immutable target.,open,,
+medium,repeated_failures,FILE-01,The last 3 runs for FILE-01 (Nightly-Files) failed.,"Read the job log; common causes are credentials, a full repository or a changed host.",open,,
+medium,size_drop,SQL-01,"The last good backup of SQL-01 was 180 GB, against a usual 520 GB.","Check that no disk, database or folder was dropped from the job.",open,,
+low,short_retention,MAIL-01,Backups of MAIL-01 are kept for 14 days; your policy says 30.,"Raise the retention on the job, or record why this system needs less.",open,,
+low,warnings_ignored,MAIL-01,The last 3 runs for MAIL-01 ended with warnings.,Read the warnings: skipped files or disks mean the backup is not complete.,open,,

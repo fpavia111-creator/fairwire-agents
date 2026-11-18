@@ -1,0 +1,9 @@
+severity,code,subject,message,fix,status,owner,decision
+high,cname_conflict,example.com,status.example.com has a CNAME and also TXT records.,"Keep either the CNAME or the other records, not both.",open,,
+high,dangling_cname,example.com,"promo2024.example.com points at promo2024-example.s3-website-us-east-1.amazonaws.com, which is not in your list of cloud resources that still exist.","If the resource is gone, delete the record today; if it exists, add it to active_cloud_hosts.",open,,
+medium,ip_not_owned,example.com,"legacy.example.com points at 198.51.100.77, which is outside the address ranges you own.",Check the address still belongs to your provider or service; remove the record if not.,open,,
+medium,private_ip_in_public_zone,example.com,Public record intranet.example.com points at private address 10.20.0.15.,Move it to the internal zone (split DNS) or remove it.,open,,
+low,duplicate_record,example.com,A record mail.example.com -> 203.0.113.25 is listed twice.,Remove the copy.,open,,
+low,ttl_out_of_range,example.com,A record api.example.com has a TTL of 1209600 seconds.,Lower it so a change takes effect within a day or so.,open,,
+low,ttl_out_of_range,example.com,CNAME record status.example.com has a TTL of 30 seconds.,Raise it unless you are about to move the record; very short TTLs add load and cost.,open,,
+low,wildcard_record,example.com,*.preview.example.com is a wildcard A record pointing at 203.0.113.40.,"Replace it with the names you actually use, unless a service needs it.",open,,

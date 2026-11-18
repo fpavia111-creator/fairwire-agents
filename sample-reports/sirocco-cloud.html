@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloud bill review</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1c1a;--mut:#6b6760;--line:#e4e0d8;--ok:#1f7a4d;--bad:#b42318;--warn:#a15c07;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#161514;--fg:#ecebe8;--mut:#a29d94;--line:#34312d;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--card:#1f1e1c}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,Segoe UI,"Hiragino Sans","Yu Gothic UI","Microsoft YaHei","PingFang SC","Malgun Gothic","Apple SD Gothic Neo","Noto Sans CJK",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:24px 16px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px}
+.mut{color:var(--mut)}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tiles{display:flex;gap:12px;flex-wrap:wrap}.tile{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:120px}
+.tile b{display:block;font-size:22px}code{font-size:13px;overflow-wrap:anywhere}pre{overflow-x:auto}
+.wrap{overflow-x:auto;max-width:100%}svg,img{max-width:100%;height:auto}figure{margin:16px 0}p,li,h1,h2,h3{overflow-wrap:break-word}
+</style></head><body><main>
+<h1>Cloud bill review</h1>
+<p class="mut">2026-10: 4165 spent (previous month 2730), credits -50, 29.1% untagged: 10 open finding(s), 1 high.</p>
+<h2>By finding</h2><div class="wrap"><table><thead><tr><th scope="col">code</th><th scope="col">severity</th><th scope="col">count</th></tr></thead><tbody>
+<tr><td>commitment_expiring</td><td>medium</td><td>1</td></tr>
+<tr><td>dev_always_on</td><td>low</td><td>2</td></tr>
+<tr><td>egress_share</td><td>low</td><td>1</td></tr>
+<tr><td>marketplace_charge</td><td>low</td><td>1</td></tr>
+<tr><td>month_jump</td><td>medium</td><td>3</td></tr>
+<tr><td>region_not_allowed</td><td>high</td><td>1</td></tr>
+<tr><td>untagged_spend</td><td>medium</td><td>1</td></tr>
+</tbody></table></div>
+<h2>By service</h2><div class="wrap"><table><thead><tr><th scope="col">service</th><th scope="col">cost</th></tr></thead><tbody>
+<tr><td>EC2</td><td>2245</td></tr>
+<tr><td>RDS</td><td>910</td></tr>
+<tr><td>DataTransfer</td><td>450</td></tr>
+<tr><td>AWS Marketplace</td><td>400</td></tr>
+<tr><td>S3</td><td>160</td></tr>
+</tbody></table></div>
+<h2>All rows (10)</h2>
+<div class="wrap"><table><thead><tr><th scope="col">severity</th><th scope="col">code</th><th scope="col">subject</th><th scope="col">message</th><th scope="col">fix</th><th scope="col">status</th></tr></thead><tbody>
+<tr><td>high</td><td>region_not_allowed</td><td>prod-acct</td><td>prod-acct spent 600 in ap-southeast-2 in 2026-10, a region outside your list.</td><td>Find what runs there and who started it; stop it if nobody owns it, and consider a policy that blocks the region.</td><td>open</td></tr>
+<tr><td>medium</td><td>commitment_expiring</td><td>SP-001</td><td>Compute Savings Plan SP-001 ends on 2026-12-31 (in 43 days); it covers 700 a month.</td><td>Decide whether to renew, change or let it lapse, based on the last three months of use.</td><td>open</td></tr>
+<tr><td>medium</td><td>month_jump</td><td>prod-acct</td><td>AWS Marketplace in prod-acct cost 400 in 2026-10 against 0 in 2026-09 (+400).</td><td>Ask the account owner what changed; look at new resources and usage types first.</td><td>open</td></tr>
+<tr><td>medium</td><td>month_jump</td><td>prod-acct</td><td>EC2 in prod-acct cost 1850 in 2026-10 against 1200 in 2026-09 (+650).</td><td>Ask the account owner what changed; look at new resources and usage types first.</td><td>open</td></tr>
+<tr><td>medium</td><td>untagged_spend</td><td>2026-10</td><td>1210 of 4165 spent in 2026-10 (29.1%) has no owner tag.</td><td>Tag the resources, or enforce an owner tag with a policy so new resources cannot be created without one.</td><td>open</td></tr>
+<tr><td>low</td><td>dev_always_on</td><td>dev-acct</td><td>dev resource i-dev1 in dev-acct ran 744 of 744 hours in 2026-10 (310).</td><td>Stop it nights and weekends with a schedule, if nobody needs it then.</td><td>open</td></tr>
+<tr><td>low</td><td>dev_always_on</td><td>prod-acct</td><td>test resource i-test9 in prod-acct ran 744 of 744 hours in 2026-10 (600).</td><td>Stop it nights and weekends with a schedule, if nobody needs it then.</td><td>open</td></tr>
+<tr><td>low</td><td>egress_share</td><td>prod-acct</td><td>Data transfer out was 450 of 3770 in prod-acct in 2026-10 (11.9%).</td><td>Find the largest sources of outbound traffic; a CDN, compression or keeping traffic in one region often helps.</td><td>open</td></tr>
+<tr><td>low</td><td>marketplace_charge</td><td>prod-acct</td><td>prod-acct paid 400 for a marketplace product (fw-subscription) in 2026-10.</td><td>Confirm with its owner that it is still used and on the right contract.</td><td>open</td></tr>
+<tr><td>low</td><td>month_jump</td><td>prod-acct</td><td>DataTransfer in prod-acct cost 450 in 2026-10 against 100 in 2026-09 (+350).</td><td>Ask the account owner what changed; look at new resources and usage types first.</td><td>open</td></tr>
+</tbody></table></div>
+<h2>Limits</h2><ul><li>Reads only the files you export and give it. It does not log in to a firewall, switch, controller, cloud console, identity provider or any other live system.</li><li>Amounts are the costs in your export, in its currency, before or after discounts as the export shows them; this is not an invoice check against your contract.</li><li>Month-on-month rises compare the last two months in the file; a month that is not complete yet looks smaller.</li><li>Thresholds are working defaults in a settings file you control; they are not a vendor rule, a requirement of any standard or a security guarantee.</li><li>Totals are arithmetic on the numbers in your files, not forecasts or quotes.</li><li>It changes nothing on a live device, firewall, DNS zone, directory or cloud account. Every change it suggests is a draft that one named person applies.</li></ul>
+<p class="mut" style="margin-top:32px">Written by a Fairwire agent from your files. Nothing was sent or changed.</p>
+</main></body></html>

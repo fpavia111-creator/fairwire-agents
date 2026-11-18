@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ticket SLA aging</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1c1a;--mut:#6b6760;--line:#e4e0d8;--ok:#1f7a4d;--bad:#b42318;--warn:#a15c07;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#161514;--fg:#ecebe8;--mut:#a29d94;--line:#34312d;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--card:#1f1e1c}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,Segoe UI,"Hiragino Sans","Yu Gothic UI","Microsoft YaHei","PingFang SC","Malgun Gothic","Apple SD Gothic Neo","Noto Sans CJK",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:24px 16px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px}
+.mut{color:var(--mut)}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tiles{display:flex;gap:12px;flex-wrap:wrap}.tile{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:120px}
+.tile b{display:block;font-size:22px}code{font-size:13px;overflow-wrap:anywhere}pre{overflow-x:auto}
+.wrap{overflow-x:auto;max-width:100%}svg,img{max-width:100%;height:auto}figure{margin:16px 0}p,li,h1,h2,h3{overflow-wrap:break-word}
+</style></head><body><main>
+<h1>Ticket SLA aging</h1>
+<p class="mut">11 ticket(s), 6 open (1 older than 30 days): 11 open finding(s), 1 high.</p>
+<h2>By finding</h2><div class="wrap"><table><thead><tr><th scope="col">code</th><th scope="col">severity</th><th scope="col">count</th></tr></thead><tbody>
+<tr><td>no_assignee</td><td>medium</td><td>1</td></tr>
+<tr><td>parked_on_hold</td><td>low</td><td>2</td></tr>
+<tr><td>reopened_often</td><td>low</td><td>1</td></tr>
+<tr><td>resolution_breached</td><td>high</td><td>3</td></tr>
+<tr><td>response_breached</td><td>medium</td><td>2</td></tr>
+<tr><td>team_breach_rate</td><td>medium</td><td>2</td></tr>
+</tbody></table></div>
+<h2>By priority</h2><div class="wrap"><table><thead><tr><th scope="col">priority</th><th scope="col">open</th><th scope="col">breached open</th></tr></thead><tbody>
+<tr><td>P1</td><td>1</td><td>0</td></tr>
+<tr><td>P2</td><td>1</td><td>1</td></tr>
+<tr><td>P3</td><td>2</td><td>1</td></tr>
+<tr><td>P4</td><td>2</td><td>1</td></tr>
+</tbody></table></div>
+<h2>By team</h2><div class="wrap"><table><thead><tr><th scope="col">team</th><th scope="col">tickets</th><th scope="col">breached</th><th scope="col">open</th></tr></thead><tbody>
+<tr><td>Applications</td><td>4</td><td>4</td><td>2</td></tr>
+<tr><td>Network</td><td>3</td><td>0</td><td>1</td></tr>
+<tr><td>Service Desk</td><td>4</td><td>1</td><td>3</td></tr>
+</tbody></table></div>
+<h2>All rows (11)</h2>
+<div class="wrap"><table><thead><tr><th scope="col">severity</th><th scope="col">code</th><th scope="col">subject</th><th scope="col">message</th><th scope="col">fix</th><th scope="col">status</th></tr></thead><tbody>
+<tr><td>high</td><td>resolution_breached</td><td>Service Desk</td><td>P2 ticket INC-1002 (Service Desk) has been open 63 hours; the target is 24.</td><td>Escalate it to the team lead today, or agree a new date with the requester.</td><td>open</td></tr>
+<tr><td>medium</td><td>no_assignee</td><td>Service Desk</td><td>Ticket INC-1003 has been open 39 hours with nobody assigned.</td><td>Assign it in the next triage round.</td><td>open</td></tr>
+<tr><td>medium</td><td>resolution_breached</td><td>Applications</td><td>P3 ticket INC-1004 (Applications) has been open 207 hours; the target is 72.</td><td>Escalate it to the team lead today, or agree a new date with the requester.</td><td>open</td></tr>
+<tr><td>medium</td><td>resolution_breached</td><td>Applications</td><td>P4 ticket INC-1011 (Applications) has been open 1167 hours; the target is 120.</td><td>Escalate it to the team lead today, or agree a new date with the requester.</td><td>open</td></tr>
+<tr><td>medium</td><td>response_breached</td><td>Service Desk</td><td>P3 ticket INC-1003 has had no first response after 39 hours; the target is 8.</td><td>Check the queue for this team and priority; an automatic acknowledgement does not count as a response.</td><td>open</td></tr>
+<tr><td>medium</td><td>response_breached</td><td>Network</td><td>P2 ticket INC-1008 got its first response after 6 hours; the target is 4.</td><td>Check the queue for this team and priority; an automatic acknowledgement does not count as a response.</td><td>open</td></tr>
+<tr><td>medium</td><td>team_breach_rate</td><td>Applications</td><td>100% of the tickets for Applications missed their resolution target (4 of 4).</td><td>Look at staffing, triage and the priorities the team receives.</td><td>open</td></tr>
+<tr><td>medium</td><td>team_breach_rate</td><td>Service Desk</td><td>25% of the tickets for Service Desk missed their resolution target (1 of 4).</td><td>Look at staffing, triage and the priorities the team receives.</td><td>open</td></tr>
+<tr><td>low</td><td>parked_on_hold</td><td>Applications</td><td>Ticket INC-1004 is &quot;On Hold&quot; and was opened 8.6 days ago.</td><td>Chase the person it waits for, or close it with a note.</td><td>open</td></tr>
+<tr><td>low</td><td>parked_on_hold</td><td>Applications</td><td>Ticket INC-1011 is &quot;Awaiting user&quot; and was opened 48.6 days ago.</td><td>Chase the person it waits for, or close it with a note.</td><td>open</td></tr>
+<tr><td>low</td><td>reopened_often</td><td>Service Desk</td><td>Ticket INC-1005 was reopened 3 times.</td><td>Look for the root cause instead of closing it again.</td><td>open</td></tr>
+</tbody></table></div>
+<h2>Limits</h2><ul><li>Reads only the files you export and give it. It does not log in to a firewall, switch, controller, cloud console, identity provider or any other live system.</li><li>Targets are counted in calendar hours from the opened time; business hours, holidays and SLA pauses in your tool are not modelled, so your tool&#39;s own SLA flag wins where they differ.</li><li>Thresholds are working defaults in a settings file you control; they are not a vendor rule, a requirement of any standard or a security guarantee.</li><li>Results returned to the AI model have the names of people, sign-in names, e-mail addresses, phone numbers and client addresses masked. The files written here keep the real values: keep them in a secure folder.</li><li>It changes nothing on a live device, firewall, DNS zone, directory or cloud account. Every change it suggests is a draft that one named person applies.</li></ul>
+<p class="mut" style="margin-top:32px">Written by a Fairwire agent from your files. Nothing was sent or changed.</p>
+</main></body></html>

@@ -1,0 +1,12 @@
+severity,code,subject,message,fix,status,owner,decision
+high,resolution_breached,Service Desk,P2 ticket INC-1002 (Service Desk) has been open 63 hours; the target is 24.,"Escalate it to the team lead today, or agree a new date with the requester.",open,,
+medium,no_assignee,Service Desk,Ticket INC-1003 has been open 39 hours with nobody assigned.,Assign it in the next triage round.,open,,
+medium,resolution_breached,Applications,P3 ticket INC-1004 (Applications) has been open 207 hours; the target is 72.,"Escalate it to the team lead today, or agree a new date with the requester.",open,,
+medium,resolution_breached,Applications,P4 ticket INC-1011 (Applications) has been open 1167 hours; the target is 120.,"Escalate it to the team lead today, or agree a new date with the requester.",open,,
+medium,response_breached,Service Desk,P3 ticket INC-1003 has had no first response after 39 hours; the target is 8.,Check the queue for this team and priority; an automatic acknowledgement does not count as a response.,open,,
+medium,response_breached,Network,P2 ticket INC-1008 got its first response after 6 hours; the target is 4.,Check the queue for this team and priority; an automatic acknowledgement does not count as a response.,open,,
+medium,team_breach_rate,Applications,100% of the tickets for Applications missed their resolution target (4 of 4).,"Look at staffing, triage and the priorities the team receives.",open,,
+medium,team_breach_rate,Service Desk,25% of the tickets for Service Desk missed their resolution target (1 of 4).,"Look at staffing, triage and the priorities the team receives.",open,,
+low,parked_on_hold,Applications,"Ticket INC-1004 is ""On Hold"" and was opened 8.6 days ago.","Chase the person it waits for, or close it with a note.",open,,
+low,parked_on_hold,Applications,"Ticket INC-1011 is ""Awaiting user"" and was opened 48.6 days ago.","Chase the person it waits for, or close it with a note.",open,,
+low,reopened_often,Service Desk,Ticket INC-1005 was reopened 3 times.,Look for the root cause instead of closing it again.,open,,

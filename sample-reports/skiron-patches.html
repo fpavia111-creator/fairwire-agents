@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patch status</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1c1a;--mut:#6b6760;--line:#e4e0d8;--ok:#1f7a4d;--bad:#b42318;--warn:#a15c07;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#161514;--fg:#ecebe8;--mut:#a29d94;--line:#34312d;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--card:#1f1e1c}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,Segoe UI,"Hiragino Sans","Yu Gothic UI","Microsoft YaHei","PingFang SC","Malgun Gothic","Apple SD Gothic Neo","Noto Sans CJK",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:24px 16px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px}
+.mut{color:var(--mut)}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tiles{display:flex;gap:12px;flex-wrap:wrap}.tile{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:120px}
+.tile b{display:block;font-size:22px}code{font-size:13px;overflow-wrap:anywhere}pre{overflow-x:auto}
+.wrap{overflow-x:auto;max-width:100%}svg,img{max-width:100%;height:auto}figure{margin:16px 0}p,li,h1,h2,h3{overflow-wrap:break-word}
+</style></head><body><main>
+<h1>Patch status</h1>
+<p class="mut">12 device(s), 4 update(s), 6 fully patched (50%): 11 open finding(s), 4 high.</p>
+<h2>By finding</h2><div class="wrap"><table><thead><tr><th scope="col">code</th><th scope="col">severity</th><th scope="col">count</th></tr></thead><tbody>
+<tr><td>not_reporting</td><td>medium</td><td>1</td></tr>
+<tr><td>overdue_critical</td><td>high</td><td>3</td></tr>
+<tr><td>overdue_update</td><td>medium</td><td>2</td></tr>
+<tr><td>pending_reboot</td><td>low</td><td>1</td></tr>
+<tr><td>repeated_failure</td><td>medium</td><td>1</td></tr>
+<tr><td>unsupported_os</td><td>high</td><td>1</td></tr>
+<tr><td>widely_missing</td><td>low</td><td>2</td></tr>
+</tbody></table></div>
+<h2>By group</h2><div class="wrap"><table><thead><tr><th scope="col">group</th><th scope="col">devices</th><th scope="col">fully patched</th></tr></thead><tbody>
+<tr><td>Office</td><td>9</td><td>6</td></tr>
+<tr><td>Servers</td><td>2</td><td>0</td></tr>
+<tr><td>Shop floor</td><td>1</td><td>0</td></tr>
+</tbody></table></div>
+<h2>All rows (11)</h2>
+<div class="wrap"><table><thead><tr><th scope="col">severity</th><th scope="col">code</th><th scope="col">subject</th><th scope="col">message</th><th scope="col">fix</th><th scope="col">status</th></tr></thead><tbody>
+<tr><td>high</td><td>overdue_critical</td><td>PC-107</td><td>PC-107 is missing 1 critical update(s) past 14 days (oldest KB5040001, released 2026-10-14).</td><td>Install them now, or record an exception with a reason and an end date.</td><td>open</td></tr>
+<tr><td>high</td><td>overdue_critical</td><td>PC-109</td><td>PC-109 is missing 1 critical update(s) past 14 days (oldest KB5040001, released 2026-10-14).</td><td>Install them now, or record an exception with a reason and an end date.</td><td>open</td></tr>
+<tr><td>high</td><td>overdue_critical</td><td>SRV-202</td><td>SRV-202 is missing 1 critical update(s) past 14 days (oldest KB5040001, released 2026-10-14).</td><td>Install them now, or record an exception with a reason and an end date.</td><td>open</td></tr>
+<tr><td>high</td><td>unsupported_os</td><td>PC-110</td><td>PC-110 runs Windows 10 Pro 22H2, which is past its vendor end of support.</td><td>Upgrade or replace it; until then, isolate it and confirm whether extended security updates are paid for.</td><td>open</td></tr>
+<tr><td>medium</td><td>not_reporting</td><td>SRV-202</td><td>SRV-202 last reported its patch state on 2026-10-20.</td><td>Check that the device is on and its update agent is running; its findings below may be out of date.</td><td>open</td></tr>
+<tr><td>medium</td><td>overdue_update</td><td>PC-108</td><td>PC-108 is missing 2 other update(s) past your policy (oldest KB5039999, moderate, released 2026-08-13).</td><td>Install them in the next patch window.</td><td>open</td></tr>
+<tr><td>medium</td><td>overdue_update</td><td>SRV-202</td><td>SRV-202 is missing 1 other update(s) past your policy (oldest KB5040002, important, released 2026-10-14).</td><td>Install them in the next patch window.</td><td>open</td></tr>
+<tr><td>medium</td><td>repeated_failure</td><td>PC-109</td><td>PC-109 failed to install KB5040001 (3 failed attempts).</td><td>Read the install error on the device; disk space and a stuck update service are common causes.</td><td>open</td></tr>
+<tr><td>low</td><td>pending_reboot</td><td>SRV-201</td><td>SRV-201 has updates waiting for a restart.</td><td>Schedule a restart; the updates do not protect the device until then.</td><td>open</td></tr>
+<tr><td>low</td><td>widely_missing</td><td>KB5040001</td><td>KB5040001 is missing on 3 of 12 devices (25%).</td><td>Check that the update is approved and targeted to these devices before chasing each one.</td><td>open</td></tr>
+<tr><td>low</td><td>widely_missing</td><td>KB5040010</td><td>KB5040010 is missing on 4 of 12 devices (33.3%).</td><td>Check that the update is approved and targeted to these devices before chasing each one.</td><td>open</td></tr>
+</tbody></table></div>
+<h2>Limits</h2><ul><li>Reads only the files you export and give it. It does not log in to a firewall, switch, controller, cloud console, identity provider or any other live system.</li><li>Severity and release dates are the ones in your export; end-of-support defaults come from public vendor dates as of 2026 and do not know about extended support you bought.</li><li>A device that stopped reporting may be patched or not; its rows show its last known state.</li><li>Thresholds are working defaults in a settings file you control; they are not a vendor rule, a requirement of any standard or a security guarantee.</li><li>It changes nothing on a live device, firewall, DNS zone, directory or cloud account. Every change it suggests is a draft that one named person applies.</li></ul>
+<p class="mut" style="margin-top:32px">Written by a Fairwire agent from your files. Nothing was sent or changed.</p>
+</main></body></html>

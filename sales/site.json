@@ -1,0 +1,73 @@
+{
+  "product": "Fairwire",
+  "industry": "IT teams and managed service providers",
+  "kicker": "IT and network checks from the files you already export",
+  "lede": "Thirty-one agents that read your firewall, VPN, Wi-Fi, identity, backup, patch, ticket and cloud-bill exports on your own computer and hand your IT team a worklist, while every change to a live system stays one named person's click.",
+  "from": "$1,500",
+  "packages": [
+    ["$1,500 · One company", "Network traffic and DNS", "Flow exports, DNS query logs, DNS zones and DHCP leases (Iris, Notus, Etesian, Kaikias)"],
+    ["$1,500 · One company", "Call quality", "Call-detail and call-quality exports from your phone system or SBC (Echo)"],
+    ["$1,500 · One company", "AI usage and retries", "LLM usage logs and API request logs: repeated prompts, oversized models, retry spend (Hermes, Icarus)"],
+    ["$2,500 · One company", "Firewall, VPN and Wi-Fi", "Firewall rules, remote-access logs, Wi-Fi controllers, switch ports and VLANs (Boreas, Zephyrus, Aura, Eurus)"],
+    ["$3,000 · One company", "Identity and admins", "Sign-in logs, MFA coverage, admin roles, directory hygiene and the email gateway (Angelia, Bora, Arke, Tramontane, Pheme)"],
+    ["$3,000 · One company", "Devices and software", "CMDB against what is seen, patches, endpoint protection, mobile devices, software licences and printers (Argestes, Skiron, Apeliotes, Eurybates, Levante, Ostro)"],
+    ["$2,500 · One company", "Backups and operations", "Backup results, restore tests, uptime and incidents, change calendar, ticket SLAs and log retention (Meltemi, Aparctias, Stentor, Ceryx, Talthybius, Ossa)"],
+    ["$2,000 · One company", "IT spend", "Cloud bills, IT contracts and renewals, telecom bills (Sirocco, Chinook, Libeccio)"],
+    ["$9,500 · One company", "Whole IT team", "All 31 agents set up on your exports, with one training session for the team"],
+    ["$15,000 · Partner rollout", "For MSPs and IT firms", "All 31 agents for up to 10 client companies, with export mapping per client and a runbook for your engineers"]
+  ],
+  "support": "Support after setup: $250 a month per package, $750 a month for the whole IT team, $2,000 a month for a partner rollout; covers new export layouts, setting changes and a review call.",
+  "notes": [
+    "Reads files your IT team exports; it does not log in to firewalls, controllers, identity providers, device management or cloud consoles.",
+    "Export layouts were written from knowledge of common exports and are confirmed on your own files during setup.",
+    "Thresholds such as days to patch, retention days or the number of top admins are working defaults you set; they are not a vendor rule, a standard or a security guarantee.",
+    "A finding is a lead for a person to confirm, not proof of an attack, a breach or a saving.",
+    "Not legal, compliance or security-certification advice.",
+    "Report pages in eight more languages were translated by Claude and are not yet reviewed by native speakers."
+  ],
+  "warn": "Your exports stay on your machine, and names, sign-in names, e-mail addresses, phone numbers and client addresses are masked before anything reaches the AI model. The agents never change a firewall, switch, controller, DNS zone, directory, device or cloud account, and never send, cancel or pay anything: each change is a draft that one named person approves and then makes.",
+  "groups": [
+    ["Network and edge", [
+      ["Firewall rules", "Any-to-any allows, risky ports open from the internet, shadowed, duplicate, expired, unused and unlogged rules"],
+      ["Network flows", "Risky ports reached from outside, cleartext protocols, large uploads at night, port scans and top talkers"],
+      ["VPN and remote access", "Leavers still connecting, one account in two countries at once, failed bursts, shared accounts, old clients"],
+      ["DNS queries", "Tunnelling signals, clients using outside resolvers, blocked lookups, NXDOMAIN-heavy clients"],
+      ["DNS zones", "Names pointing at cloud services that may be gone (takeover risk), CNAME conflicts, private addresses in public zones"],
+      ["Wi-Fi", "Rogue access points, WEP, TKIP and open networks, offline and outdated access points, bad channels"],
+      ["Switch ports and VLANs", "Trunks carrying every VLAN, user ports in VLAN 1, half duplex, CRC errors, unused ports"],
+      ["DHCP leases", "Rogue DHCP servers, address conflicts, nearly full scopes, devices missing from the asset list"],
+      ["Call quality", "Low MOS, loss and jitter, one-way audio, sites, trunks and hours where poor calls cluster"]
+    ]],
+    ["Identity, mail and admins", [
+      ["Sign-in logs", "Password spraying, a success right after many failures, impossible travel, legacy protocols"],
+      ["MFA coverage", "Admins without phishing-resistant MFA, accounts with none, exclusions, SMS-only accounts"],
+      ["Admin roles", "Too many top admins, guests with admin roles, break-glass use, standing roles, admins with mail"],
+      ["Directory hygiene", "Password-not-required flags, group loops, stale and unsupported computers, ownerless groups"],
+      ["Email gateway", "Phishing released from quarantine, allow-listed senders that sent malware, mailboxes sending spam"]
+    ]],
+    ["Devices and software", [
+      ["Assets against the CMDB", "Retired devices still seen, devices with no record, duplicate serials, ghost records, warranties"],
+      ["Patch status", "Critical updates past your days to patch, unsupported systems, failed installs, silent devices"],
+      ["Endpoint protection", "Devices with no agent, protection or tamper protection off, passive mode, old high alerts"],
+      ["Mobile devices", "Jailbroken phones, devices of leavers, no passcode or encryption, old operating systems"],
+      ["Software and licences", "Prohibited software, more installs than licences, outdated versions, licences nobody uses"],
+      ["Printers", "Printers nobody uses, cost per page, colour share, leases ending"]
+    ]],
+    ["Operations and resilience", [
+      ["Backups", "Critical systems no job covers, missed recovery points, repeated failures, no offsite copy"],
+      ["Restore tests", "Systems never tested, failed tests not repeated, restores slower than the RTO, a test calendar"],
+      ["Uptime and incidents", "Services below target, major incidents with no review, repeat failures, slow responses"],
+      ["Change calendar", "Changes inside a freeze, no approval or back-out plan, overlapping changes on one system"],
+      ["Ticket SLAs", "Tickets past their targets by priority, unassigned and parked tickets, teams with many breaches"],
+      ["Log retention", "Logs kept shorter than policy, silent sources, systems sending no logs, volume jumps"]
+    ]],
+    ["IT spend and AI usage", [
+      ["Cloud bills", "Spend in regions you do not use, month-on-month jumps, untagged spend, commitments ending"],
+      ["IT contracts", "Notice deadlines for auto-renewals, price rises above your cap, vendors paid without a contract"],
+      ["Telecom bills", "Lines billed for leavers, unused lines, roaming and premium charges, oversized plans"],
+      ["AI usage", "The same prompt sent again and again, large models for tiny jobs, answers cut off, untagged spend"],
+      ["Retries", "Retries that cannot succeed, retry storms, 429s retried too early, tokens spent on retries"]
+    ]]
+  ],
+  "closing": "Each one does one job, on your computer, from a file you export. Nothing changes on a live device, firewall, directory or cloud account until a named person clicks."
+}
