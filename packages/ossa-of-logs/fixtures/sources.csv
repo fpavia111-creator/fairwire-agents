@@ -1,0 +1,8 @@
+source,host,category,retention_days,last_event,daily_gb,avg_daily_gb
+Firewall traffic,fw-edge-01,Firewall,90,2026-11-18 07:55:00,42,40
+Domain controller security,dc-01,Security,365,2026-11-18 07:58:00,6,5.5
+Domain controller security,dc-02,Security,365,2026-11-14 23:10:00,0,5.2
+VPN gateway,vpn-01,Security,365,2026-11-18 07:50:00,1.2,1.1
+Web app,web-01,Application,30,2026-11-18 07:59:00,38,6
+Proxy,proxy-01,Network,30,2026-11-18 07:59:00,9,8.5
+Payroll app audit,payroll-01,Application,1825,2026-11-18 07:00:00,0.3,0.3

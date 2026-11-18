@@ -1,0 +1,8 @@
+Quelle;Rechnername;Kategorie;Aufbewahrung (Tage);last_event;daily_gb;avg_daily_gb
+Firewall traffic;fw-edge-01;Firewall;90;18.11.2026 07:55:00;42;40
+Domain controller security;dc-01;Security;365;18.11.2026 07:58:00;6;5,5
+Domain controller security;dc-02;Security;365;14.11.2026 23:10:00;0;5,2
+VPN gateway;vpn-01;Security;365;18.11.2026 07:50:00;1,2;1,1
+Web app;web-01;Application;30;18.11.2026 07:59:00;38;6
+Proxy;proxy-01;Network;30;18.11.2026 07:59:00;9;8,5
+Payroll app audit;payroll-01;Application;1.825;18.11.2026 07:00:00;0,3;0,3

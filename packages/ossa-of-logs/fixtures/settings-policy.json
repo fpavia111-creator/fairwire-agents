@@ -1,0 +1,3 @@
+{
+  "retention_policy_days": { "security": 90, "network": 30 }
+}

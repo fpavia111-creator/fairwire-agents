@@ -22,7 +22,7 @@ export const manifest = wireAgent({
   explain: { arg: 'source', argSchema: { type: 'string', maxLength: 300, description: 'Source (source@host) or category from ossa_check' }, title: 'Explain one source or category', description: 'Every finding for one log source, host or category.', match: (i, v) => i.key === v || String(i.key).split('@')[0] === v || i.subject === String(v).toLowerCase() },
   report: {
     title: 'Log retention and coverage', base: 'ossa-logs',
-    sections: (o) => [{ title: 'By source', rows: o.by_category, columns: ['category', 'sources', 'gb_per_day'] }],
+    sections: (o) => [{ title: 'By type', rows: o.by_category, columns: ['category', 'sources', 'gb_per_day'] }],
     limits: [LIMITS.files, 'Retention defaults (365 days for security, 90 for network, 30 for application logs) are working defaults, not a legal requirement; your regulator, insurer or contracts decide what you must keep.', 'A source counts as silent from the last event in the export; time zones in the export are taken as written.', LIMITS.defaults, LIMITS.live],
   },
   note: { noun: 'logging_note', verb: 'send', category: 'binding_send', actor: 'the log platform owner', to: 'security operations and the log platform owner', subject: 'Logging gaps and retention to fix', ask: 'Please restore silent security sources first, then plan retention and coverage changes.' },
