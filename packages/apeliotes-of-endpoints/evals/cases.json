@@ -1,0 +1,377 @@
+{
+  "suite": "apeliotes-of-endpoints",
+  "root": "..",
+  "data_note": "Fictional endpoint security data in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.devices": 8,
+          "result.assets_in_scope": 10,
+          "result.covered_pct": 80,
+          "result.open_alerts": 3,
+          "result.open": 10,
+          "result.high": 4
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "no_agent",
+          "PC-108",
+          "SRV-202",
+          "protection_off",
+          "PC-103",
+          "open_high_alert",
+          "AL-9001",
+          "tamper_off",
+          "passive_mode",
+          "PC-105",
+          "agent_not_reporting",
+          "old_signatures",
+          "old_agent",
+          "two_products",
+          "OtherAV"
+        ],
+        "not_contains": [
+          "PRN-301",
+          "AL-9003",
+          "AL-9004",
+          "SRV-201 runs"
+        ]
+      }
+    },
+    {
+      "id": "console-export-only",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.covered_pct": null,
+          "result.open": 7,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "critical-alert-after-two-days",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-21",
+        "code": "open_high_alert"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 2
+        },
+        "contains": [
+          "AL-9004"
+        ]
+      }
+    },
+    {
+      "id": "explain-pc106",
+      "tool": "apeliotes_explain",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "device": "PC-106"
+      },
+      "expect": {
+        "contains": [
+          "agent_not_reporting",
+          "old_signatures",
+          "old_agent"
+        ],
+        "equals": {
+          "result.findings": 3
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "apeliotes_draft_security_note",
+      "approve": "Pat Example",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 8,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "apeliotes_check",
+      "mode": "review",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.devices": 8,
+          "result.assets_in_scope": 10,
+          "result.covered_pct": 80,
+          "result.open_alerts": 3,
+          "result.open": 10,
+          "result.high": 4
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 4
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "apeliotes_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "devices"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "../../../outside.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "apeliotes_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "apeliotes_write_report",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "apeliotes-endpoints.csv",
+          "apeliotes-endpoints.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "apeliotes_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "apeliotes_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-edr-isolate-device",
+      "tool": "edr_isolate_device",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-edr-change-policy",
+      "tool": "edr_change_policy",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "apeliotes_draft_security_note",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "apeliotes_draft_security_note",
+      "mode": "review",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "assets": "fixtures/assets.csv",
+        "alerts": "fixtures/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "apeliotes_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "fixtures/intl/de/devices.csv",
+        "assets": "fixtures/intl/de/assets.csv",
+        "alerts": "fixtures/intl/de/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.devices": 8,
+          "result.assets_in_scope": 10,
+          "result.covered_pct": 80,
+          "result.open_alerts": 3,
+          "result.open": 10,
+          "result.high": 4
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "apeliotes_check",
+      "args": {
+        "devices": "fixtures/intl/ja/devices.csv",
+        "assets": "fixtures/intl/ja/assets.csv",
+        "alerts": "fixtures/intl/ja/alerts.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.devices": 8,
+          "result.assets_in_scope": 10,
+          "result.covered_pct": 80,
+          "result.open_alerts": 3,
+          "result.open": 10,
+          "result.high": 4
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

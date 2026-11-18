@@ -1,0 +1,10 @@
+デバイス,製品,バージョン,signature_date,最終確認日時,protection,tamper_protection,輸送モード
+PC-101,Defender,4.18.24090,2026/11/17,2026/11/18 07:00:00,On,On,Active
+PC-102,Defender,4.18.24090,2026/11/17,2026/11/18 07:00:00,On,On,Active
+PC-103,Defender,4.18.24090,2026/11/17,2026/11/18 07:00:00,Off,On,Active
+PC-104,Defender,4.18.24090,2026/11/17,2026/11/18 07:00:00,On,Off,Active
+PC-105,Defender,4.18.24090,2026/11/17,2026/11/18 07:00:00,On,On,Passive
+PC-106,Defender,4.18.23110,2026/11/02,2026/11/03 10:00:00,On,On,Active
+PC-107,Defender,4.18.24090,2026/11/17,2026/11/18 07:00:00,On,On,Active
+PC-107,OtherAV,12.1,2026/11/17,2026/11/18 07:00:00,On,,Active
+SRV-201,Defender,4.18.24090,2026/11/17,2026/11/18 07:00:00,On,On,Passive
