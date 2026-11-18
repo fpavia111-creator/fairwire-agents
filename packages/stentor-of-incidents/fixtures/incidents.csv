@@ -1,0 +1,7 @@
+incident_id,service,severity,started_at,acknowledged_at,resolved_at,postmortem,change_id
+IR-201,Customer portal,SEV1,2026-10-03 09:00:00,2026-10-03 09:40:00,2026-10-03 15:30:00,,CHG-5101
+IR-202,Customer portal,SEV2,2026-10-11 14:00:00,2026-10-11 14:10:00,2026-10-11 17:00:00,https://wiki.example/pir/202,
+IR-203,Customer portal,SEV3,2026-10-20 08:00:00,2026-10-20 08:30:00,2026-10-20 10:00:00,,CHG-5140
+IR-204,Payroll,SEV2,2026-10-15 22:00:00,2026-10-15 22:05:00,2026-10-16 01:00:00,https://wiki.example/pir/204,
+IR-205,Email,SEV3,2026-10-22 11:00:00,2026-10-22 13:30:00,2026-10-23 16:00:00,,
+IR-206,VPN,SEV2,2026-10-28 07:00:00,2026-10-28 07:10:00,2026-10-28 09:00:00,no,

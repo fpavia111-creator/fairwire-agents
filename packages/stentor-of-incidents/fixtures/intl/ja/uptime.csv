@@ -1,0 +1,5 @@
+サービス,availability_pct,target_pct
+Customer portal,99.62,99.9
+Payroll,99.95,99.9
+Email,99.92,99.9
+VPN,99.97,99.9

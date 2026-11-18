@@ -1,0 +1,7 @@
+incident_id;Serviceart;Schweregrad;Startzeit;acknowledged_at;Gelöst am;postmortem;change_id
+IR-201;Customer portal;SEV1;03.10.2026 09:00:00;03.10.2026 09:40:00;03.10.2026 15:30:00;;CHG-5101
+IR-202;Customer portal;SEV2;11.10.2026 14:00:00;11.10.2026 14:10:00;11.10.2026 17:00:00;https://wiki.example/pir/202;
+IR-203;Customer portal;SEV3;20.10.2026 08:00:00;20.10.2026 08:30:00;20.10.2026 10:00:00;;CHG-5140
+IR-204;Payroll;SEV2;15.10.2026 22:00:00;15.10.2026 22:05:00;16.10.2026 01:00:00;https://wiki.example/pir/204;
+IR-205;Email;SEV3;22.10.2026 11:00:00;22.10.2026 13:30:00;23.10.2026 16:00:00;;
+IR-206;VPN;SEV2;28.10.2026 07:00:00;28.10.2026 07:10:00;28.10.2026 09:00:00;no;
