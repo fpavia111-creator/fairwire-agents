@@ -1,0 +1,59 @@
+{
+  "name": "fairwire-restore-tests",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-restore-tests",
+  "description": "Fairwire Restore Tests: Restore test review: critical systems with no restore test inside your interval, failed tests not re-run, restores slower than the recovery time objective, restored data older than the recovery point, and tests with no sign-off. Writes a test calendar and drafts the next test plan.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-restore-tests": "bin/fairwire-restore-tests.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-restore-tests.js demo",
+    "eval": "node bin/fairwire-restore-tests.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-restore-tests"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-restore-tests#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "restore-test",
+    "disaster-recovery",
+    "rto",
+    "rpo",
+    "business-continuity"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-change-calendar": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-change-calendar@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

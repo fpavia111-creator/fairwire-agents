@@ -1,0 +1,336 @@
+{
+  "suite": "fairwire-email-gateway",
+  "root": "..",
+  "data_note": "Fictional gateway messages in ../fixtures. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.messages": 60,
+          "result.inbound": 35,
+          "result.outbound": 25,
+          "result.threats": 11,
+          "result.quarantined_pct": 28.6,
+          "result.open": 6,
+          "result.high": 3
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "released_threat",
+          "MSG-0027",
+          "allowlist_sent_threat",
+          "judged malware",
+          "outbound_spam",
+          "22 outbound",
+          "late_clawback",
+          "150 minutes",
+          "most_targeted",
+          "6 phishing",
+          "dlp_hits",
+          "Customer list"
+        ]
+      }
+    },
+    {
+      "id": "addresses-masked",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "fixtures/messages.csv"
+      },
+      "expect": {
+        "not_contains": [
+          "corp.example",
+          "supplier.example",
+          "cfo@"
+        ],
+        "matches": [
+          "USR-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "stricter-pull-back",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings-strict.json"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 6
+        },
+        "not_contains": [
+          "late_clawback"
+        ],
+        "contains": [
+          "received 3 phishing"
+        ]
+      }
+    },
+    {
+      "id": "explain-message",
+      "tool": "email_gateway_explain",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json",
+        "address": "MSG-0027"
+      },
+      "expect": {
+        "contains": [
+          "released_threat"
+        ],
+        "equals": {
+          "result.findings": 1
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "email_gateway_draft_security_note",
+      "approve": "Pat Example",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 4,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "email_gateway_check",
+      "mode": "review",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.messages": 60,
+          "result.inbound": 35,
+          "result.outbound": 25,
+          "result.threats": 11,
+          "result.quarantined_pct": 28.6,
+          "result.open": 6,
+          "result.high": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "email_gateway_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "messages"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "../../../outside.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "email_gateway_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "email_gateway_write_report",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "email-gateway.csv",
+          "email-gateway.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "email_gateway_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "email_gateway_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-gateway-release-message",
+      "tool": "gateway_release_message",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-gateway-change-allowlist",
+      "tool": "gateway_change_allowlist",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "email_gateway_draft_security_note",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "email_gateway_draft_security_note",
+      "mode": "review",
+      "args": {
+        "messages": "fixtures/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "email_gateway_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "fixtures/intl/de/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.messages": 60,
+          "result.inbound": 35,
+          "result.outbound": 25,
+          "result.threats": 11,
+          "result.quarantined_pct": 28.6,
+          "result.open": 6,
+          "result.high": 3
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "email_gateway_check",
+      "args": {
+        "messages": "fixtures/intl/ja/messages.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.messages": 60,
+          "result.inbound": 35,
+          "result.outbound": 25,
+          "result.threats": 11,
+          "result.quarantined_pct": 28.6,
+          "result.open": 6,
+          "result.high": 3
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

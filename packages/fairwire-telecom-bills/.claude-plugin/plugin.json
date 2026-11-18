@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-telecom-bills",
+  "version": "0.1.0",
+  "description": "Fairwire Telecom Bills: Telecom bill review: mobile lines with no use for months, lines still billed for people who left, roaming and premium charges, plans much bigger than the use, two lines for one person and fixed lines nobody calls from. Phone numbers masked for the model. Drafts cancellation lists; never cancels a line.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-telecom-bills#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "telecom-expense",
+    "mobile-bill",
+    "roaming",
+    "tem",
+    "cost-review"
+  ]
+}

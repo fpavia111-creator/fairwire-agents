@@ -1,0 +1,341 @@
+{
+  "suite": "fairwire-admin-roles",
+  "root": "..",
+  "data_note": "Fictional admin role assignments in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.assignments": 10,
+          "result.admins": 9,
+          "result.global_admins": 5,
+          "result.open": 9,
+          "result.high": 4
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "too_many_global_admins",
+          "your cap is 4",
+          "guest_with_admin_role",
+          "admin_without_mfa",
+          "break_glass_signed_in",
+          "2026-11-14",
+          "standing_admin",
+          "admin_reads_mail",
+          "stale_admin",
+          "2026-06-01",
+          "break_glass_no_note"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "not_contains": [
+          "Dee Lee",
+          "dlee@",
+          "corp.example"
+        ],
+        "matches": [
+          "USR-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "no-jit-policy",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings-nojit.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 6
+        },
+        "not_contains": [
+          "standing_admin",
+          "too_many_global_admins"
+        ]
+      }
+    },
+    {
+      "id": "explain-admin",
+      "tool": "admin_roles_explain",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "account": "bkim@corp.example"
+      },
+      "expect": {
+        "contains": [
+          "standing_admin",
+          "admin_reads_mail"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "admin_roles_draft_identity_note",
+      "approve": "Pat Example",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 7,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "admin_roles_check",
+      "mode": "review",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.assignments": 10,
+          "result.admins": 9,
+          "result.global_admins": 5,
+          "result.open": 9,
+          "result.high": 4
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 4
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "admin_roles_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "roles"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "../../../outside.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "admin_roles_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "admin_roles_write_report",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "admin-roles.csv",
+          "admin-roles.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "admin_roles_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "admin_roles_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-idp-remove-role",
+      "tool": "idp_remove_role",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-idp-reset-break-glass",
+      "tool": "idp_reset_break_glass",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "admin_roles_draft_identity_note",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "admin_roles_draft_identity_note",
+      "mode": "review",
+      "args": {
+        "roles": "fixtures/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "admin_roles_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "fixtures/intl/de/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.assignments": 10,
+          "result.admins": 9,
+          "result.global_admins": 5,
+          "result.open": 9,
+          "result.high": 4
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "admin_roles_check",
+      "args": {
+        "roles": "fixtures/intl/ja/roles.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.assignments": 10,
+          "result.admins": 9,
+          "result.global_admins": 5,
+          "result.open": 9,
+          "result.high": 4
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

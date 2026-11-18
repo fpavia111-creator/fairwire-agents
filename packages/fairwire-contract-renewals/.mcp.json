@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-contract-renewals": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-contract-renewals@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

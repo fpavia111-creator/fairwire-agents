@@ -9,7 +9,7 @@ import { AgentRuntime } from '../packages/fairwire-core/src/index.js';
 const PK = join(dirname(fileURLToPath(import.meta.url)), '..', 'packages');
 const [n, json = '{}'] = process.argv.slice(2);
 const { manifest } = await import(pathToFileURL(join(PK, n, 'src', 'index.js')).href);
-const prefix = manifest.tools[0].name.split('_')[0];
+const prefix = manifest.tools[0].name.replace(/_check$/, '');
 const r = await new AgentRuntime(manifest, { root: join(PK, n), audit: false, pii: 'off' }).call(`${prefix}_check`, { ...JSON.parse(json), limit: 5000 });
 if (r.status !== 'executed') { console.log(r.status, r.reason); process.exit(1); }
 const { items, ...rest } = r.result;

@@ -80,7 +80,7 @@ export function defineManifest(m) {
     const mem = m.memory;
     if (!mem || typeof mem !== 'object' || Array.isArray(mem)) errs.push('memory must be an object { prefix, kinds }');
     else {
-      if (!/^[a-z][a-z0-9]{1,20}$/.test(mem.prefix || '')) errs.push('memory.prefix must be the agent\'s short tool prefix, e.g. "polaris"');
+      if (!/^[a-z][a-z0-9]*(_[a-z0-9]+){0,3}$/.test(mem.prefix || '') || mem.prefix.length > 30) errs.push('memory.prefix must be the agent\'s short tool prefix in snake_case job words, e.g. "dns_records"');
       const kinds = mem.kinds || {};
       if (typeof kinds !== 'object' || Array.isArray(kinds)) errs.push('memory.kinds must be an object of kinds');
       else for (const [k, def] of Object.entries(kinds)) {

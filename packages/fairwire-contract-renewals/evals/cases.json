@@ -1,0 +1,363 @@
+{
+  "suite": "fairwire-contract-renewals",
+  "root": "..",
+  "data_note": "Fictional contracts and payments in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "renewals_check",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.contracts": 6,
+          "result.active": 5,
+          "result.annual_value": 64000,
+          "result.auto_renewing": 4,
+          "result.open": 10,
+          "result.high": 4
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "renewals_check",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "notice_deadline",
+          "2026-12-01",
+          "notice_missed",
+          "2026-10-02",
+          "uplift_above_cap",
+          "9%",
+          "no_owner",
+          "overlapping_contracts",
+          "spend_over_contract",
+          "18500",
+          "spend_without_contract",
+          "Litware",
+          "expired_still_paid",
+          "Old Phone Co"
+        ]
+      }
+    },
+    {
+      "id": "calendar-of-deadlines",
+      "tool": "renewals_write_report",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "length": {
+          "result.files": 3
+        },
+        "contains": [
+          "contract-renewals.ics"
+        ]
+      }
+    },
+    {
+      "id": "contracts-only-earlier",
+      "tool": "renewals_check",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "as_of": "2026-09-01"
+      },
+      "expect": {
+        "contains": [
+          "CT-105"
+        ],
+        "not_contains": [
+          "spend_",
+          "expired_still_paid",
+          "notice_missed"
+        ]
+      }
+    },
+    {
+      "id": "explain-northwind",
+      "tool": "renewals_explain",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "vendor": "CT-102"
+      },
+      "expect": {
+        "contains": [
+          "notice_deadline",
+          "uplift_above_cap"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "renewals_draft_notice_letter",
+      "approve": "Pat Example",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "min_severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 4,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "renewals_check",
+      "mode": "review",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.contracts": 6,
+          "result.active": 5,
+          "result.annual_value": 64000,
+          "result.auto_renewing": 4,
+          "result.open": 10,
+          "result.high": 4
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "renewals_check",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 4
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "renewals_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "contracts"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "renewals_check",
+      "args": {
+        "contracts": "../../../outside.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "renewals_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "renewals_write_report",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "contract-renewals.csv",
+          "contract-renewals.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "renewals_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "renewals_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-vendor-send-notice",
+      "tool": "vendor_send_notice",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-ap-hold-payment",
+      "tool": "ap_hold_payment",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "renewals_draft_notice_letter",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "min_severity": "high"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "renewals_draft_notice_letter",
+      "mode": "review",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "spend": "fixtures/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "min_severity": "high"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "renewals_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "renewals_check",
+      "args": {
+        "contracts": "fixtures/intl/de/contracts.csv",
+        "spend": "fixtures/intl/de/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.contracts": 6,
+          "result.active": 5,
+          "result.annual_value": 64000,
+          "result.auto_renewing": 4,
+          "result.open": 10,
+          "result.high": 4
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "renewals_check",
+      "args": {
+        "contracts": "fixtures/intl/ja/contracts.csv",
+        "spend": "fixtures/intl/ja/spend.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.contracts": 6,
+          "result.active": 5,
+          "result.annual_value": 64000,
+          "result.auto_renewing": 4,
+          "result.open": 10,
+          "result.high": 4
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

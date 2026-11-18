@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/fairwire-log-retention",
+  "title": "Fairwire Log Retention",
+  "description": "Fairwire Log Retention: Log retention and coverage: log sources kept for less time than your…",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents",
+    "source": "github",
+    "subfolder": "packages/fairwire-log-retention"
+  },
+  "websiteUrl": "https://fair-agents.com/fairwire.html",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "fairwire-log-retention",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

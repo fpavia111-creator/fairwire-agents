@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-network-traffic",
+  "version": "0.1.0",
+  "description": "Fairwire Network Traffic: Network flow review from a NetFlow, IPFIX or sFlow export: cleartext protocols, risky ports reached from the internet, one host or destination taking most of the bytes, large uploads out of hours and very small packets. Writes a worklist and drafts a change request a network owner applies.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-network-traffic#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "netflow",
+    "ipfix",
+    "sflow",
+    "network-traffic",
+    "top-talkers"
+  ]
+}

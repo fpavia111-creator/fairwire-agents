@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-restore-tests": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-restore-tests@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

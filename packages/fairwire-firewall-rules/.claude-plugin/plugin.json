@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-firewall-rules",
+  "version": "0.1.0",
+  "description": "Fairwire Firewall Rules: Firewall rule review from a rule export (Palo Alto, FortiGate or any CSV): any-to-any allows, risky ports open from the internet, rules with no hits, rules shadowed by an earlier rule, duplicates, expired temporary rules, rules with no owner or ticket, and allows with logging off. Drafts a change request; never touches the firewall.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-firewall-rules#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "firewall",
+    "rule-review",
+    "palo-alto",
+    "fortigate",
+    "network-security"
+  ]
+}

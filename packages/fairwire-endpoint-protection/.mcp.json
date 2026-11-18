@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-endpoint-protection": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-endpoint-protection@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

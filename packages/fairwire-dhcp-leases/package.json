@@ -1,0 +1,59 @@
+{
+  "name": "fairwire-dhcp-leases",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-dhcp-leases",
+  "description": "Fairwire DHCP Leases: DHCP lease review: scopes near exhaustion, the same address leased to two devices, one device leasing in several scopes, reservations inside the dynamic range, leases from a DHCP server you do not run, and devices missing from your asset list. Drafts a note; never changes a scope.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-dhcp-leases": "bin/fairwire-dhcp-leases.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-dhcp-leases.js demo",
+    "eval": "node bin/fairwire-dhcp-leases.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-dhcp-leases"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-dhcp-leases#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "dhcp",
+    "ip-address-management",
+    "ipam",
+    "scope",
+    "leases"
+  ]
+}

@@ -13,7 +13,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const repo = join(dirname(fileURLToPath(import.meta.url)), '..'); const PK = join(repo, 'packages');
 const list = JSON.parse(readFileSync(join(repo, 'scripts/agents.json'), 'utf8')).map((x) => x[0]);
-const pkgs = readdirSync(PK).filter((n) => /-of-/.test(n));
+const pkgs = readdirSync(PK).filter((n) => /^fairwire-(?!core$)/.test(n));
 const problems = []; const bad = (n, m) => problems.push(`${n}: ${m}`);
 for (const n of list) if (!pkgs.includes(n)) bad(n, 'listed in agents.json but has no package');
 for (const n of pkgs) if (!list.includes(n)) bad(n, 'package not listed in agents.json');
@@ -21,7 +21,7 @@ const toolOwner = new Map(); const prefixes = new Map(); let tools = 0, cases = 
 for (const n of list.filter((x) => pkgs.includes(x))) {
   const P = join(PK, n);
   const { manifest: m } = await import(pathToFileURL(join(P, 'src', 'index.js')).href);
-  const prefix = m.tools[0].name.split('_')[0];
+  const prefix = m.tools[0].name.replace(/_check$/, '');
   if (prefixes.has(prefix)) bad(n, `prefix ${prefix} also used by ${prefixes.get(prefix)}`); prefixes.set(prefix, n);
   const blocked = (t) => (m.policy.rules.find((r) => r.tool === t.name) || {}).decision === 'block';
   for (const t of m.tools) { tools++; if (blocked(t)) continue; if (toolOwner.has(t.name)) bad(n, `tool ${t.name} also defined by ${toolOwner.get(t.name)}`); else toolOwner.set(t.name, n); }
@@ -38,6 +38,11 @@ for (const n of list.filter((x) => pkgs.includes(x))) {
   for (const f of ['fixtures/README.md', 'README.md', 'CHANGELOG.md', 'LICENSE']) if (!existsSync(join(P, f))) bad(n, `no ${f}`);
   if (existsSync(join(P, 'README.md')) && !/\n## Limits/.test(readFileSync(join(P, 'README.md'), 'utf8'))) bad(n, 'README has no Limits section');
   const pj = JSON.parse(readFileSync(join(P, 'package.json'), 'utf8'));
+  // Naming (BUILD-BRIEF, 18 Nov 2026): fairwire-<1 to 4 job words>, bin = package name, tool prefix = the job words.
+  if (!/^fairwire(-[a-z0-9]+){1,4}$/.test(n) || pj.name !== n) bad(n, 'name is not fairwire-<what it does> (1 to 4 words) or differs from the folder');
+  if (!pj.bin || Object.keys(pj.bin).join() !== n) bad(n, 'bin name is not the package name');
+  if (pj.mcpName && pj.mcpName !== `io.github.fpavia111-creator/${n}`) bad(n, `mcpName ${pj.mcpName} does not match the package`);
+  if (!/^[a-z][a-z0-9]*(_[a-z0-9]+){0,2}$/.test(prefix)) bad(n, `tool prefix ${prefix} is not short snake_case job words`);
   const plugin = join(P, '.claude-plugin', 'plugin.json');
   if (existsSync(plugin) && JSON.parse(readFileSync(plugin, 'utf8')).version !== pj.version) bad(n, 'plugin.json version differs from package.json');
 }

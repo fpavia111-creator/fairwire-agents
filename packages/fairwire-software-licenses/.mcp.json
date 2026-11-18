@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-software-licenses": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-software-licenses@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

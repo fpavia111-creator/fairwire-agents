@@ -28,7 +28,7 @@ folder up. The same fictional data, written the way a local export writes it:
 Values (names, codes, charge wording) stay in English. The eval cases
 \`intl-de-*\` and \`intl-ja-*\` expect exactly the same results as the English case.
 `;
-for (const n of readdirSync(PK).filter((x) => /-of-/.test(x) && (!only.length || only.includes(x))).sort()) {
+for (const n of readdirSync(PK).filter((x) => /^fairwire-(?!core$)/.test(x) && (!only.length || only.includes(x))).sort()) {
   const { manifest } = await import(pathToFileURL(join(PK, n, 'src', 'manifest.js')).href);
   const casesFile = join(PK, n, 'evals', 'cases.json');
   const data = JSON.parse(readFileSync(casesFile, 'utf8')); const cases = data.cases || data;

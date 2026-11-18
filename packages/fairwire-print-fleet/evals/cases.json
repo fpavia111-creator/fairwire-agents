@@ -1,0 +1,350 @@
+{
+  "suite": "fairwire-print-fleet",
+  "root": "..",
+  "data_note": "Fictional print fleet in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "printers_check",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.printers": 7,
+          "result.pages": 17310,
+          "result.cost": 994.32,
+          "result.cost_per_page": 0.06,
+          "result.open": 8
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "printers_check",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "printer_offline",
+          "PRN-BR2-02",
+          "lease_ending",
+          "2027-01-31",
+          "idle_printer",
+          "60 page(s)",
+          "high_cost_per_page",
+          "0.35 a page",
+          "high_color_share",
+          "48%",
+          "low_supplies",
+          "old_firmware",
+          "4.0.9",
+          "not_in_assets",
+          "PRN-WH-02"
+        ]
+      }
+    },
+    {
+      "id": "no-asset-list",
+      "tool": "printers_check",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 7
+        },
+        "not_contains": [
+          "not_in_assets"
+        ]
+      }
+    },
+    {
+      "id": "spring-leases",
+      "tool": "printers_check",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "as_of": "2027-04-15",
+        "code": "lease_ending"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 3
+        }
+      }
+    },
+    {
+      "id": "explain-branch",
+      "tool": "printers_explain",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "printer": "Branch 2"
+      },
+      "expect": {
+        "contains": [
+          "idle_printer",
+          "printer_offline"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "printers_draft_consolidation_note",
+      "approve": "Pat Example",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 3,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "printers_check",
+      "mode": "review",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.printers": 7,
+          "result.pages": 17310,
+          "result.cost": 994.32,
+          "result.cost_per_page": 0.06,
+          "result.open": 8
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "printers_check",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 0
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "printers_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "printers"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "printers_check",
+      "args": {
+        "printers": "../../../outside.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "printers_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "printers_write_report",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "print-fleet.csv",
+          "print-fleet.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "printers_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "printers_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-printer-apply-settings",
+      "tool": "printer_apply_settings",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-supplier-order-supplies",
+      "tool": "supplier_order_supplies",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "printers_draft_consolidation_note",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "printers_draft_consolidation_note",
+      "mode": "review",
+      "args": {
+        "printers": "fixtures/printers.csv",
+        "assets": "fixtures/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "printers_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "printers_check",
+      "args": {
+        "printers": "fixtures/intl/de/printers.csv",
+        "assets": "fixtures/intl/de/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.printers": 7,
+          "result.pages": 17310,
+          "result.cost": 994.32,
+          "result.cost_per_page": 0.06,
+          "result.open": 8
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "printers_check",
+      "args": {
+        "printers": "fixtures/intl/ja/printers.csv",
+        "assets": "fixtures/intl/ja/assets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.printers": 7,
+          "result.pages": 17310,
+          "result.cost": 994.32,
+          "result.cost_per_page": 0.06,
+          "result.open": 8
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

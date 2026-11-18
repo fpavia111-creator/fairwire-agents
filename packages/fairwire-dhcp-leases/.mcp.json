@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-dhcp-leases": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-dhcp-leases@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

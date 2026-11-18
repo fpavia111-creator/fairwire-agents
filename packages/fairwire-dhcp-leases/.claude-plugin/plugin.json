@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-dhcp-leases",
+  "version": "0.1.0",
+  "description": "Fairwire DHCP Leases: DHCP lease review: scopes near exhaustion, the same address leased to two devices, one device leasing in several scopes, reservations inside the dynamic range, leases from a DHCP server you do not run, and devices missing from your asset list. Drafts a note; never changes a scope.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-dhcp-leases#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "dhcp",
+    "ip-address-management",
+    "ipam",
+    "scope",
+    "leases"
+  ]
+}

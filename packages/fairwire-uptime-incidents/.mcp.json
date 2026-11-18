@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-uptime-incidents": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-uptime-incidents@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

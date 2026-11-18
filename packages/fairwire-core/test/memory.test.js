@@ -106,6 +106,16 @@ test('learn stores a waiting fact that changes nothing; a named person accepts i
   assert.match(rec.result.summary, /verifies/);
 });
 
+test('a prefix of several job words (dns_records) accepts and applies a fact like a one-word prefix', async () => {
+  const dir = tmp();
+  const rt = new AgentRuntime(memManifest('fairwire-dns-records', 'dns_records'), { root: dir });
+  const learn = await rt.call('dns_records_learn', { kind: 'extra_role', value: { role: 'Zone Owner' } });
+  assert.equal(learn.status, 'executed');
+  const acc = await approved(rt, 'dns_records_accept_learning', { id: learn.result.fact.id, decision: 'accept' });
+  assert.equal(acc.result.fact.status, 'active', 'the approval by dns_records_accept_learning must match');
+  assert.deepEqual((await rt.call('dns_records_check', {})).result.roles, ['Zone Owner']);
+});
+
 test('learning the same fact twice stores it once', async () => {
   const rt = new AgentRuntime(memManifest(), { audit: false });
   const a = await rt.call('mem_learn', { kind: 'extra_role', value: { role: 'Payroll Admin' } });

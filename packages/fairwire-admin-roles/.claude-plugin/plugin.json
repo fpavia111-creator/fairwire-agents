@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-admin-roles",
+  "version": "0.1.0",
+  "description": "Fairwire Admin Roles: Privileged role review from directory role exports: more global administrators than your cap, standing assignments where you use just-in-time, admins without MFA, admin accounts that also read mail, roles held by guests, break-glass accounts that signed in or lack an exclusion note. Names masked for the model. Drafts notes; never removes a role.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-admin-roles#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "privileged-access",
+    "pim",
+    "global-admin",
+    "break-glass",
+    "entra-id"
+  ]
+}

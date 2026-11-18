@@ -1,0 +1,59 @@
+{
+  "name": "fairwire-dns-queries",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-dns-queries",
+  "description": "Fairwire DNS Queries: DNS query review from resolver logs: names asked again and again, clients with many NXDOMAIN answers, long random-looking names (a tunnelling signal), SERVFAIL spikes, clients asking outside resolvers, and blocked names by client. Drafts a note for the network owner.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-dns-queries": "bin/fairwire-dns-queries.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-dns-queries.js demo",
+    "eval": "node bin/fairwire-dns-queries.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-dns-queries"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-dns-queries#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "dns",
+    "resolver",
+    "nxdomain",
+    "dns-tunneling",
+    "query-log"
+  ]
+}

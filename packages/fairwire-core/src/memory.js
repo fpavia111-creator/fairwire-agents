@@ -114,7 +114,7 @@ export class DomainMemory {
     // (the approval id is a hash of the tool name and its arguments).
     const approved = (e) => {
       if (!approvals) return true; // no approvals store: in-process use by code, not through the runtime
-      if (!e.approval_id || !/^[a-z][a-z0-9]*_(accept_learning|retire_memory)$/.test(e.tool || '')) return false;
+      if (!e.approval_id || !/^[a-z][a-z0-9]*(_[a-z0-9]+)*_(accept_learning|retire_memory)$/.test(e.tool || '')) return false;
       const args = e.event === 'retired' ? { id: e.memory_id, reason: e.reason } : { id: e.memory_id, decision: e.event === 'accepted' ? 'accept' : 'reject', ...(e.reason !== null && e.reason !== undefined ? { reason: e.reason } : {}) };
       if (approvalIdFor(this.agent, e.tool, args) !== e.approval_id) return false;
       const at = Date.parse(e.ts);
@@ -226,7 +226,7 @@ export class DomainMemory {
  *   retire_memory    action  ask    one-click: a named person stops an accepted fact
  */
 export function memoryTools(prefix, kinds = {}) {
-  if (!/^[a-z][a-z0-9]{1,20}$/.test(prefix || '')) throw new Error('memoryTools: prefix must be the agent\'s short tool prefix, e.g. "polaris"');
+  if (!/^[a-z][a-z0-9]*(_[a-z0-9]+){0,3}$/.test(prefix || '') || prefix.length > 30) throw new Error('memoryTools: prefix must be the agent\'s short tool prefix in snake_case job words, e.g. "dns_records"');
   const all = { note: NOTE_KIND, ...kinds };
   const kindNames = Object.keys(all);
   const kindList = Object.entries(all).map(([k, v]) => `${k} (${v.effect})`).join('; ');

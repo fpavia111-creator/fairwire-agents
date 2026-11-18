@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 //
 //   npm i --no-save @modelcontextprotocol/sdk ajv ajv-formats
 //   npm run mcp:check                 # all agents
-//   npm run mcp:check -- polaris-of-bills spica-of-fuel
+//   npm run mcp:check -- fairwire-dns-records fairwire-firewall-rules
 //
 // Exit code 1 when any agent has a hard issue. Writes mcp-conformance.json.
 import { readdirSync, readFileSync, mkdtempSync, writeFileSync } from 'node:fs';

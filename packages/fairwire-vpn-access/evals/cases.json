@@ -1,0 +1,347 @@
+{
+  "suite": "fairwire-vpn-access",
+  "root": "..",
+  "data_note": "Fictional VPN sessions in ../fixtures. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.sessions": 26,
+          "result.users": 9,
+          "result.successful": 14,
+          "result.failed": 12,
+          "result.open": 7,
+          "result.high": 2
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "leaver_connected",
+          "left on 2026-11-01",
+          "two_places_at_once",
+          "from RO",
+          "country_not_allowed",
+          "failed_login_burst",
+          "12 failed sign-ins",
+          "shared_account",
+          "long_session",
+          "49 hours",
+          "old_client",
+          "4.2.1"
+        ]
+      }
+    },
+    {
+      "id": "names-and-addresses-masked",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "not_contains": [
+          "jdoe",
+          "aortiz",
+          "example.test",
+          "203.0.113.77"
+        ],
+        "matches": [
+          "USR-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "no-leavers-no-countries",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "fixtures/sessions.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 4,
+          "result.high": 1
+        },
+        "not_contains": [
+          "leaver_connected",
+          "country_not_allowed",
+          "old_client"
+        ]
+      }
+    },
+    {
+      "id": "explain-traveller",
+      "tool": "vpn_explain",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "user": "aortiz@example.test"
+      },
+      "expect": {
+        "contains": [
+          "two_places_at_once",
+          "country_not_allowed"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "vpn_draft_access_note",
+      "approve": "Pat Example",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 5,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "vpn_check",
+      "mode": "review",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.sessions": 26,
+          "result.users": 9,
+          "result.successful": 14,
+          "result.failed": 12,
+          "result.open": 7,
+          "result.high": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "vpn_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "sessions"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "../../../outside.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "vpn_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "vpn_write_report",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "vpn-access.csv",
+          "vpn-access.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "vpn_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "vpn_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-vpn-disconnect-session",
+      "tool": "vpn_disconnect_session",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-gateway-block-country",
+      "tool": "gateway_block_country",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "vpn_draft_access_note",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "vpn_draft_access_note",
+      "mode": "review",
+      "args": {
+        "sessions": "fixtures/sessions.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "vpn_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "fixtures/intl/de/sessions.csv",
+        "leavers": "fixtures/intl/de/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.sessions": 26,
+          "result.users": 9,
+          "result.successful": 14,
+          "result.failed": 12,
+          "result.open": 7,
+          "result.high": 2
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "vpn_check",
+      "args": {
+        "sessions": "fixtures/intl/ja/sessions.csv",
+        "leavers": "fixtures/intl/ja/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.sessions": 26,
+          "result.users": 9,
+          "result.successful": 14,
+          "result.failed": 12,
+          "result.open": 7,
+          "result.high": 2
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

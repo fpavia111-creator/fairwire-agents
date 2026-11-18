@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/fairwire-switch-ports",
+  "title": "Fairwire Switch Ports",
+  "description": "Fairwire Switch Ports: Switch port and VLAN inventory review: user ports in VLAN 1, trunks that…",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents",
+    "source": "github",
+    "subfolder": "packages/fairwire-switch-ports"
+  },
+  "websiteUrl": "https://fair-agents.com/fairwire.html",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "fairwire-switch-ports",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

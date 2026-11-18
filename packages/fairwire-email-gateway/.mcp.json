@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-email-gateway": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-email-gateway@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

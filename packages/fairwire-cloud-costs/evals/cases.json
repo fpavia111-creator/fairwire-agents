@@ -1,0 +1,364 @@
+{
+  "suite": "fairwire-cloud-costs",
+  "root": "..",
+  "data_note": "Fictional cloud costs in ../fixtures for September and October 2026, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.month": "2026-10",
+          "result.total": 4165,
+          "result.previous_total": 2730,
+          "result.credits": -50,
+          "result.untagged_pct": 29.1,
+          "result.open": 10,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "region_not_allowed",
+          "ap-southeast-2",
+          "month_jump",
+          "+650",
+          "+350",
+          "untagged_spend",
+          "1210 of 4165",
+          "commitment_expiring",
+          "SP-001",
+          "dev_always_on",
+          "i-dev1",
+          "egress_share",
+          "11.9%",
+          "marketplace_charge"
+        ],
+        "not_contains": [
+          "RI-002",
+          "i-dev2 in"
+        ]
+      }
+    },
+    {
+      "id": "no-region-list-no-commitments",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 8,
+          "result.high": 0
+        }
+      }
+    },
+    {
+      "id": "aws-cur-layout",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "fixtures/exports/aws-cur.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.total": 1550,
+          "result.previous_total": 1200
+        },
+        "contains": [
+          "aws_cur",
+          "sa-east-1"
+        ]
+      }
+    },
+    {
+      "id": "explain-dev-account",
+      "tool": "cloud_costs_explain",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "account": "dev-acct"
+      },
+      "expect": {
+        "contains": [
+          "dev_always_on",
+          "i-dev1"
+        ],
+        "equals": {
+          "result.findings": 1
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "cloud_costs_draft_owner_note",
+      "approve": "Pat Example",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 5,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "cloud_costs_check",
+      "mode": "review",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.month": "2026-10",
+          "result.total": 4165,
+          "result.previous_total": 2730,
+          "result.credits": -50,
+          "result.untagged_pct": 29.1,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "cloud_costs_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "costs"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "../../../outside.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "cloud_costs_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "cloud_costs_write_report",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "cloud-costs.csv",
+          "cloud-costs.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "cloud_costs_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "cloud_costs_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-cloud-stop-resource",
+      "tool": "cloud_stop_resource",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-cloud-buy-commitment",
+      "tool": "cloud_buy_commitment",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "cloud_costs_draft_owner_note",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "cloud_costs_draft_owner_note",
+      "mode": "review",
+      "args": {
+        "costs": "fixtures/costs.csv",
+        "commitments": "fixtures/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "cloud_costs_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "fixtures/intl/de/costs.csv",
+        "commitments": "fixtures/intl/de/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.month": "2026-10",
+          "result.total": 4165,
+          "result.previous_total": 2730,
+          "result.credits": -50,
+          "result.untagged_pct": 29.1,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "cloud_costs_check",
+      "args": {
+        "costs": "fixtures/intl/ja/costs.csv",
+        "commitments": "fixtures/intl/ja/commitments.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.month": "2026-10",
+          "result.total": 4165,
+          "result.previous_total": 2730,
+          "result.credits": -50,
+          "result.untagged_pct": 29.1,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

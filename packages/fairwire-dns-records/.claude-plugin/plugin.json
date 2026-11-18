@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-dns-records",
+  "version": "0.1.0",
+  "description": "Fairwire DNS Records: DNS zone hygiene from a zone export: names pointing at cloud services that may no longer exist (takeover risk), public names pointing at private addresses, duplicate and conflicting records, very short or very long TTLs, wildcards and records pointing at addresses you no longer own. Drafts a change request; never edits DNS.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-dns-records#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "dns",
+    "zone-file",
+    "subdomain-takeover",
+    "dangling-cname",
+    "dns-hygiene"
+  ]
+}

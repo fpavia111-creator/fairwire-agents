@@ -11,7 +11,7 @@ const PK = join(dirname(fileURLToPath(import.meta.url)), '..', 'packages');
 const check = process.argv.includes('--check');
 const START = '<!-- sources:start -->', END = '<!-- sources:end -->';
 let stale = 0;
-for (const n of readdirSync(PK).filter((x) => /-of-/.test(x)).sort()) {
+for (const n of readdirSync(PK).filter((x) => /^fairwire-(?!core$)/.test(x)).sort()) {
   const { manifest } = await import(pathToFileURL(join(PK, n, 'src', 'index.js')).href);
   const list = describeSources(manifest); const f = join(PK, n, 'README.md');
   if (!list.length || !existsSync(f)) continue;

@@ -1,0 +1,59 @@
+{
+  "name": "fairwire-print-fleet",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-print-fleet",
+  "description": "Fairwire Print Fleet: Print fleet review from a print management export: printers nobody uses, the cost per page by device, colour share, devices offline or on old firmware, low supplies, leases ending and printers missing from your asset list. Drafts a consolidation note; never changes a printer.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-print-fleet": "bin/fairwire-print-fleet.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-print-fleet.js demo",
+    "eval": "node bin/fairwire-print-fleet.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-print-fleet"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-print-fleet#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "printers",
+    "print-management",
+    "mps",
+    "cost-per-page",
+    "leases"
+  ]
+}

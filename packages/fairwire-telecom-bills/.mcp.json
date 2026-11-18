@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-telecom-bills": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-telecom-bills@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-backup-jobs",
+  "version": "0.1.0",
+  "description": "Fairwire Backup Jobs: Backup job results review: jobs failing again and again, systems with no good backup inside your recovery point, critical systems no job covers, backups much smaller than usual, no offsite or immutable copy, and retention shorter than your policy. Drafts notes; never starts or deletes a backup.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-backup-jobs#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "backup",
+    "veeam",
+    "rpo",
+    "disaster-recovery",
+    "immutable-backup"
+  ]
+}

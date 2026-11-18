@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-network-traffic": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-network-traffic@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

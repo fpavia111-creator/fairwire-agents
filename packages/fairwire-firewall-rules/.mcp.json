@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-firewall-rules": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-firewall-rules@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,336 @@
+{
+  "suite": "fairwire-api-retries",
+  "root": "..",
+  "data_note": "Fictional request attempts in ../fixtures. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "retries_check",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.requests": 25,
+          "result.attempts": 33,
+          "result.retries": 8,
+          "result.retry_tokens": 6600,
+          "result.retry_tokens_pct": 22,
+          "result.retry_bytes": 4026400,
+          "result.open": 10,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "retries_check",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "retry_after_ignored",
+          "waited 2s of 10s",
+          "no_backoff",
+          "R-002",
+          "retry_on_client_error",
+          "R-004 (400)",
+          "retry_spend",
+          "66.7%",
+          "retries_exhausted",
+          "R-006",
+          "server_error_rate"
+        ]
+      }
+    },
+    {
+      "id": "higher-share-limit",
+      "tool": "retries_check",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings-loose.json"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 7
+        },
+        "not_contains": [
+          "/v1/chat used"
+        ]
+      }
+    },
+    {
+      "id": "explain-chat",
+      "tool": "retries_explain",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json",
+        "endpoint": "/v1/chat"
+      },
+      "expect": {
+        "contains": [
+          "retry_after_ignored",
+          "no_backoff",
+          "retry_spend",
+          "server_error_rate"
+        ],
+        "equals": {
+          "result.findings": 4
+        }
+      }
+    },
+    {
+      "id": "explain-unknown-endpoint",
+      "tool": "retries_explain",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "endpoint": "/v2/none"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "nothing found"
+        ]
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "retries_draft_owner_note",
+      "approve": "Pat Example",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 6,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "retries_check",
+      "mode": "review",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.requests": 25,
+          "result.attempts": 33,
+          "result.retries": 8,
+          "result.retry_tokens": 6600,
+          "result.retry_tokens_pct": 22,
+          "result.retry_bytes": 4026400,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "retries_check",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "retries_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "requests"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "retries_check",
+      "args": {
+        "requests": "../../../outside.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "retries_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "retries_write_report",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "api-retries.csv",
+          "api-retries.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "retries_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "retries_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-gateway-set-rate-limit",
+      "tool": "gateway_set_rate_limit",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-service-restart",
+      "tool": "service_restart",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "retries_draft_owner_note",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "retries_draft_owner_note",
+      "mode": "review",
+      "args": {
+        "requests": "fixtures/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "retries_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "retries_check",
+      "args": {
+        "requests": "fixtures/intl/de/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.requests": 25,
+          "result.attempts": 33,
+          "result.retries": 8,
+          "result.retry_tokens": 6600,
+          "result.retry_tokens_pct": 22,
+          "result.retry_bytes": 4026400,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "retries_check",
+      "args": {
+        "requests": "fixtures/intl/ja/requests.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.requests": 25,
+          "result.attempts": 33,
+          "result.retries": 8,
+          "result.retry_tokens": 6600,
+          "result.retry_tokens_pct": 22,
+          "result.retry_bytes": 4026400,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-vpn-access": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-vpn-access@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

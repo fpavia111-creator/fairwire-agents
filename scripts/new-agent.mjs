@@ -5,7 +5,7 @@
 // manifest, fixtures, eval cases and domain tests are written by hand.
 //
 //   node scripts/new-agent.mjs                  every agent in agents.json (keeps hand-written files)
-//   node scripts/new-agent.mjs iris-of-traffic  only these
+//   node scripts/new-agent.mjs fairwire-network-traffic  only these
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -109,7 +109,7 @@ import { manifest } from '../src/index.js';
 const here = fileURLToPath(new URL('..', import.meta.url));
 const cases = JSON.parse(readFileSync(join(here, 'evals', 'cases.json'), 'utf8')).cases;
 const base = cases.find((c) => c.id === 'check-totals');
-const prefix = manifest.tools[0].name.split('_')[0];
+const prefix = manifest.tools[0].name.replace(/_check$/, '');
 const sandbox = () => { const d = mkdtempSync(join(tmpdir(), \`\${manifest.name}-mem-\`)); cpSync(join(here, 'fixtures'), join(d, 'fixtures'), { recursive: true }); return d; };
 
 test('a finding a named person accepts as known leaves the open count, and nothing changes before the click', async () => {

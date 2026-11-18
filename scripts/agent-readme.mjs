@@ -17,11 +17,11 @@ const check = process.argv.includes('--check');
 const only = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const START = '<!-- generated:start -->', END = '<!-- generated:end -->';
 let stale = 0;
-for (const n of readdirSync(PK).filter((x) => /-of-/.test(x) && existsSync(join(PK, x, 'src', 'logic.js')) && (!only.length || only.includes(x))).sort()) {
+for (const n of readdirSync(PK).filter((x) => /^fairwire-(?!core$)/.test(x) && existsSync(join(PK, x, 'src', 'logic.js')) && (!only.length || only.includes(x))).sort()) {
   const P = join(PK, n);
   const mod = await import(pathToFileURL(join(P, 'src', 'index.js')).href);
   const m = mod.manifest; const pkg = JSON.parse(readFileSync(join(P, 'package.json'), 'utf8'));
-  const prefix = m.tools[0].name.split('_')[0];
+  const prefix = m.tools[0].name.replace(/_check$/, '');
   const title = pkg.description.split(':')[0];
   const base = JSON.parse(readFileSync(join(P, 'evals', 'cases.json'), 'utf8')).cases.find((c) => c.id === 'check-totals');
   const root = mkdtempSync(join(tmpdir(), `${n}-readme-`)); cpSync(join(P, 'fixtures'), join(root, 'fixtures'), { recursive: true });

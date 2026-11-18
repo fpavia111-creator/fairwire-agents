@@ -1,0 +1,357 @@
+{
+  "suite": "fairwire-asset-inventory",
+  "root": "..",
+  "data_note": "Fictional CMDB and discovery data in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.cmdb_records": 10,
+          "result.active": 9,
+          "result.seen_devices": 11,
+          "result.matched": 10,
+          "result.open": 10,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "retired_but_seen",
+          "AST-1003",
+          "not_in_cmdb",
+          "CAM-LOBBY",
+          "SN-A2001",
+          "duplicate_serial",
+          "SN-A1006",
+          "hostname_mismatch",
+          "LAPTOP-9X",
+          "ghost_record",
+          "2026-07-01",
+          "missing_owner_or_location",
+          "warranty_ended",
+          "2026-10-01"
+        ]
+      }
+    },
+    {
+      "id": "owners-masked",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "not_contains": [
+          "Ana Ortiz",
+          "Fay Nunez"
+        ]
+      }
+    },
+    {
+      "id": "a-month-later",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "as_of": "2026-12-20"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 9,
+          "result.high": 0
+        },
+        "not_contains": [
+          "retired_but_seen"
+        ]
+      }
+    },
+    {
+      "id": "explain-record",
+      "tool": "assets_explain",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "asset": "AST-1004"
+      },
+      "expect": {
+        "contains": [
+          "missing_owner_or_location",
+          "warranty_ended",
+          "2026-12-15"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "assets_draft_cmdb_fix_list",
+      "approve": "Pat Example",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 4,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "assets_check",
+      "mode": "review",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.cmdb_records": 10,
+          "result.active": 9,
+          "result.seen_devices": 11,
+          "result.matched": 10,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "assets_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "cmdb"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "../../../outside.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "assets_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "assets_write_report",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "asset-inventory.csv",
+          "asset-inventory.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "assets_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "assets_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-cmdb-update-record",
+      "tool": "cmdb_update_record",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-device-wipe",
+      "tool": "device_wipe",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "assets_draft_cmdb_fix_list",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "assets_draft_cmdb_fix_list",
+      "mode": "review",
+      "args": {
+        "cmdb": "fixtures/cmdb.csv",
+        "seen": "fixtures/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "assets_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "fixtures/intl/de/cmdb.csv",
+        "seen": "fixtures/intl/de/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.cmdb_records": 10,
+          "result.active": 9,
+          "result.seen_devices": 11,
+          "result.matched": 10,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "assets_check",
+      "args": {
+        "cmdb": "fixtures/intl/ja/cmdb.csv",
+        "seen": "fixtures/intl/ja/seen.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.cmdb_records": 10,
+          "result.active": 9,
+          "result.seen_devices": 11,
+          "result.matched": 10,
+          "result.open": 10,
+          "result.high": 1
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

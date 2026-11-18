@@ -11,21 +11,21 @@ MIT 라이선스 · Node 20 이상 · 로컬 파일만 · 자격 증명 없음 �
 ## 사용해 보기
 
 ```bash
-npx -y boreas-of-firewalls demo     # 가상의 데이터로 방화벽 규칙 검토
-npx -y angelia-of-signins demo      # 가상의 데이터로 로그인 기록 검토
+npx -y fairwire-firewall-rules demo     # 가상의 데이터로 방화벽 규칙 검토
+npx -y fairwire-sign-in-logs demo      # 가상의 데이터로 로그인 기록 검토
 ```
 
 ## 에이전트
 
-**네트워크와 경계:** `boreas-of-firewalls`(방화벽 규칙), `iris-of-traffic`(NetFlow, IPFIX, sFlow), `zephyrus-of-vpn`(VPN 기록), `notus-of-dns`(DNS 쿼리), `etesian-of-zones`(DNS 영역 정리), `aura-of-wifi`(Wi-Fi 컨트롤러), `eurus-of-switchports`(스위치 포트와 VLAN), `kaikias-of-leases`(DHCP), `echo-of-voip`(통화 품질).
+**네트워크와 경계:** `fairwire-firewall-rules`(방화벽 규칙), `fairwire-network-traffic`(NetFlow, IPFIX, sFlow), `fairwire-vpn-access`(VPN 기록), `fairwire-dns-queries`(DNS 쿼리), `fairwire-dns-records`(DNS 영역 정리), `fairwire-wifi-health`(Wi-Fi 컨트롤러), `fairwire-switch-ports`(스위치 포트와 VLAN), `fairwire-dhcp-leases`(DHCP), `fairwire-call-quality`(통화 품질).
 
-**ID, 메일, 관리자:** `angelia-of-signins`(로그인 기록), `bora-of-mfa`(MFA 적용 현황), `arke-of-admins`(특권 역할), `tramontane-of-directory`(디렉터리 정리), `pheme-of-gateways`(메일 게이트웨이).
+**ID, 메일, 관리자:** `fairwire-sign-in-logs`(로그인 기록), `fairwire-mfa-coverage`(MFA 적용 현황), `fairwire-admin-roles`(특권 역할), `fairwire-directory-hygiene`(디렉터리 정리), `fairwire-email-gateway`(메일 게이트웨이).
 
-**기기와 소프트웨어:** `argestes-of-assets`(CMDB 대조), `skiron-of-patches`(패치 현황), `apeliotes-of-endpoints`(엔드포인트 보호), `eurybates-of-mobiles`(모바일 기기), `levante-of-software`(설치 대비 라이선스), `ostro-of-printers`(프린터 현황).
+**기기와 소프트웨어:** `fairwire-asset-inventory`(CMDB 대조), `fairwire-patch-status`(패치 현황), `fairwire-endpoint-protection`(엔드포인트 보호), `fairwire-mobile-devices`(모바일 기기), `fairwire-software-licenses`(설치 대비 라이선스), `fairwire-print-fleet`(프린터 현황).
 
-**운영과 복원력:** `meltemi-of-backups`(백업), `aparctias-of-restores`(복원 테스트), `stentor-of-incidents`(가동률과 장애), `ceryx-of-changes`(변경 일정), `talthybius-of-tickets`(티켓 SLA), `ossa-of-logs`(로그 보존).
+**운영과 복원력:** `fairwire-backup-jobs`(백업), `fairwire-restore-tests`(복원 테스트), `fairwire-uptime-incidents`(가동률과 장애), `fairwire-change-calendar`(변경 일정), `fairwire-ticket-sla`(티켓 SLA), `fairwire-log-retention`(로그 보존).
 
-**IT 지출과 AI 사용:** `sirocco-of-cloud`(클라우드 청구서), `chinook-of-renewals`(IT 계약과 해지 통지 기한), `libeccio-of-telecom`(통신 요금), `hermes-of-efficiency`(AI 사용), `icarus-of-retries`(재시도 비용).
+**IT 지출과 AI 사용:** `fairwire-cloud-costs`(클라우드 청구서), `fairwire-contract-renewals`(IT 계약과 해지 통지 기한), `fairwire-telecom-bills`(통신 요금), `fairwire-ai-usage`(AI 사용), `fairwire-api-retries`(재시도 비용).
 
 ## 작동 방식
 

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-cloud-costs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-cloud-costs@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

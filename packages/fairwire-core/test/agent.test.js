@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { wireAgent, finding, AgentRuntime, ONE_CLICK_CATEGORIES, sortFindings } from '../src/index.js';
 import { learnAndAccept } from './memory-flow.js';
 
-const pkg = { name: 'demo-of-rules', version: '0.0.1' };
+const pkg = { name: 'fairwire-demo-rules', version: '0.0.1' };
 const agent = () => wireAgent({
   pkg, prefix: 'demo', title: 'Demo of Rules', description: 'Demo agent for the builder tests.',
   args: { rules: { type: 'string', description: 'Rules file' }, as_of: { type: 'string', format: 'date', description: 'As of' } }, required: ['rules'],

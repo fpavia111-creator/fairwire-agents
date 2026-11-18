@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { AgentRuntime, htmlPage, escapeHtml } from '../packages/fairwire-core/src/index.js';
 
 const repo = join(dirname(fileURLToPath(import.meta.url)), '..'); const PK = join(repo, 'packages');
-const DEFAULT = ['boreas-of-firewalls', 'angelia-of-signins', 'meltemi-of-backups', 'sirocco-of-cloud', 'iris-of-traffic', 'talthybius-of-tickets', 'skiron-of-patches', 'etesian-of-zones'];
+const DEFAULT = ['fairwire-firewall-rules', 'fairwire-sign-in-logs', 'fairwire-backup-jobs', 'fairwire-cloud-costs', 'fairwire-network-traffic', 'fairwire-ticket-sla', 'fairwire-patch-status', 'fairwire-dns-records'];
 const agents = process.argv.slice(2).length ? process.argv.slice(2) : DEFAULT;
 const out = join(repo, 'sample-reports'); mkdirSync(out, { recursive: true });
 const links = [];
@@ -17,11 +17,11 @@ for (const n of agents) {
   const { manifest } = await import(pathToFileURL(join(PK, n, 'src', 'index.js')).href);
   const base = JSON.parse(readFileSync(join(PK, n, 'evals', 'cases.json'), 'utf8')).cases.find((c) => c.id === 'check-totals');
   const root = mkdtempSync(join(tmpdir(), `${n}-sample-`)); cpSync(join(PK, n, 'fixtures'), join(root, 'fixtures'), { recursive: true });
-  const prefix = manifest.tools[0].name.split('_')[0];
+  const prefix = manifest.tools[0].name.replace(/_check$/, '');
   const r = await new AgentRuntime(manifest, { root, audit: false }).call(`${prefix}_write_report`, base.args);
   if (r.status !== 'executed') { console.error(`${n}: ${r.reason}`); process.exitCode = 1; continue; }
   for (const f of r.result.files) {
-    const name = `${n.split('-of-')[0]}-${basename(f).replace(/^[a-z]+-/, '')}`;
+    const name = basename(f); // report bases are the job names (firewall-rules.html)
     copyFileSync(f, join(out, name));
     if (name.endsWith('.html')) links.push({ n, name, summary: r.result.summary });
   }

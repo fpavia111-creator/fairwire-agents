@@ -1,0 +1,363 @@
+{
+  "suite": "fairwire-restore-tests",
+  "root": "..",
+  "data_note": "Fictional restore tests in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "restores_check",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.tests": 7,
+          "result.systems": 5,
+          "result.critical": 5,
+          "result.passed": 5,
+          "result.open": 6,
+          "result.high": 2
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "restores_check",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "never_tested",
+          "ERP-01",
+          "failed_not_retested",
+          "RT-103",
+          "test_overdue",
+          "2026-08-28",
+          "rto_missed",
+          "310 minutes",
+          "rpo_missed",
+          "30 hours",
+          "no_sign_off",
+          "RT-105"
+        ],
+        "not_contains": [
+          "RT-106",
+          "RT-107"
+        ]
+      }
+    },
+    {
+      "id": "calendar-of-due-tests",
+      "tool": "restores_write_report",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "length": {
+          "result.files": 3
+        },
+        "contains": [
+          "restore-tests.ics"
+        ]
+      }
+    },
+    {
+      "id": "next-spring",
+      "tool": "restores_check",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "as_of": "2027-03-01",
+        "code": "test_overdue"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 2
+        },
+        "contains": [
+          "SQL-01 was last restore-tested",
+          "MAIL-01 was last restore-tested"
+        ]
+      }
+    },
+    {
+      "id": "explain-mail",
+      "tool": "restores_explain",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "system": "MAIL-01"
+      },
+      "expect": {
+        "contains": [
+          "rpo_missed",
+          "test_overdue"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "restores_draft_test_plan",
+      "approve": "Pat Example",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 5,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "restores_check",
+      "mode": "review",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.tests": 7,
+          "result.systems": 5,
+          "result.critical": 5,
+          "result.passed": 5,
+          "result.open": 6,
+          "result.high": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "restores_check",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "restores_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "tests"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "restores_check",
+      "args": {
+        "tests": "../../../outside.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "restores_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "restores_write_report",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "restore-tests.csv",
+          "restore-tests.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "restores_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "restores_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-backup-restore-to-production",
+      "tool": "backup_restore_to_production",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-calendar-send-invites",
+      "tool": "calendar_send_invites",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "restores_draft_test_plan",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "restores_draft_test_plan",
+      "mode": "review",
+      "args": {
+        "tests": "fixtures/tests.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "restores_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "restores_check",
+      "args": {
+        "tests": "fixtures/intl/de/tests.csv",
+        "critical": "fixtures/intl/de/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.tests": 7,
+          "result.systems": 5,
+          "result.critical": 5,
+          "result.passed": 5,
+          "result.open": 6,
+          "result.high": 2
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "restores_check",
+      "args": {
+        "tests": "fixtures/intl/ja/tests.csv",
+        "critical": "fixtures/intl/ja/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.tests": 7,
+          "result.systems": 5,
+          "result.critical": 5,
+          "result.passed": 5,
+          "result.open": 6,
+          "result.high": 2
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "name": "fairwire-endpoint-protection",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-endpoint-protection",
+  "description": "Fairwire Endpoint Protection: Endpoint protection coverage: devices in your asset list with no security agent, agents not reporting, old signatures or agent versions, protection or tamper protection off, passive mode, two security products on one device and high alerts left open. Drafts notes; never isolates or changes a device.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-endpoint-protection": "bin/fairwire-endpoint-protection.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-endpoint-protection.js demo",
+    "eval": "node bin/fairwire-endpoint-protection.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-endpoint-protection"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-endpoint-protection#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "edr",
+    "antivirus",
+    "endpoint-security",
+    "defender",
+    "crowdstrike"
+  ]
+}

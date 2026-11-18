@@ -13,7 +13,8 @@ const words = (s) => s.replace(/_/g, ' ');
 
 /** Glossary for names whose meaning is the same in every pack. Returns null when unsure. */
 function glossary(arg, props, toolName) {
-  const prefix = toolName.split('_')[0];
+  // A prefix may hold several words (call_quality_check), so strip the known tool endings rather than split.
+  const prefix = toolName.replace(/_(check|explain|write_report|draft_[a-z_]+|request_[a-z_]+|recall|learn|accept_learning|retire_memory|review)$/, '');
   const sha = /^(.+)_sha256$/.exec(arg);
   if (sha && props[sha[1]]) return `SHA-256 of the ${words(sha[1])} file's text, exactly as returned when it was written. The call is refused if the file changed since, so the approval covers exactly what was reviewed.`;
   if (props[`${arg}_sha256`]) return `Path under --root to the ${words(arg)} file written by the earlier step (the file you reviewed).`;

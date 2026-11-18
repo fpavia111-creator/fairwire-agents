@@ -1,0 +1,59 @@
+{
+  "name": "fairwire-email-gateway",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-email-gateway",
+  "description": "Fairwire Email Gateway: Email gateway review from Proofpoint, Mimecast, Defender or similar exports: high-confidence phishing released from quarantine, allow-listed senders that sent malware, the people targeted most, mail pulled back late, outbound spam from an internal mailbox and data-loss rule hits. Names masked for the model. Drafts notes; never releases or deletes mail.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-email-gateway": "bin/fairwire-email-gateway.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-email-gateway.js demo",
+    "eval": "node bin/fairwire-email-gateway.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-email-gateway"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-email-gateway#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "email-security",
+    "phishing",
+    "quarantine",
+    "proofpoint",
+    "mimecast"
+  ]
+}

@@ -11,21 +11,21 @@ MIT 许可 · Node 20 或更高 · 仅本地文件 · 无需凭据 · 无依赖 
 ## 试用
 
 ```bash
-npx -y boreas-of-firewalls demo     # 用虚构数据审查防火墙规则
-npx -y angelia-of-signins demo      # 用虚构数据审查登录日志
+npx -y fairwire-firewall-rules demo     # 用虚构数据审查防火墙规则
+npx -y fairwire-sign-in-logs demo      # 用虚构数据审查登录日志
 ```
 
 ## 智能体
 
-**网络与边界：** `boreas-of-firewalls`（防火墙规则）、`iris-of-traffic`（NetFlow、IPFIX、sFlow）、`zephyrus-of-vpn`（VPN 日志）、`notus-of-dns`（DNS 查询）、`etesian-of-zones`（DNS 区域卫生）、`aura-of-wifi`（Wi-Fi 控制器）、`eurus-of-switchports`（交换机端口与 VLAN）、`kaikias-of-leases`（DHCP）、`echo-of-voip`（通话质量）。
+**网络与边界：** `fairwire-firewall-rules`（防火墙规则）、`fairwire-network-traffic`（NetFlow、IPFIX、sFlow）、`fairwire-vpn-access`（VPN 日志）、`fairwire-dns-queries`（DNS 查询）、`fairwire-dns-records`（DNS 区域卫生）、`fairwire-wifi-health`（Wi-Fi 控制器）、`fairwire-switch-ports`（交换机端口与 VLAN）、`fairwire-dhcp-leases`（DHCP）、`fairwire-call-quality`（通话质量）。
 
-**身份、邮件与管理员：** `angelia-of-signins`（登录日志）、`bora-of-mfa`（多因素认证覆盖）、`arke-of-admins`（特权角色）、`tramontane-of-directory`（目录卫生）、`pheme-of-gateways`（邮件网关）。
+**身份、邮件与管理员：** `fairwire-sign-in-logs`（登录日志）、`fairwire-mfa-coverage`（多因素认证覆盖）、`fairwire-admin-roles`（特权角色）、`fairwire-directory-hygiene`（目录卫生）、`fairwire-email-gateway`（邮件网关）。
 
-**设备与软件：** `argestes-of-assets`（与 CMDB 比对）、`skiron-of-patches`（补丁状态）、`apeliotes-of-endpoints`（终端防护）、`eurybates-of-mobiles`（移动设备）、`levante-of-software`（安装与许可证比对）、`ostro-of-printers`（打印机群）。
+**设备与软件：** `fairwire-asset-inventory`（与 CMDB 比对）、`fairwire-patch-status`（补丁状态）、`fairwire-endpoint-protection`（终端防护）、`fairwire-mobile-devices`（移动设备）、`fairwire-software-licenses`（安装与许可证比对）、`fairwire-print-fleet`（打印机群）。
 
-**运维与韧性：** `meltemi-of-backups`（备份）、`aparctias-of-restores`（恢复测试）、`stentor-of-incidents`（可用性与事件）、`ceryx-of-changes`（变更日历）、`talthybius-of-tickets`（工单 SLA）、`ossa-of-logs`（日志保留）。
+**运维与韧性：** `fairwire-backup-jobs`（备份）、`fairwire-restore-tests`（恢复测试）、`fairwire-uptime-incidents`（可用性与事件）、`fairwire-change-calendar`（变更日历）、`fairwire-ticket-sla`（工单 SLA）、`fairwire-log-retention`（日志保留）。
 
-**IT 支出与 AI 使用：** `sirocco-of-cloud`（云账单）、`chinook-of-renewals`（IT 合同与通知期限）、`libeccio-of-telecom`（电信账单）、`hermes-of-efficiency`（AI 使用）、`icarus-of-retries`（重试成本）。
+**IT 支出与 AI 使用：** `fairwire-cloud-costs`（云账单）、`fairwire-contract-renewals`（IT 合同与通知期限）、`fairwire-telecom-bills`（电信账单）、`fairwire-ai-usage`（AI 使用）、`fairwire-api-retries`（重试成本）。
 
 ## 工作方式
 

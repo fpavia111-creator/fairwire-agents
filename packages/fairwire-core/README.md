@@ -64,10 +64,10 @@ main(manifest); // gives you: mcp | tools | call | demo | eval | approve | rejec
 ## Scaffold a new agent
 
 ```bash
-npx -y -p fairwire-core fairwire-new-agent iris-of-tests --dir packages
+npx -y -p fairwire-core fairwire-new-agent fairwire-example-checks --dir packages
 ```
 
-The generated package passes `npm test`, `eval` and `npm pack --dry-run` as is. See `docs/build-an-agent.md` in the monorepo.
+The generated package passes `npm test`, `eval` and `npm pack --dry-run` as is. Name it after its job (`fairwire-<what it does>`, 1 to 4 words); the tool prefix is the same words in snake_case. The 31 agents in `packages/` of the monorepo are full examples built with `wireAgent`.
 
 ## Approvals
 
@@ -107,7 +107,7 @@ const KINDS = {
 const mem = memoryTools('acme', KINDS);   // acme_recall, acme_learn, acme_accept_learning, acme_retire_memory
 
 export const manifest = defineManifest({
-  name: 'acme-of-access', /* … */
+  name: 'fairwire-example-checks', /* … */
   memory: { prefix: 'acme', kinds: KINDS },
   tools: [
     { name: 'acme_review', kind: 'read', description: '…', handler: async (a, ctx) => {
@@ -266,7 +266,7 @@ A tool marked `tier: 'pro'` (optionally with a `feature` name) runs only with a 
 A key is `FAIRWIRE1.<payload>.<Ed25519 signature>` with licensee, plan, agents (`*` or package names), features, issue and expiry dates. It is checked offline against the public keys in `src/license-keys.js` (empty in this release, so nothing can be unlocked yet). There is no environment variable or config file that adds a trusted key.
 
 - Customer: `<pack> license install key.txt` (copies it to `.fairwire/license.key`), `<pack> license status`, or set `FAIRWIRE_LICENSE` / `FAIRWIRE_LICENSE_FILE`. `fairwire_info` shows the plan, expiry and which tools are unlocked, never the key.
-- Seller, on their own computer: `npx -p fairwire-core fairwire-license keygen --out ~/fairwire-licence-keys`, paste the printed public key into `LICENSE_PUBLIC_KEYS`, release, then `fairwire-license issue --key ~/fairwire-licence-keys/private.pem --licensee "Customer" --plan pro --days 365 [--agents polaris-of-bills] --out customer.key` and `fairwire-license verify customer.key --pubkey ~/fairwire-licence-keys/public.pem`. Withdrawn licence ids go in `LICENSE_REVOKED_IDS` and take effect from the next release.
+- Seller, on their own computer: `npx -p fairwire-core fairwire-license keygen --out ~/fairwire-licence-keys`, paste the printed public key into `LICENSE_PUBLIC_KEYS`, release, then `fairwire-license issue --key ~/fairwire-licence-keys/private.pem --licensee "Customer" --plan pro --days 365 [--agents fairwire-dns-records] --out customer.key` and `fairwire-license verify customer.key --pubkey ~/fairwire-licence-keys/public.pem`. Withdrawn licence ids go in `LICENSE_REVOKED_IDS` and take effect from the next release.
 - `ctx.license` gives a handler `{ status, valid, plan, features, has(feature) }`.
 
 This is not copy protection: the packages are MIT-licensed source and anyone can remove the check. It draws a clear line for honest customers.
@@ -277,7 +277,7 @@ The manifest declares which host model a pack's prompts and evals target. An MCP
 
 ## Packs built on this core
 
-All 30 Fairwire domain agents in the monorepo, from `achernar-of-returns` to `vega-of-detention`. Source: <https://github.com/fpavia111-creator/fairwire-agents>.
+All 31 Fairwire agents in the monorepo, from `fairwire-admin-roles` to `fairwire-wifi-health`. Source: <https://github.com/fpavia111-creator/fairwire-agents>.
 
 ## License
 

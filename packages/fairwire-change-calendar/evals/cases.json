@@ -1,0 +1,350 @@
+{
+  "suite": "fairwire-change-calendar",
+  "root": "..",
+  "data_note": "Fictional change calendar in ../fixtures. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "changes_check",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.changes": 8,
+          "result.systems": 5,
+          "result.emergency": 1,
+          "result.failed": 2,
+          "result.freezes": 1,
+          "result.open": 8,
+          "result.high": 3
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "changes_check",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "in_freeze_window",
+          "Black Friday freeze",
+          "not_approved",
+          "overlapping_changes",
+          "CHG-6001+CHG-6002",
+          "no_backout_plan",
+          "CHG-6004",
+          "risky_in_business_hours",
+          "repeat_failed_changes",
+          "emergency_share",
+          "12.5%",
+          "no_test_evidence"
+        ],
+        "not_contains": [
+          "CHG-6005",
+          "CHG-5996"
+        ]
+      }
+    },
+    {
+      "id": "no-freeze-list",
+      "tool": "changes_check",
+      "args": {
+        "changes": "fixtures/changes.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 6,
+          "result.high": 2
+        },
+        "not_contains": [
+          "in_freeze_window",
+          "emergency_share"
+        ]
+      }
+    },
+    {
+      "id": "explain-web-shop",
+      "tool": "changes_explain",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json",
+        "change": "Web shop"
+      },
+      "expect": {
+        "contains": [
+          "in_freeze_window",
+          "repeat_failed_changes"
+        ],
+        "equals": {
+          "result.findings": 5
+        }
+      }
+    },
+    {
+      "id": "explain-overlap",
+      "tool": "changes_explain",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "change": "CHG-6002"
+      },
+      "expect": {
+        "contains": [
+          "overlapping_changes"
+        ],
+        "equals": {
+          "result.findings": 1
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "changes_draft_cab_note",
+      "approve": "Pat Example",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 6,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "changes_check",
+      "mode": "review",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.changes": 8,
+          "result.systems": 5,
+          "result.emergency": 1,
+          "result.failed": 2,
+          "result.freezes": 1,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "changes_check",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "changes_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "changes"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "changes_check",
+      "args": {
+        "changes": "../../../outside.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "changes_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "changes_write_report",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "change-calendar.csv",
+          "change-calendar.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "changes_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "changes_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-itsm-approve-change",
+      "tool": "itsm_approve_change",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-deploy-run-pipeline",
+      "tool": "deploy_run_pipeline",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "changes_draft_cab_note",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "changes_draft_cab_note",
+      "mode": "review",
+      "args": {
+        "changes": "fixtures/changes.csv",
+        "freezes": "fixtures/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "changes_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "changes_check",
+      "args": {
+        "changes": "fixtures/intl/de/changes.csv",
+        "freezes": "fixtures/intl/de/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.changes": 8,
+          "result.systems": 5,
+          "result.emergency": 1,
+          "result.failed": 2,
+          "result.freezes": 1,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "changes_check",
+      "args": {
+        "changes": "fixtures/intl/ja/changes.csv",
+        "freezes": "fixtures/intl/ja/freezes.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.changes": 8,
+          "result.systems": 5,
+          "result.emergency": 1,
+          "result.failed": 2,
+          "result.freezes": 1,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

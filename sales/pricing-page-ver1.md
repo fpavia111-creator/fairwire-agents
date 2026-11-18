@@ -6,14 +6,14 @@ The software is free (MIT). You pay a fixed price for the setup: we install the 
 
 | Package | Agents | Setup |
 |---|---|---|
-| Network traffic and DNS | Iris (flows), Notus (DNS queries), Etesian (DNS zones), Kaikias (DHCP leases) | $1,500 |
-| Call quality | Echo (call-detail and call-quality exports) | $1,500 |
-| AI usage and retries | Hermes (LLM usage), Icarus (API and LLM retries) | $1,500 |
-| Firewall, VPN and Wi-Fi | Boreas (firewall rules), Zephyrus (VPN), Aura (Wi-Fi), Eurus (switch ports and VLANs) | $2,500 |
-| Identity and admins | Angelia (sign-ins), Bora (MFA), Arke (admin roles), Tramontane (directory), Pheme (email gateway) | $3,000 |
-| Devices and software | Argestes (CMDB), Skiron (patches), Apeliotes (endpoint protection), Eurybates (mobiles), Levante (software licences), Ostro (printers) | $3,000 |
-| Backups and operations | Meltemi (backups), Aparctias (restore tests), Stentor (incidents), Ceryx (changes), Talthybius (tickets), Ossa (logs) | $2,500 |
-| IT spend | Sirocco (cloud bills), Chinook (IT contracts), Libeccio (telecom bills) | $2,000 |
+| Network traffic and DNS | `fairwire-network-traffic`, `fairwire-dns-queries`, `fairwire-dns-records`, `fairwire-dhcp-leases` | $1,500 |
+| Call quality | `fairwire-call-quality` | $1,500 |
+| AI usage and retries | `fairwire-ai-usage`, `fairwire-api-retries` | $1,500 |
+| Firewall, VPN and Wi-Fi | `fairwire-firewall-rules`, `fairwire-vpn-access`, `fairwire-wifi-health`, `fairwire-switch-ports` | $2,500 |
+| Identity and admins | `fairwire-sign-in-logs`, `fairwire-mfa-coverage`, `fairwire-admin-roles`, `fairwire-directory-hygiene`, `fairwire-email-gateway` | $3,000 |
+| Devices and software | `fairwire-asset-inventory`, `fairwire-patch-status`, `fairwire-endpoint-protection`, `fairwire-mobile-devices`, `fairwire-software-licenses`, `fairwire-print-fleet` | $3,000 |
+| Backups and operations | `fairwire-backup-jobs`, `fairwire-restore-tests`, `fairwire-uptime-incidents`, `fairwire-change-calendar`, `fairwire-ticket-sla`, `fairwire-log-retention` | $2,500 |
+| IT spend | `fairwire-cloud-costs`, `fairwire-contract-renewals`, `fairwire-telecom-bills` | $2,000 |
 | Whole IT team | All 31 agents, one training session for the team | $9,500 |
 
 The packages bought one by one come to $17,500; the whole IT team is $9,500.

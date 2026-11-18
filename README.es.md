@@ -11,21 +11,21 @@ Licencia MIT · Node 20 o posterior · solo archivos locales · sin credenciales
 ## Pruébelo
 
 ```bash
-npx -y boreas-of-firewalls demo     # revisión de reglas del cortafuegos con datos ficticios
-npx -y angelia-of-signins demo      # revisión de inicios de sesión con datos ficticios
+npx -y fairwire-firewall-rules demo     # revisión de reglas del cortafuegos con datos ficticios
+npx -y fairwire-sign-in-logs demo      # revisión de inicios de sesión con datos ficticios
 ```
 
 ## Los agentes
 
-**Red y perímetro:** `boreas-of-firewalls` (reglas del cortafuegos), `iris-of-traffic` (NetFlow, IPFIX, sFlow), `zephyrus-of-vpn` (registros de VPN), `notus-of-dns` (consultas DNS), `etesian-of-zones` (higiene de zonas DNS), `aura-of-wifi` (controladores Wi-Fi), `eurus-of-switchports` (puertos de switch y VLAN), `kaikias-of-leases` (DHCP), `echo-of-voip` (calidad de llamadas).
+**Red y perímetro:** `fairwire-firewall-rules` (reglas del cortafuegos), `fairwire-network-traffic` (NetFlow, IPFIX, sFlow), `fairwire-vpn-access` (registros de VPN), `fairwire-dns-queries` (consultas DNS), `fairwire-dns-records` (higiene de zonas DNS), `fairwire-wifi-health` (controladores Wi-Fi), `fairwire-switch-ports` (puertos de switch y VLAN), `fairwire-dhcp-leases` (DHCP), `fairwire-call-quality` (calidad de llamadas).
 
-**Identidad, correo y administradores:** `angelia-of-signins` (inicios de sesión), `bora-of-mfa` (cobertura de MFA), `arke-of-admins` (roles con privilegios), `tramontane-of-directory` (higiene del directorio), `pheme-of-gateways` (pasarela de correo).
+**Identidad, correo y administradores:** `fairwire-sign-in-logs` (inicios de sesión), `fairwire-mfa-coverage` (cobertura de MFA), `fairwire-admin-roles` (roles con privilegios), `fairwire-directory-hygiene` (higiene del directorio), `fairwire-email-gateway` (pasarela de correo).
 
-**Dispositivos y software:** `argestes-of-assets` (conciliación con la CMDB), `skiron-of-patches` (estado de parches), `apeliotes-of-endpoints` (protección de endpoints), `eurybates-of-mobiles` (dispositivos móviles), `levante-of-software` (instalaciones frente a licencias), `ostro-of-printers` (parque de impresoras).
+**Dispositivos y software:** `fairwire-asset-inventory` (conciliación con la CMDB), `fairwire-patch-status` (estado de parches), `fairwire-endpoint-protection` (protección de endpoints), `fairwire-mobile-devices` (dispositivos móviles), `fairwire-software-licenses` (instalaciones frente a licencias), `fairwire-print-fleet` (parque de impresoras).
 
-**Operación y resiliencia:** `meltemi-of-backups` (copias de seguridad), `aparctias-of-restores` (pruebas de restauración), `stentor-of-incidents` (disponibilidad e incidentes), `ceryx-of-changes` (calendario de cambios), `talthybius-of-tickets` (SLA de tickets), `ossa-of-logs` (retención de registros).
+**Operación y resiliencia:** `fairwire-backup-jobs` (copias de seguridad), `fairwire-restore-tests` (pruebas de restauración), `fairwire-uptime-incidents` (disponibilidad e incidentes), `fairwire-change-calendar` (calendario de cambios), `fairwire-ticket-sla` (SLA de tickets), `fairwire-log-retention` (retención de registros).
 
-**Gasto de TI y uso de IA:** `sirocco-of-cloud` (facturas de la nube), `chinook-of-renewals` (contratos y preavisos), `libeccio-of-telecom` (facturas de telecomunicaciones), `hermes-of-efficiency` (uso de IA), `icarus-of-retries` (coste de los reintentos).
+**Gasto de TI y uso de IA:** `fairwire-cloud-costs` (facturas de la nube), `fairwire-contract-renewals` (contratos y preavisos), `fairwire-telecom-bills` (facturas de telecomunicaciones), `fairwire-ai-usage` (uso de IA), `fairwire-api-retries` (coste de los reintentos).
 
 ## Cómo funcionan
 

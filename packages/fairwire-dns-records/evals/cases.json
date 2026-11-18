@@ -1,0 +1,333 @@
+{
+  "suite": "fairwire-dns-records",
+  "root": "..",
+  "data_note": "Fictional DNS records in ../fixtures. No model is called and no name is resolved.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.records": 14,
+          "result.zones": 2,
+          "result.names": 12,
+          "result.cnames": 5,
+          "result.open": 8,
+          "result.high": 2
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "dangling_cname",
+          "promo2024.example.com",
+          "cname_conflict",
+          "status.example.com",
+          "private_ip_in_public_zone",
+          "10.20.0.15",
+          "ip_not_owned",
+          "198.51.100.77",
+          "duplicate_record",
+          "ttl_out_of_range",
+          "1209600",
+          "wildcard_record"
+        ],
+        "not_contains": [
+          "fileserver",
+          "example-shop",
+          "example-docs"
+        ]
+      }
+    },
+    {
+      "id": "without-settings-all-cloud-names-to-confirm",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/records.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.high": 1
+        },
+        "contains": [
+          "confirm that cloud resource still exists"
+        ],
+        "not_contains": [
+          "ip_not_owned"
+        ]
+      }
+    },
+    {
+      "id": "code-filter-dangling",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/records.csv",
+        "code": "dangling_cname"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 3
+        }
+      }
+    },
+    {
+      "id": "explain-status",
+      "tool": "dns_records_explain",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json",
+        "name": "status.example.com"
+      },
+      "expect": {
+        "contains": [
+          "cname_conflict",
+          "ttl_out_of_range"
+        ],
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "dns_records_draft_change_request",
+      "approve": "Pat Example",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 4,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "dns_records_check",
+      "mode": "review",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.records": 14,
+          "result.zones": 2,
+          "result.names": 12,
+          "result.cnames": 5,
+          "result.open": 8,
+          "result.high": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "dns_records_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "records"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "../../../outside.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "dns_records_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "dns_records_write_report",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "dns-records.csv",
+          "dns-records.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "dns_records_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "dns_records_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-dns-update-record",
+      "tool": "dns_update_record",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-dns-live-lookup",
+      "tool": "dns_live_lookup",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "dns_records_draft_change_request",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "dns_records_draft_change_request",
+      "mode": "review",
+      "args": {
+        "records": "fixtures/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "dns_records_request_submit",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/intl/de/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.records": 14,
+          "result.zones": 2,
+          "result.names": 12,
+          "result.cnames": 5,
+          "result.open": 8,
+          "result.high": 2
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/intl/ja/records.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.records": 14,
+          "result.zones": 2,
+          "result.names": 12,
+          "result.cnames": 5,
+          "result.open": 8,
+          "result.high": 2
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import { runEvalFile } from '../packages/fairwire-core/src/index.js';
 
 const PK = join(dirname(fileURLToPath(import.meta.url)), '..', 'packages');
 const only = process.argv.slice(2).filter((a) => !a.startsWith('--'));
-const agents = readdirSync(PK).filter((n) => /-of-/.test(n) && existsSync(join(PK, n, 'evals', 'cases.json')) && (!only.length || only.includes(n))).sort();
+const agents = readdirSync(PK).filter((n) => /^fairwire-(?!core$)/.test(n) && existsSync(join(PK, n, 'evals', 'cases.json')) && (!only.length || only.includes(n))).sort();
 let cases = 0, failed = 0; const rows = [];
 for (const n of agents) {
   const { manifest } = await import(pathToFileURL(join(PK, n, 'src', 'index.js')).href);

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-print-fleet": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-print-fleet@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

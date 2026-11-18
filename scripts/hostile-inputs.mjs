@@ -89,7 +89,7 @@ async function dataPass(n) {
         const warned = (out.warnings || []).some((w) => /reads like instructions/.test(w));
         if (quoted && !warned) add({ n, kind: 'INJECTION_NOT_FLAGGED', where: c.id }); if (warned) info.injectWarnings++;
       }
-      if (variant === 'clean' && (out.warnings || []).some((w) => /reads like instructions/.test(w)) && n !== 'nemesis-of-servers') add({ n, kind: 'FALSE_INJECTION_WARNING', where: c.id });
+      if (variant === 'clean' && (out.warnings || []).some((w) => /reads like instructions/.test(w))) add({ n, kind: 'FALSE_INJECTION_WARNING', where: c.id });
     }
     for (const f of walk(root)) {
       const rel = relative(root, f).split('\\').join('/'); if (rel.startsWith('fixtures/') || rel.startsWith('.fairwire/')) continue;

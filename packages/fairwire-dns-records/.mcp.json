@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwire-dns-records": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairwire-dns-records@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

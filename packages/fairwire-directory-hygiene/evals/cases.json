@@ -1,0 +1,352 @@
+{
+  "suite": "fairwire-directory-hygiene",
+  "root": "..",
+  "data_note": "Fictional directory objects in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "directory_check",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.objects": 17,
+          "result.users": 6,
+          "result.computers": 5,
+          "result.groups": 6,
+          "result.open": 11,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "directory_check",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "password_not_required",
+          "nested_group_loop",
+          "Finance Readers > Finance Share",
+          "password_never_expires",
+          "Service account",
+          "unsupported_os_computer",
+          "Windows Server 2012 R2",
+          "disabled_in_groups",
+          "Domain Admins",
+          "stale_computer",
+          "2026-06-20",
+          "group_without_owner",
+          "VPN Users",
+          "empty_group",
+          "Old Project"
+        ],
+        "not_contains": [
+          "PC-104",
+          "PC-101"
+        ]
+      }
+    },
+    {
+      "id": "user-names-masked",
+      "tool": "directory_check",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "not_contains": [
+          "cdiaz",
+          "bkim",
+          "svc-backup"
+        ],
+        "matches": [
+          "USR-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "longer-stale-limit",
+      "tool": "directory_check",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings-stale.json",
+        "as_of": "2026-11-18",
+        "code": "stale_computer"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 1
+        },
+        "contains": [
+          "SRV-OLD"
+        ]
+      }
+    },
+    {
+      "id": "explain-group",
+      "tool": "directory_explain",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "name": "finance share"
+      },
+      "expect": {
+        "contains": [
+          "nested_group_loop"
+        ],
+        "equals": {
+          "result.findings": 1
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "directory_draft_cleanup_list",
+      "approve": "Pat Example",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 6,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "directory_check",
+      "mode": "review",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.objects": 17,
+          "result.users": 6,
+          "result.computers": 5,
+          "result.groups": 6,
+          "result.open": 11,
+          "result.high": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "directory_check",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "directory_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "objects"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "directory_check",
+      "args": {
+        "objects": "../../../outside.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "directory_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "directory_write_report",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "directory-hygiene.csv",
+          "directory-hygiene.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "directory_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "directory_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-directory-modify-object",
+      "tool": "directory_modify_object",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-directory-remove-member",
+      "tool": "directory_remove_member",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "directory_draft_cleanup_list",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "directory_draft_cleanup_list",
+      "mode": "review",
+      "args": {
+        "objects": "fixtures/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "directory_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "directory_check",
+      "args": {
+        "objects": "fixtures/intl/de/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.objects": 17,
+          "result.users": 6,
+          "result.computers": 5,
+          "result.groups": 6,
+          "result.open": 11,
+          "result.high": 1
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "directory_check",
+      "args": {
+        "objects": "fixtures/intl/ja/objects.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.objects": 17,
+          "result.users": 6,
+          "result.computers": 5,
+          "result.groups": 6,
+          "result.open": 11,
+          "result.high": 1
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

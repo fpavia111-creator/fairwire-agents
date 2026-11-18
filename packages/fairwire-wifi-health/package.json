@@ -1,0 +1,60 @@
+{
+  "name": "fairwire-wifi-health",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-wifi-health",
+  "description": "Fairwire Wi-Fi Health: Wi-Fi controller export review: access points down or on old firmware, 2.4 GHz channels other than 1, 6 and 11, crowded channels, open, WEP or TKIP networks, too many SSIDs per radio, weak clients and rogue access points. Drafts a change request; never changes the controller.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-wifi-health": "bin/fairwire-wifi-health.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-wifi-health.js demo",
+    "eval": "node bin/fairwire-wifi-health.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-wifi-health"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-wifi-health#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "wifi",
+    "wireless",
+    "access-points",
+    "meraki",
+    "unifi",
+    "aruba"
+  ]
+}

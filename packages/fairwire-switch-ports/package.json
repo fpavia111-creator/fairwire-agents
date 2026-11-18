@@ -1,0 +1,59 @@
+{
+  "name": "fairwire-switch-ports",
+  "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/fairwire-switch-ports",
+  "description": "Fairwire Switch Ports: Switch port and VLAN inventory review: user ports in VLAN 1, trunks that carry every VLAN, half duplex and CRC errors, enabled ports unused for months, ports with no description, access ports in a VLAN your plan does not allow, and VLANs nobody uses. Drafts a change request; never changes a switch.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-switch-ports": "bin/fairwire-switch-ports.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairwire-switch-ports.js demo",
+    "eval": "node bin/fairwire-switch-ports.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-switch-ports"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-switch-ports#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "switch",
+    "vlan",
+    "switchport",
+    "network-inventory",
+    "cisco"
+  ]
+}

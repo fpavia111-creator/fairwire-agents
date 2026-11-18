@@ -36,7 +36,7 @@ export function printStep(label, r) {
 export async function standardDemo(manifest, fixturesDir, d) {
   const root = mkdtempSync(join(tmpdir(), `${manifest.name}-demo-`));
   cpSync(fixturesDir, join(root, 'fixtures'), { recursive: true });
-  const prefix = manifest.tools[0].name.split('_')[0];
+  const prefix = manifest.tools[0].name.replace(/_check$/, '');
   const draftTool = manifest.tools.find((t) => /_draft_/.test(t.name));
   const reqTool = manifest.tools.find((t) => /_request_/.test(t.name));
   const rt = new AgentRuntime(manifest, { root, mode: 'auto', autoActions: draftTool ? [draftTool.name] : [], piiKey: demoPiiKey(manifest) });

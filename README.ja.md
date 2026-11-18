@@ -11,21 +11,21 @@ MIT ライセンス · Node 20 以降 · ローカルファイルのみ · 認�
 ## 試す
 
 ```bash
-npx -y boreas-of-firewalls demo     # 架空のデータでファイアウォールルールを確認
-npx -y angelia-of-signins demo      # 架空のデータでサインインログを確認
+npx -y fairwire-firewall-rules demo     # 架空のデータでファイアウォールルールを確認
+npx -y fairwire-sign-in-logs demo      # 架空のデータでサインインログを確認
 ```
 
 ## エージェント
 
-**ネットワークと境界：** `boreas-of-firewalls`（ファイアウォールルール）、`iris-of-traffic`（NetFlow、IPFIX、sFlow）、`zephyrus-of-vpn`（VPN ログ）、`notus-of-dns`（DNS クエリ）、`etesian-of-zones`（DNS ゾーンの整理）、`aura-of-wifi`（Wi-Fi コントローラー）、`eurus-of-switchports`（スイッチポートと VLAN）、`kaikias-of-leases`（DHCP）、`echo-of-voip`（通話品質）。
+**ネットワークと境界：** `fairwire-firewall-rules`（ファイアウォールルール）、`fairwire-network-traffic`（NetFlow、IPFIX、sFlow）、`fairwire-vpn-access`（VPN ログ）、`fairwire-dns-queries`（DNS クエリ）、`fairwire-dns-records`（DNS ゾーンの整理）、`fairwire-wifi-health`（Wi-Fi コントローラー）、`fairwire-switch-ports`（スイッチポートと VLAN）、`fairwire-dhcp-leases`（DHCP）、`fairwire-call-quality`（通話品質）。
 
-**ID、メール、管理者：** `angelia-of-signins`（サインインログ）、`bora-of-mfa`（多要素認証の適用状況）、`arke-of-admins`（特権ロール）、`tramontane-of-directory`（ディレクトリの整理）、`pheme-of-gateways`（メールゲートウェイ）。
+**ID、メール、管理者：** `fairwire-sign-in-logs`（サインインログ）、`fairwire-mfa-coverage`（多要素認証の適用状況）、`fairwire-admin-roles`（特権ロール）、`fairwire-directory-hygiene`（ディレクトリの整理）、`fairwire-email-gateway`（メールゲートウェイ）。
 
-**デバイスとソフトウェア：** `argestes-of-assets`（CMDB との照合）、`skiron-of-patches`（パッチ適用状況）、`apeliotes-of-endpoints`（エンドポイント保護）、`eurybates-of-mobiles`（モバイル端末）、`levante-of-software`（インストールとライセンス）、`ostro-of-printers`（プリンター群）。
+**デバイスとソフトウェア：** `fairwire-asset-inventory`（CMDB との照合）、`fairwire-patch-status`（パッチ適用状況）、`fairwire-endpoint-protection`（エンドポイント保護）、`fairwire-mobile-devices`（モバイル端末）、`fairwire-software-licenses`（インストールとライセンス）、`fairwire-print-fleet`（プリンター群）。
 
-**運用とレジリエンス：** `meltemi-of-backups`（バックアップ）、`aparctias-of-restores`（リストアテスト）、`stentor-of-incidents`（稼働率とインシデント）、`ceryx-of-changes`（変更カレンダー）、`talthybius-of-tickets`（チケット SLA）、`ossa-of-logs`（ログの保存期間）。
+**運用とレジリエンス：** `fairwire-backup-jobs`（バックアップ）、`fairwire-restore-tests`（リストアテスト）、`fairwire-uptime-incidents`（稼働率とインシデント）、`fairwire-change-calendar`（変更カレンダー）、`fairwire-ticket-sla`（チケット SLA）、`fairwire-log-retention`（ログの保存期間）。
 
-**IT 支出と AI 利用：** `sirocco-of-cloud`（クラウド請求）、`chinook-of-renewals`（IT 契約と解約予告期限）、`libeccio-of-telecom`（通信費）、`hermes-of-efficiency`（AI 利用）、`icarus-of-retries`（リトライのコスト）。
+**IT 支出と AI 利用：** `fairwire-cloud-costs`（クラウド請求）、`fairwire-contract-renewals`（IT 契約と解約予告期限）、`fairwire-telecom-bills`（通信費）、`fairwire-ai-usage`（AI 利用）、`fairwire-api-retries`（リトライのコスト）。
 
 ## 動作
 

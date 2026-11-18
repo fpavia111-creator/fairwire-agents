@@ -8,65 +8,9 @@
   },
   "plugins": [
     {
-      "name": "angelia-of-signins",
-      "source": "./packages/angelia-of-signins",
-      "description": "Sign-in log review from Entra ID, Okta or Google exports: password spraying from one address, failed-login bursts, legacy protocols, sign-ins from countries outside your list, the same account in two far-apart places, sign-in attempts on disabled accounts and service accounts used interactively. Names masked for the model. Drafts notes; never blocks an account.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "sign-in-logs",
-        "entra-id",
-        "okta",
-        "password-spray",
-        "identity-threat"
-      ]
-    },
-    {
-      "name": "aparctias-of-restores",
-      "source": "./packages/aparctias-of-restores",
-      "description": "Restore test review: critical systems with no restore test inside your interval, failed tests not re-run, restores slower than the recovery time objective, restored data older than the recovery point, and tests with no sign-off. Writes a test calendar and drafts the next test plan.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "restore-test",
-        "disaster-recovery",
-        "rto",
-        "rpo",
-        "business-continuity"
-      ]
-    },
-    {
-      "name": "apeliotes-of-endpoints",
-      "source": "./packages/apeliotes-of-endpoints",
-      "description": "Endpoint protection coverage: devices in your asset list with no security agent, agents not reporting, old signatures or agent versions, protection or tamper protection off, passive mode, two security products on one device and high alerts left open. Drafts notes; never isolates or changes a device.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "edr",
-        "antivirus",
-        "endpoint-security",
-        "defender",
-        "crowdstrike"
-      ]
-    },
-    {
-      "name": "argestes-of-assets",
-      "source": "./packages/argestes-of-assets",
-      "description": "Asset inventory against the CMDB: devices seen on the network or in device management but missing from the CMDB, CMDB records not seen for months, duplicate serial numbers, retired records still active, missing owners or locations, and warranties ending. Drafts CMDB fix lists; never edits the CMDB.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "cmdb",
-        "asset-management",
-        "itam",
-        "inventory",
-        "servicenow"
-      ]
-    },
-    {
-      "name": "arke-of-admins",
-      "source": "./packages/arke-of-admins",
-      "description": "Privileged role review from directory role exports: more global administrators than your cap, standing assignments where you use just-in-time, admins without MFA, admin accounts that also read mail, roles held by guests, break-glass accounts that signed in or lack an exclusion note. Names masked for the model. Drafts notes; never removes a role.",
+      "name": "fairwire-admin-roles",
+      "source": "./packages/fairwire-admin-roles",
+      "description": "Fairwire Admin Roles: Privileged role review from directory role exports: more global administrators than your cap, standing assignments where you use just-in-time, admins without MFA, admin accounts that also read mail, roles held by guests, break-glass accounts that signed in or lack an exclusion note. Names masked for the model. Drafts notes; never removes a role.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
@@ -78,137 +22,9 @@
       ]
     },
     {
-      "name": "aura-of-wifi",
-      "source": "./packages/aura-of-wifi",
-      "description": "Wi-Fi controller export review: access points down or on old firmware, 2.4 GHz channels other than 1, 6 and 11, crowded channels, open, WEP or TKIP networks, too many SSIDs per radio, weak clients and rogue access points. Drafts a change request; never changes the controller.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "wifi",
-        "wireless",
-        "access-points",
-        "meraki",
-        "unifi",
-        "aruba"
-      ]
-    },
-    {
-      "name": "bora-of-mfa",
-      "source": "./packages/bora-of-mfa",
-      "description": "MFA coverage from an identity provider export: active users with no MFA registered, users with only SMS or voice, administrators without phishing-resistant MFA, people excluded from MFA policy, registered but never used, and shared accounts that can sign in. Names masked for the model. Drafts notes; never changes a policy.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "mfa",
-        "entra-id",
-        "okta",
-        "identity",
-        "phishing-resistant"
-      ]
-    },
-    {
-      "name": "boreas-of-firewalls",
-      "source": "./packages/boreas-of-firewalls",
-      "description": "Firewall rule review from a rule export (Palo Alto, FortiGate or any CSV): any-to-any allows, risky ports open from the internet, rules with no hits, rules shadowed by an earlier rule, duplicates, expired temporary rules, rules with no owner or ticket, and allows with logging off. Drafts a change request; never touches the firewall.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "firewall",
-        "rule-review",
-        "palo-alto",
-        "fortigate",
-        "network-security"
-      ]
-    },
-    {
-      "name": "ceryx-of-changes",
-      "source": "./packages/ceryx-of-changes",
-      "description": "Change calendar review: changes on the same system that overlap, changes inside a freeze window, changes with no approval, back-out plan or test evidence, risky changes in business hours, emergency changes above your share and systems whose changes fail again and again. Drafts notes for the change board.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "change-management",
-        "cab",
-        "itil",
-        "change-calendar",
-        "freeze-window"
-      ]
-    },
-    {
-      "name": "chinook-of-renewals",
-      "source": "./packages/chinook-of-renewals",
-      "description": "IT contracts and renewals: notice deadlines for auto-renewing contracts, price rises above your cap, contracts with no owner, two contracts for the same service, vendors paid with no contract on file and spend above the contract value. Writes a renewal calendar and drafts notice letters for a person to send.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "contract-management",
-        "it-procurement",
-        "renewals",
-        "vendor-management",
-        "auto-renewal"
-      ]
-    },
-    {
-      "name": "echo-of-voip",
-      "source": "./packages/echo-of-voip",
-      "description": "Call quality review from a phone system or SBC call-detail export: low MOS, packet loss, jitter and latency over your limits, one-way audio, short dropped calls, and sites or trunks where poor calls cluster. Drafts a ticket for the voice provider; never changes a codec or route.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "voip",
-        "call-quality",
-        "mos",
-        "jitter",
-        "sip",
-        "cdr"
-      ]
-    },
-    {
-      "name": "etesian-of-zones",
-      "source": "./packages/etesian-of-zones",
-      "description": "DNS zone hygiene from a zone export: names pointing at cloud services that may no longer exist (takeover risk), public names pointing at private addresses, duplicate and conflicting records, very short or very long TTLs, wildcards and records pointing at addresses you no longer own. Drafts a change request; never edits DNS.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "dns",
-        "zone-file",
-        "subdomain-takeover",
-        "dangling-cname",
-        "dns-hygiene"
-      ]
-    },
-    {
-      "name": "eurus-of-switchports",
-      "source": "./packages/eurus-of-switchports",
-      "description": "Switch port and VLAN inventory review: user ports in VLAN 1, trunks that carry every VLAN, half duplex and CRC errors, enabled ports unused for months, ports with no description, access ports in a VLAN your plan does not allow, and VLANs nobody uses. Drafts a change request; never changes a switch.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "switch",
-        "vlan",
-        "switchport",
-        "network-inventory",
-        "cisco"
-      ]
-    },
-    {
-      "name": "eurybates-of-mobiles",
-      "source": "./packages/eurybates-of-mobiles",
-      "description": "Mobile device inventory from Intune, Jamf or any MDM export: devices that stopped checking in, old operating systems, no encryption or passcode, jailbroken or rooted devices, devices of people who left and devices with no owner. Names masked for the model. Drafts notes; never wipes or locks a device.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "mdm",
-        "intune",
-        "jamf",
-        "mobile-devices",
-        "byod"
-      ]
-    },
-    {
-      "name": "hermes-of-efficiency",
-      "source": "./packages/hermes-of-efficiency",
-      "description": "AI usage review from an LLM usage or request log: the same prompt sent again and again, very large prompts, a large model used for tiny jobs, answers cut off at the output limit, and spend by app and model from a price table you supply. Drafts notes for the app owner.",
+      "name": "fairwire-ai-usage",
+      "source": "./packages/fairwire-ai-usage",
+      "description": "Fairwire AI Usage: AI usage review from an LLM usage or request log: the same prompt sent again and again, very large prompts, a large model used for tiny jobs, answers cut off at the output limit, and spend by app and model from a price table you supply. Drafts notes for the app owner.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
@@ -221,9 +37,9 @@
       ]
     },
     {
-      "name": "icarus-of-retries",
-      "source": "./packages/icarus-of-retries",
-      "description": "Retry cost review from API or LLM request logs: tokens and bytes spent on retries, retries of errors that cannot succeed (4xx), retry storms with no back-off, 429s retried before Retry-After, and endpoints whose retry share is highest. Drafts notes for the service owner.",
+      "name": "fairwire-api-retries",
+      "source": "./packages/fairwire-api-retries",
+      "description": "Fairwire API Retries: Retry cost review from API or LLM request logs: tokens and bytes spent on retries, retries of errors that cannot succeed (4xx), retry storms with no back-off, 429s retried before Retry-After, and endpoints whose retry share is highest. Drafts notes for the service owner.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
@@ -236,65 +52,23 @@
       ]
     },
     {
-      "name": "iris-of-traffic",
-      "source": "./packages/iris-of-traffic",
-      "description": "Network flow review from a NetFlow, IPFIX or sFlow export: cleartext protocols, risky ports reached from the internet, one host or destination taking most of the bytes, large uploads out of hours and very small packets. Writes a worklist and drafts a change request a network owner applies.",
+      "name": "fairwire-asset-inventory",
+      "source": "./packages/fairwire-asset-inventory",
+      "description": "Fairwire Asset Inventory: Asset inventory against the CMDB: devices seen on the network or in device management but missing from the CMDB, CMDB records not seen for months, duplicate serial numbers, retired records still active, missing owners or locations, and warranties ending. Drafts CMDB fix lists; never edits the CMDB.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
-        "netflow",
-        "ipfix",
-        "sflow",
-        "network-traffic",
-        "top-talkers"
+        "cmdb",
+        "asset-management",
+        "itam",
+        "inventory",
+        "servicenow"
       ]
     },
     {
-      "name": "kaikias-of-leases",
-      "source": "./packages/kaikias-of-leases",
-      "description": "DHCP lease review: scopes near exhaustion, the same address leased to two devices, one device leasing in several scopes, reservations inside the dynamic range, leases from a DHCP server you do not run, and devices missing from your asset list. Drafts a note; never changes a scope.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "dhcp",
-        "ip-address-management",
-        "ipam",
-        "scope",
-        "leases"
-      ]
-    },
-    {
-      "name": "levante-of-software",
-      "source": "./packages/levante-of-software",
-      "description": "Software installs against licences: products installed on more devices than you own licences for, licences nobody uses, software not on your approved list, prohibited software, versions past end of support and several versions of one product. Drafts a true-up note; never uninstalls anything.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "software-asset-management",
-        "sam",
-        "licence-compliance",
-        "true-up",
-        "shelfware"
-      ]
-    },
-    {
-      "name": "libeccio-of-telecom",
-      "source": "./packages/libeccio-of-telecom",
-      "description": "Telecom bill review: mobile lines with no use for months, lines still billed for people who left, roaming and premium charges, plans much bigger than the use, two lines for one person and fixed lines nobody calls from. Phone numbers masked for the model. Drafts cancellation lists; never cancels a line.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "telecom-expense",
-        "mobile-bill",
-        "roaming",
-        "tem",
-        "cost-review"
-      ]
-    },
-    {
-      "name": "meltemi-of-backups",
-      "source": "./packages/meltemi-of-backups",
-      "description": "Backup job results review: jobs failing again and again, systems with no good backup inside your recovery point, critical systems no job covers, backups much smaller than usual, no offsite or immutable copy, and retention shorter than your policy. Drafts notes; never starts or deletes a backup.",
+      "name": "fairwire-backup-jobs",
+      "source": "./packages/fairwire-backup-jobs",
+      "description": "Fairwire Backup Jobs: Backup job results review: jobs failing again and again, systems with no good backup inside your recovery point, critical systems no job covers, backups much smaller than usual, no offsite or immutable copy, and retention shorter than your policy. Drafts notes; never starts or deletes a backup.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
@@ -306,65 +80,38 @@
       ]
     },
     {
-      "name": "notus-of-dns",
-      "source": "./packages/notus-of-dns",
-      "description": "DNS query review from resolver logs: names asked again and again, clients with many NXDOMAIN answers, long random-looking names (a tunnelling signal), SERVFAIL spikes, clients asking outside resolvers, and blocked names by client. Drafts a note for the network owner.",
+      "name": "fairwire-call-quality",
+      "source": "./packages/fairwire-call-quality",
+      "description": "Fairwire Call Quality: Call quality review from a phone system or SBC call-detail export: low MOS, packet loss, jitter and latency over your limits, one-way audio, short dropped calls, and sites or trunks where poor calls cluster. Drafts a ticket for the voice provider; never changes a codec or route.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
-        "dns",
-        "resolver",
-        "nxdomain",
-        "dns-tunneling",
-        "query-log"
+        "voip",
+        "call-quality",
+        "mos",
+        "jitter",
+        "sip",
+        "cdr"
       ]
     },
     {
-      "name": "ossa-of-logs",
-      "source": "./packages/ossa-of-logs",
-      "description": "Log retention and coverage: log sources kept for less time than your policy, sources that went quiet, systems in your asset list sending no logs, daily volume jumps that raise cost, and sources kept far longer than policy. Drafts notes for the log platform owner; never changes retention.",
+      "name": "fairwire-change-calendar",
+      "source": "./packages/fairwire-change-calendar",
+      "description": "Fairwire Change Calendar: Change calendar review: changes on the same system that overlap, changes inside a freeze window, changes with no approval, back-out plan or test evidence, risky changes in business hours, emergency changes above your share and systems whose changes fail again and again. Drafts notes for the change board.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
-        "logging",
-        "siem",
-        "log-retention",
-        "observability",
-        "coverage"
+        "change-management",
+        "cab",
+        "itil",
+        "change-calendar",
+        "freeze-window"
       ]
     },
     {
-      "name": "ostro-of-printers",
-      "source": "./packages/ostro-of-printers",
-      "description": "Print fleet review from a print management export: printers nobody uses, the cost per page by device, colour share, devices offline or on old firmware, low supplies, leases ending and printers missing from your asset list. Drafts a consolidation note; never changes a printer.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "printers",
-        "print-management",
-        "mps",
-        "cost-per-page",
-        "leases"
-      ]
-    },
-    {
-      "name": "pheme-of-gateways",
-      "source": "./packages/pheme-of-gateways",
-      "description": "Email gateway review from Proofpoint, Mimecast, Defender or similar exports: high-confidence phishing released from quarantine, allow-listed senders that sent malware, the people targeted most, mail pulled back late, outbound spam from an internal mailbox and data-loss rule hits. Names masked for the model. Drafts notes; never releases or deletes mail.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "email-security",
-        "phishing",
-        "quarantine",
-        "proofpoint",
-        "mimecast"
-      ]
-    },
-    {
-      "name": "sirocco-of-cloud",
-      "source": "./packages/sirocco-of-cloud",
-      "description": "Cloud bill review from AWS, Azure or Google Cloud cost exports: services that jumped month on month, spend with no owner tag, spend in regions you do not use, dev and test resources charged around the clock, data egress, and commitments about to expire. Drafts notes for owners; never changes a cloud account.",
+      "name": "fairwire-cloud-costs",
+      "source": "./packages/fairwire-cloud-costs",
+      "description": "Fairwire Cloud Costs: Cloud bill review from AWS, Azure or Google Cloud cost exports: services that jumped month on month, spend with no owner tag, spend in regions you do not use, dev and test resources charged around the clock, data egress, and commitments about to expire. Drafts notes for owners; never changes a cloud account.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
@@ -377,51 +124,37 @@
       ]
     },
     {
-      "name": "skiron-of-patches",
-      "source": "./packages/skiron-of-patches",
-      "description": "Patch status review from WSUS, Intune, SCCM or any patch export: critical and high updates missing beyond your days-to-patch, devices that stopped reporting, pending reboots, updates that keep failing, operating systems past end of support, and the updates missing on the most devices. Drafts notes; never installs anything.",
+      "name": "fairwire-contract-renewals",
+      "source": "./packages/fairwire-contract-renewals",
+      "description": "Fairwire Contract Renewals: IT contracts and renewals: notice deadlines for auto-renewing contracts, price rises above your cap, contracts with no owner, two contracts for the same service, vendors paid with no contract on file and spend above the contract value. Writes a renewal calendar and drafts notice letters for a person to send.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
-        "patch-management",
-        "wsus",
-        "intune",
-        "sccm",
-        "vulnerability"
+        "contract-management",
+        "it-procurement",
+        "renewals",
+        "vendor-management",
+        "auto-renewal"
       ]
     },
     {
-      "name": "stentor-of-incidents",
-      "source": "./packages/stentor-of-incidents",
-      "description": "Uptime and incident review: services below their availability target, time to acknowledge and to resolve against your targets, incidents with no review written, the same service failing again and again, incidents that followed a change, and the error budget left. Drafts review notes.",
+      "name": "fairwire-dhcp-leases",
+      "source": "./packages/fairwire-dhcp-leases",
+      "description": "Fairwire DHCP Leases: DHCP lease review: scopes near exhaustion, the same address leased to two devices, one device leasing in several scopes, reservations inside the dynamic range, leases from a DHCP server you do not run, and devices missing from your asset list. Drafts a note; never changes a scope.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
-        "incident-management",
-        "uptime",
-        "slo",
-        "mttr",
-        "postmortem"
+        "dhcp",
+        "ip-address-management",
+        "ipam",
+        "scope",
+        "leases"
       ]
     },
     {
-      "name": "talthybius-of-tickets",
-      "source": "./packages/talthybius-of-tickets",
-      "description": "Ticket SLA aging from a service desk export: tickets past their response or resolution target by priority, aging buckets, tickets with no assignee, tickets reopened again and again, tickets parked on hold and the teams with the most breaches. Drafts a status note; never closes a ticket.",
-      "version": "0.1.0",
-      "category": "it-operations",
-      "keywords": [
-        "service-desk",
-        "sla",
-        "itsm",
-        "servicenow",
-        "jira-service-management"
-      ]
-    },
-    {
-      "name": "tramontane-of-directory",
-      "source": "./packages/tramontane-of-directory",
-      "description": "Directory hygiene from Active Directory or Entra exports: computer objects not seen for months, unsupported operating systems, accounts with passwords that never expire or are not required, disabled accounts still in groups, empty groups, groups with no owner and nested group loops. Drafts clean-up lists; never edits the directory.",
+      "name": "fairwire-directory-hygiene",
+      "source": "./packages/fairwire-directory-hygiene",
+      "description": "Fairwire Directory Hygiene: Directory hygiene from Active Directory or Entra exports: computer objects not seen for months, unsupported operating systems, accounts with passwords that never expire or are not required, disabled accounts still in groups, empty groups, groups with no owner and nested group loops. Drafts clean-up lists; never edits the directory.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
@@ -433,9 +166,261 @@
       ]
     },
     {
-      "name": "zephyrus-of-vpn",
-      "source": "./packages/zephyrus-of-vpn",
-      "description": "VPN and remote-access log review: sign-ins from countries outside your list, the same account in two far-apart places at once, failed-login bursts, sessions longer than your limit, accounts of leavers still connecting, shared accounts and old client versions. Names masked for the model. Drafts notes; never disables an account.",
+      "name": "fairwire-dns-queries",
+      "source": "./packages/fairwire-dns-queries",
+      "description": "Fairwire DNS Queries: DNS query review from resolver logs: names asked again and again, clients with many NXDOMAIN answers, long random-looking names (a tunnelling signal), SERVFAIL spikes, clients asking outside resolvers, and blocked names by client. Drafts a note for the network owner.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "dns",
+        "resolver",
+        "nxdomain",
+        "dns-tunneling",
+        "query-log"
+      ]
+    },
+    {
+      "name": "fairwire-dns-records",
+      "source": "./packages/fairwire-dns-records",
+      "description": "Fairwire DNS Records: DNS zone hygiene from a zone export: names pointing at cloud services that may no longer exist (takeover risk), public names pointing at private addresses, duplicate and conflicting records, very short or very long TTLs, wildcards and records pointing at addresses you no longer own. Drafts a change request; never edits DNS.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "dns",
+        "zone-file",
+        "subdomain-takeover",
+        "dangling-cname",
+        "dns-hygiene"
+      ]
+    },
+    {
+      "name": "fairwire-email-gateway",
+      "source": "./packages/fairwire-email-gateway",
+      "description": "Fairwire Email Gateway: Email gateway review from Proofpoint, Mimecast, Defender or similar exports: high-confidence phishing released from quarantine, allow-listed senders that sent malware, the people targeted most, mail pulled back late, outbound spam from an internal mailbox and data-loss rule hits. Names masked for the model. Drafts notes; never releases or deletes mail.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "email-security",
+        "phishing",
+        "quarantine",
+        "proofpoint",
+        "mimecast"
+      ]
+    },
+    {
+      "name": "fairwire-endpoint-protection",
+      "source": "./packages/fairwire-endpoint-protection",
+      "description": "Fairwire Endpoint Protection: Endpoint protection coverage: devices in your asset list with no security agent, agents not reporting, old signatures or agent versions, protection or tamper protection off, passive mode, two security products on one device and high alerts left open. Drafts notes; never isolates or changes a device.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "edr",
+        "antivirus",
+        "endpoint-security",
+        "defender",
+        "crowdstrike"
+      ]
+    },
+    {
+      "name": "fairwire-firewall-rules",
+      "source": "./packages/fairwire-firewall-rules",
+      "description": "Fairwire Firewall Rules: Firewall rule review from a rule export (Palo Alto, FortiGate or any CSV): any-to-any allows, risky ports open from the internet, rules with no hits, rules shadowed by an earlier rule, duplicates, expired temporary rules, rules with no owner or ticket, and allows with logging off. Drafts a change request; never touches the firewall.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "firewall",
+        "rule-review",
+        "palo-alto",
+        "fortigate",
+        "network-security"
+      ]
+    },
+    {
+      "name": "fairwire-log-retention",
+      "source": "./packages/fairwire-log-retention",
+      "description": "Fairwire Log Retention: Log retention and coverage: log sources kept for less time than your policy, sources that went quiet, systems in your asset list sending no logs, daily volume jumps that raise cost, and sources kept far longer than policy. Drafts notes for the log platform owner; never changes retention.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "logging",
+        "siem",
+        "log-retention",
+        "observability",
+        "coverage"
+      ]
+    },
+    {
+      "name": "fairwire-mfa-coverage",
+      "source": "./packages/fairwire-mfa-coverage",
+      "description": "Fairwire MFA Coverage: MFA coverage from an identity provider export: active users with no MFA registered, users with only SMS or voice, administrators without phishing-resistant MFA, people excluded from MFA policy, registered but never used, and shared accounts that can sign in. Names masked for the model. Drafts notes; never changes a policy.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "mfa",
+        "entra-id",
+        "okta",
+        "identity",
+        "phishing-resistant"
+      ]
+    },
+    {
+      "name": "fairwire-mobile-devices",
+      "source": "./packages/fairwire-mobile-devices",
+      "description": "Fairwire Mobile Devices: Mobile device inventory from Intune, Jamf or any MDM export: devices that stopped checking in, old operating systems, no encryption or passcode, jailbroken or rooted devices, devices of people who left and devices with no owner. Names masked for the model. Drafts notes; never wipes or locks a device.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "mdm",
+        "intune",
+        "jamf",
+        "mobile-devices",
+        "byod"
+      ]
+    },
+    {
+      "name": "fairwire-network-traffic",
+      "source": "./packages/fairwire-network-traffic",
+      "description": "Fairwire Network Traffic: Network flow review from a NetFlow, IPFIX or sFlow export: cleartext protocols, risky ports reached from the internet, one host or destination taking most of the bytes, large uploads out of hours and very small packets. Writes a worklist and drafts a change request a network owner applies.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "netflow",
+        "ipfix",
+        "sflow",
+        "network-traffic",
+        "top-talkers"
+      ]
+    },
+    {
+      "name": "fairwire-patch-status",
+      "source": "./packages/fairwire-patch-status",
+      "description": "Fairwire Patch Status: Patch status review from WSUS, Intune, SCCM or any patch export: critical and high updates missing beyond your days-to-patch, devices that stopped reporting, pending reboots, updates that keep failing, operating systems past end of support, and the updates missing on the most devices. Drafts notes; never installs anything.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "patch-management",
+        "wsus",
+        "intune",
+        "sccm",
+        "vulnerability"
+      ]
+    },
+    {
+      "name": "fairwire-print-fleet",
+      "source": "./packages/fairwire-print-fleet",
+      "description": "Fairwire Print Fleet: Print fleet review from a print management export: printers nobody uses, the cost per page by device, colour share, devices offline or on old firmware, low supplies, leases ending and printers missing from your asset list. Drafts a consolidation note; never changes a printer.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "printers",
+        "print-management",
+        "mps",
+        "cost-per-page",
+        "leases"
+      ]
+    },
+    {
+      "name": "fairwire-restore-tests",
+      "source": "./packages/fairwire-restore-tests",
+      "description": "Fairwire Restore Tests: Restore test review: critical systems with no restore test inside your interval, failed tests not re-run, restores slower than the recovery time objective, restored data older than the recovery point, and tests with no sign-off. Writes a test calendar and drafts the next test plan.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "restore-test",
+        "disaster-recovery",
+        "rto",
+        "rpo",
+        "business-continuity"
+      ]
+    },
+    {
+      "name": "fairwire-sign-in-logs",
+      "source": "./packages/fairwire-sign-in-logs",
+      "description": "Fairwire Sign-In Logs: Sign-in log review from Entra ID, Okta or Google exports: password spraying from one address, failed-login bursts, legacy protocols, sign-ins from countries outside your list, the same account in two far-apart places, sign-in attempts on disabled accounts and service accounts used interactively. Names masked for the model. Drafts notes; never blocks an account.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "sign-in-logs",
+        "entra-id",
+        "okta",
+        "password-spray",
+        "identity-threat"
+      ]
+    },
+    {
+      "name": "fairwire-software-licenses",
+      "source": "./packages/fairwire-software-licenses",
+      "description": "Fairwire Software Licenses: Software installs against licences: products installed on more devices than you own licences for, licences nobody uses, software not on your approved list, prohibited software, versions past end of support and several versions of one product. Drafts a true-up note; never uninstalls anything.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "software-asset-management",
+        "sam",
+        "licence-compliance",
+        "true-up",
+        "shelfware"
+      ]
+    },
+    {
+      "name": "fairwire-switch-ports",
+      "source": "./packages/fairwire-switch-ports",
+      "description": "Fairwire Switch Ports: Switch port and VLAN inventory review: user ports in VLAN 1, trunks that carry every VLAN, half duplex and CRC errors, enabled ports unused for months, ports with no description, access ports in a VLAN your plan does not allow, and VLANs nobody uses. Drafts a change request; never changes a switch.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "switch",
+        "vlan",
+        "switchport",
+        "network-inventory",
+        "cisco"
+      ]
+    },
+    {
+      "name": "fairwire-telecom-bills",
+      "source": "./packages/fairwire-telecom-bills",
+      "description": "Fairwire Telecom Bills: Telecom bill review: mobile lines with no use for months, lines still billed for people who left, roaming and premium charges, plans much bigger than the use, two lines for one person and fixed lines nobody calls from. Phone numbers masked for the model. Drafts cancellation lists; never cancels a line.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "telecom-expense",
+        "mobile-bill",
+        "roaming",
+        "tem",
+        "cost-review"
+      ]
+    },
+    {
+      "name": "fairwire-ticket-sla",
+      "source": "./packages/fairwire-ticket-sla",
+      "description": "Fairwire Ticket SLA: Ticket SLA aging from a service desk export: tickets past their response or resolution target by priority, aging buckets, tickets with no assignee, tickets reopened again and again, tickets parked on hold and the teams with the most breaches. Drafts a status note; never closes a ticket.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "service-desk",
+        "sla",
+        "itsm",
+        "servicenow",
+        "jira-service-management"
+      ]
+    },
+    {
+      "name": "fairwire-uptime-incidents",
+      "source": "./packages/fairwire-uptime-incidents",
+      "description": "Fairwire Uptime Incidents: Uptime and incident review: services below their availability target, time to acknowledge and to resolve against your targets, incidents with no review written, the same service failing again and again, incidents that followed a change, and the error budget left. Drafts review notes.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "incident-management",
+        "uptime",
+        "slo",
+        "mttr",
+        "postmortem"
+      ]
+    },
+    {
+      "name": "fairwire-vpn-access",
+      "source": "./packages/fairwire-vpn-access",
+      "description": "Fairwire VPN Access: VPN and remote-access log review: sign-ins from countries outside your list, the same account in two far-apart places at once, failed-login bursts, sessions longer than your limit, accounts of leavers still connecting, shared accounts and old client versions. Names masked for the model. Drafts notes; never disables an account.",
       "version": "0.1.0",
       "category": "it-operations",
       "keywords": [
@@ -444,6 +429,21 @@
         "impossible-travel",
         "brute-force",
         "zero-trust"
+      ]
+    },
+    {
+      "name": "fairwire-wifi-health",
+      "source": "./packages/fairwire-wifi-health",
+      "description": "Fairwire Wi-Fi Health: Wi-Fi controller export review: access points down or on old firmware, 2.4 GHz channels other than 1, 6 and 11, crowded channels, open, WEP or TKIP networks, too many SSIDs per radio, weak clients and rogue access points. Drafts a change request; never changes the controller.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "wifi",
+        "wireless",
+        "access-points",
+        "meraki",
+        "unifi",
+        "aruba"
       ]
     }
   ]

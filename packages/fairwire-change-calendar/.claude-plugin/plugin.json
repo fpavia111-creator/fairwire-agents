@@ -1,0 +1,22 @@
+{
+  "name": "fairwire-change-calendar",
+  "version": "0.1.0",
+  "description": "Fairwire Change Calendar: Change calendar review: changes on the same system that overlap, changes inside a freeze window, changes with no approval, back-out plan or test evidence, risky changes in business hours, emergency changes above your share and systems whose changes fail again and again. Drafts notes for the change board.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-change-calendar#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "change-management",
+    "cab",
+    "itil",
+    "change-calendar",
+    "freeze-window"
+  ]
+}

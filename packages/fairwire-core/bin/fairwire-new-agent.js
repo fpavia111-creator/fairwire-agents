@@ -1,19 +1,22 @@
 #!/usr/bin/env node
-// Scaffold a new Fairwire domain agent: fairwire-new-agent <figure>-of-<process> [--dir packages]
+// Scaffold a new Fairwire domain agent: fairwire-new-agent fairwire-<what-it-does> [--dir packages]
+// Named after the job, 1 to 4 plain words (fairwire-dns-records); tools get the job words as prefix (dns_records_check).
 // The output passes `npm test`, `eval` and `npm pack --dry-run` untouched.
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const name = process.argv[2];
 const dirFlag = process.argv.indexOf('--dir');
 const base = resolve(dirFlag > 0 ? process.argv[dirFlag + 1] : '.');
-if (!name || !/^[a-z]+-of-[a-z]+$/.test(name)) { process.stdout.write('Usage: fairwire-new-agent <figure>-of-<process> [--dir packages]\n'); process.exit(2); }
+if (!name || !/^fairwire(-[a-z0-9]+){1,4}$/.test(name)) { process.stdout.write('Usage: fairwire-new-agent fairwire-<what-it-does> [--dir packages]   (1 to 4 job words, e.g. fairwire-dns-records)\n'); process.exit(2); }
 const root = join(base, name);
 if (existsSync(root)) { process.stderr.write(`${root} already exists\n`); process.exit(1); }
-const pre = name.split('-')[0];
-const Title = name.split('-').map((w) => (w === 'of' ? w : w[0].toUpperCase() + w.slice(1))).join(' ');
+const pre = name.replace(/^fairwire-/, '').replace(/-/g, '_');
+const ACRONYMS = new Set(['ai', 'api', 'dns', 'dhcp', 'vpn', 'mfa', 'sla', 'it', 'ip', 'sso', 'voip']);
+const Title = name.split('-').map((w) => (ACRONYMS.has(w) ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1))).join(' ');
+const coreVersion = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
 const files = {
-  'package.json': JSON.stringify({ name, version: '0.1.0', description: `${Title}: describe the one process this agent owns.`, type: 'module', license: 'MIT', engines: { node: '>=20' }, main: 'src/index.js', exports: { '.': './src/index.js', './package.json': './package.json' }, bin: { [name]: `bin/${name}.js` }, files: ['src', 'bin', 'fixtures', 'evals', 'README.md', 'LICENSE'], scripts: { test: 'node scripts/run-tests.cjs', demo: `node bin/${name}.js demo`, eval: `node bin/${name}.js eval` }, dependencies: { 'fairwire-core': '^0.2.0' }, keywords: ['mcp', 'mcp-server', 'ai-agents', 'fairwire'] }, null, 2) + '\n',
+  'package.json': JSON.stringify({ name, version: '0.1.0', description: `${Title}: describe the one process this agent owns.`, type: 'module', license: 'MIT', engines: { node: '>=20' }, main: 'src/index.js', exports: { '.': './src/index.js', './package.json': './package.json' }, bin: { [name]: `bin/${name}.js` }, files: ['src', 'bin', 'fixtures', 'evals', 'README.md', 'LICENSE'], scripts: { test: 'node scripts/run-tests.cjs', demo: `node bin/${name}.js demo`, eval: `node bin/${name}.js eval` }, dependencies: { 'fairwire-core': `^${coreVersion}` }, keywords: ['mcp', 'mcp-server', 'ai-agents', 'fairwire'] }, null, 2) + '\n',
   [`bin/${name}.js`]: `#!/usr/bin/env node\nimport { fileURLToPath } from 'node:url';\nimport { main } from 'fairwire-core';\nimport { manifest } from '../src/manifest.js';\nimport { demo } from '../src/demo.js';\n\nmain(manifest, { bin: '${name}', demo, evalFile: fileURLToPath(new URL('../evals/cases.json', import.meta.url)) });\n`,
   'src/index.js': `export { manifest } from './manifest.js';\nexport * from './logic.js';\n`,
   'src/logic.js': `import { toNumber } from 'fairwire-core';\n\n/** Pure domain logic: no I/O. */\nexport function summarise(rows) {\n  const total = rows.reduce((s, r) => s + (toNumber(r.amount) || 0), 0);\n  return { rows: rows.length, total };\n}\n`,

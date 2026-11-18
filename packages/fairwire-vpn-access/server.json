@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/fairwire-vpn-access",
+  "title": "Fairwire VPN Access",
+  "description": "Fairwire VPN Access: VPN and remote-access log review: sign-ins from countries outside your list…",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents",
+    "source": "github",
+    "subfolder": "packages/fairwire-vpn-access"
+  },
+  "websiteUrl": "https://fair-agents.com/fairwire.html",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "fairwire-vpn-access",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

@@ -17,7 +17,7 @@ const PK = join(dirname(fileURLToPath(import.meta.url)), '..', 'packages');
 const check = process.argv.includes('--check');
 const only = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 let stale = 0;
-for (const n of readdirSync(PK).filter((x) => /-of-/.test(x) && existsSync(join(PK, x, 'evals', 'cases.json')) && (!only.length || only.includes(x))).sort()) {
+for (const n of readdirSync(PK).filter((x) => /^fairwire-(?!core$)/.test(x) && existsSync(join(PK, x, 'evals', 'cases.json')) && (!only.length || only.includes(x))).sort()) {
   const { manifest } = await import(pathToFileURL(join(PK, n, 'src', 'index.js')).href);
   const file = join(PK, n, 'evals', 'cases.json');
   const data = JSON.parse(readFileSync(file, 'utf8'));
@@ -25,7 +25,7 @@ for (const n of readdirSync(PK).filter((x) => /-of-/.test(x) && existsSync(join(
   const intl = data.cases.filter((c) => /^intl-/.test(c.id));
   const base = hand.find((c) => c.id === 'check-totals');
   if (!base) { console.error(`${n}: no "check-totals" case`); stale++; continue; }
-  const prefix = manifest.tools[0].name.split('_')[0];
+  const prefix = manifest.tools[0].name.replace(/_check$/, '');
   const tool = (re) => manifest.tools.find((t) => re.test(t.name));
   const report = tool(/_write_report$/); const draft = tool(/_draft_/); const request = tool(/_request_/);
   const reqd = manifest.tools.find((t) => t.name === `${prefix}_check`).inputSchema.required || [];
