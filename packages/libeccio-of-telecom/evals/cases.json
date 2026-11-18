@@ -1,0 +1,358 @@
+{
+  "suite": "libeccio-of-telecom",
+  "root": "..",
+  "data_note": "Fictional telecom lines in ../fixtures for September and October 2026. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.month": "2026-10",
+          "result.lines": 8,
+          "result.total": 562.49,
+          "result.roaming": 267.5,
+          "result.open": 7,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "contains": [
+          "line_of_leaver",
+          "left on 2026-09-15",
+          "unused_line",
+          "landline",
+          "roaming_spike",
+          "267.5",
+          "premium_charges",
+          "9.99",
+          "oversized_plan",
+          "of a 50 GB plan",
+          "two_lines_one_user"
+        ]
+      }
+    },
+    {
+      "id": "numbers-and-names-masked",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv"
+      },
+      "expect": {
+        "not_contains": [
+          "555 0100",
+          "Ana Ortiz",
+          "Fay Nunez"
+        ],
+        "matches": [
+          "TEL-[0-9a-f]{8}",
+          "PERSON-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "no-leaver-list",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/lines.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 6,
+          "result.high": 0
+        },
+        "not_contains": [
+          "line_of_leaver"
+        ]
+      }
+    },
+    {
+      "id": "higher-roaming-limit",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "settings": "fixtures/settings-roaming.json"
+      },
+      "expect": {
+        "not_contains": [
+          "roaming_spike"
+        ],
+        "equals": {
+          "result.open": 5
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "libeccio_draft_cancellation_list",
+      "approve": "Pat Example",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 4,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "explain-line",
+      "tool": "libeccio_explain",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "line": "+1 555 0100 204"
+      },
+      "expect": {
+        "contains": [
+          "roaming_spike"
+        ],
+        "equals": {
+          "result.findings": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "libeccio_check",
+      "mode": "review",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.month": "2026-10",
+          "result.lines": 8,
+          "result.total": 562.49,
+          "result.roaming": 267.5,
+          "result.open": 7,
+          "result.high": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "libeccio_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "lines"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "../../../outside.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "libeccio_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "libeccio_write_report",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "libeccio-telecom.csv",
+          "libeccio-telecom.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "libeccio_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "libeccio_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-carrier-cancel-line",
+      "tool": "carrier_cancel_line",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-carrier-dispute-charge",
+      "tool": "carrier_dispute_charge",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "libeccio_draft_cancellation_list",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "libeccio_draft_cancellation_list",
+      "mode": "review",
+      "args": {
+        "lines": "fixtures/lines.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "libeccio_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/intl/de/lines.csv",
+        "leavers": "fixtures/intl/de/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.month": "2026-10",
+          "result.lines": 8,
+          "result.total": 562.49,
+          "result.roaming": 267.5,
+          "result.open": 7,
+          "result.high": 1
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "libeccio_check",
+      "args": {
+        "lines": "fixtures/intl/ja/lines.csv",
+        "leavers": "fixtures/intl/ja/leavers.csv",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.month": "2026-10",
+          "result.lines": 8,
+          "result.total": 562.49,
+          "result.roaming": 267.5,
+          "result.open": 7,
+          "result.high": 1
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

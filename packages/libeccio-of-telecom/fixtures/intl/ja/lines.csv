@@ -1,0 +1,17 @@
+month,回線番号,ユーザー,line_type,料金プラン,金額,データ通信量（GB）,data_allowance_gb,通話分数,roaming_charge,premium_charge
+2026/09/01,+1 555 0100 201,Ana Ortiz,Mobile,Business 50GB,45.00,12,50,320,0.00,0.00
+2026/10/01,+1 555 0100 201,Ana Ortiz,Mobile,Business 50GB,45.00,14,50,300,0.00,0.00
+2026/09/01,+1 555 0100 202,Ben Kim,Mobile,Business 50GB,45.00,3,50,200,0.00,0.00
+2026/10/01,+1 555 0100 202,Ben Kim,Mobile,Business 50GB,45.00,2,50,180,0.00,0.00
+2026/09/01,+1 555 0100 203,Cy Diaz,Mobile,Business 50GB,45.00,0,50,0,0.00,0.00
+2026/10/01,+1 555 0100 203,Cy Diaz,Mobile,Business 50GB,45.00,0,50,0,0.00,0.00
+2026/09/01,+1 555 0100 204,Dee Lee,Mobile,Business 50GB,45.00,20,50,400,0.00,0.00
+2026/10/01,+1 555 0100 204,Dee Lee,Mobile,Business 50GB,312.50,25,50,410,267.50,0.00
+2026/09/01,+1 555 0100 205,Eli Moss,Mobile,Business 20GB,30.00,8,20,150,0.00,0.00
+2026/10/01,+1 555 0100 205,Eli Moss,Mobile,Business 20GB,39.99,9,20,140,0.00,9.99
+2026/09/01,+1 555 0100 206,Ana Ortiz,Mobile,Data 10GB,20.00,4,10,0,0.00,0.00
+2026/10/01,+1 555 0100 206,Ana Ortiz,Mobile,Data 10GB,20.00,5,10,0,0.00,0.00
+2026/09/01,+1 555 0100 207,Fay Nunez,Mobile,Business 20GB,30.00,6,20,90,0.00,0.00
+2026/10/01,+1 555 0100 207,Fay Nunez,Mobile,Business 20GB,30.00,7,20,95,0.00,0.00
+2026/09/01,+1 555 0300 100,Reception,Landline,Fixed basic,25.00,,,0,0.00,0.00
+2026/10/01,+1 555 0300 100,Reception,Landline,Fixed basic,25.00,,,0,0.00,0.00

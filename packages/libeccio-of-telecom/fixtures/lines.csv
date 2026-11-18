@@ -1,0 +1,17 @@
+month,line_number,user,line_type,plan,monthly_charge,data_gb,data_allowance_gb,minutes,roaming_charge,premium_charge
+2026-09-01,+1 555 0100 201,Ana Ortiz,Mobile,Business 50GB,45,12,50,320,0,0
+2026-10-01,+1 555 0100 201,Ana Ortiz,Mobile,Business 50GB,45,14,50,300,0,0
+2026-09-01,+1 555 0100 202,Ben Kim,Mobile,Business 50GB,45,3,50,200,0,0
+2026-10-01,+1 555 0100 202,Ben Kim,Mobile,Business 50GB,45,2,50,180,0,0
+2026-09-01,+1 555 0100 203,Cy Diaz,Mobile,Business 50GB,45,0,50,0,0,0
+2026-10-01,+1 555 0100 203,Cy Diaz,Mobile,Business 50GB,45,0,50,0,0,0
+2026-09-01,+1 555 0100 204,Dee Lee,Mobile,Business 50GB,45,20,50,400,0,0
+2026-10-01,+1 555 0100 204,Dee Lee,Mobile,Business 50GB,312.5,25,50,410,267.5,0
+2026-09-01,+1 555 0100 205,Eli Moss,Mobile,Business 20GB,30,8,20,150,0,0
+2026-10-01,+1 555 0100 205,Eli Moss,Mobile,Business 20GB,39.99,9,20,140,0,9.99
+2026-09-01,+1 555 0100 206,Ana Ortiz,Mobile,Data 10GB,20,4,10,0,0,0
+2026-10-01,+1 555 0100 206,Ana Ortiz,Mobile,Data 10GB,20,5,10,0,0,0
+2026-09-01,+1 555 0100 207,Fay Nunez,Mobile,Business 20GB,30,6,20,90,0,0
+2026-10-01,+1 555 0100 207,Fay Nunez,Mobile,Business 20GB,30,7,20,95,0,0
+2026-09-01,+1 555 0300 100,Reception,Landline,Fixed basic,25,,,0,0,0
+2026-10-01,+1 555 0300 100,Reception,Landline,Fixed basic,25,,,0,0,0

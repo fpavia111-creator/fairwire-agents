@@ -196,7 +196,8 @@ export class PiiMasker {
    * Used by tools that take a user, host or line as an argument.
    */
   same(raw, given, kind = 'user') {
-    const r = String(raw ?? '').trim(), g = String(given ?? '').trim();
+    // A pseudonym can come back with the punctuation that stood in front of the value ('+TEL-1a2b3c4d' for '+1 555 ...').
+    const r = String(raw ?? '').trim(), given0 = String(given ?? '').trim(); const g = /^[^A-Za-z0-9]+[A-Z]+-[0-9a-f]{8}$/i.test(given0) ? given0.replace(/^[^A-Za-z0-9]+/, '') : given0;
     if (!r || !g) return false;
     if (r.toLowerCase() === g.toLowerCase()) return true;
     const p = PREFIX[kind === 'any_ip' ? 'ip' : kind];
