@@ -1,0 +1,27 @@
+Auftrag;Anwendung;Zustand;Startzeit;Endzeit;size_bytes;copy_type;Beschreibung;Aufbewahrung (Tage)
+Nightly-SQL;SQL-01;Success;12.11.2026 01:00:00;12.11.2026 02:10:00;520.000.000.000;primary;repo-local;30
+Nightly-Files;FILE-01;Success;12.11.2026 01:30:00;12.11.2026 02:00:00;900.000.000.000;primary;repo-local;30
+Nightly-Mail;MAIL-01;Warning;12.11.2026 02:00:00;12.11.2026 03:00:00;300.000.000.000;primary;repo-local;14
+Nightly-Web;WEB-01;Success;12.11.2026 03:00:00;12.11.2026 03:20:00;40.000.000.000;primary;repo-local;30
+Nightly-SQL;SQL-01;Success;13.11.2026 01:00:00;13.11.2026 02:10:00;520.000.000.000;primary;repo-local;30
+Nightly-Files;FILE-01;Success;13.11.2026 01:30:00;13.11.2026 02:00:00;900.000.000.000;primary;repo-local;30
+Nightly-Mail;MAIL-01;Warning;13.11.2026 02:00:00;13.11.2026 03:00:00;300.000.000.000;primary;repo-local;14
+Nightly-Web;WEB-01;Success;13.11.2026 03:00:00;13.11.2026 03:20:00;40.000.000.000;primary;repo-local;30
+Nightly-SQL;SQL-01;Success;14.11.2026 01:00:00;14.11.2026 02:10:00;520.000.000.000;primary;repo-local;30
+Nightly-Files;FILE-01;Success;14.11.2026 01:30:00;14.11.2026 02:00:00;900.000.000.000;primary;repo-local;30
+Nightly-Mail;MAIL-01;Warning;14.11.2026 02:00:00;14.11.2026 03:00:00;300.000.000.000;primary;repo-local;14
+Nightly-Web;WEB-01;Success;14.11.2026 03:00:00;14.11.2026 03:20:00;40.000.000.000;primary;repo-local;30
+Nightly-SQL;SQL-01;Success;15.11.2026 01:00:00;15.11.2026 02:10:00;520.000.000.000;primary;repo-local;30
+Nightly-Files;FILE-01;Failed;15.11.2026 01:30:00;15.11.2026 02:00:00;0;primary;repo-local;30
+Nightly-Mail;MAIL-01;Warning;15.11.2026 02:00:00;15.11.2026 03:00:00;300.000.000.000;primary;repo-local;14
+Nightly-Web;WEB-01;Success;15.11.2026 03:00:00;15.11.2026 03:20:00;40.000.000.000;primary;repo-local;30
+Nightly-SQL;SQL-01;Success;16.11.2026 01:00:00;16.11.2026 02:10:00;520.000.000.000;primary;repo-local;30
+Nightly-Files;FILE-01;Failed;16.11.2026 01:30:00;16.11.2026 02:00:00;0;primary;repo-local;30
+Nightly-Mail;MAIL-01;Warning;16.11.2026 02:00:00;16.11.2026 03:00:00;300.000.000.000;primary;repo-local;14
+Nightly-Web;WEB-01;Success;16.11.2026 03:00:00;16.11.2026 03:20:00;40.000.000.000;primary;repo-local;30
+Nightly-SQL;SQL-01;Success;17.11.2026 01:00:00;17.11.2026 02:10:00;180.000.000.000;primary;repo-local;30
+Nightly-Files;FILE-01;Failed;17.11.2026 01:30:00;17.11.2026 02:00:00;0;primary;repo-local;30
+Nightly-Mail;MAIL-01;Warning;17.11.2026 02:00:00;17.11.2026 03:00:00;300.000.000.000;primary;repo-local;14
+Nightly-Web;WEB-01;Success;17.11.2026 03:00:00;17.11.2026 03:20:00;40.000.000.000;primary;repo-local;30
+Offsite-SQL;SQL-01;Success;16.11.2026 05:00:00;16.11.2026 07:00:00;520.000.000.000;offsite;cloud-vault;90
+Offsite-Files;FILE-01;Success;02.11.2026 05:00:00;02.11.2026 08:00:00;900.000.000.000;offsite;cloud-vault;90

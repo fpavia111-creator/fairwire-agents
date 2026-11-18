@@ -1,0 +1,367 @@
+{
+  "suite": "meltemi-of-backups",
+  "root": "..",
+  "data_note": "Fictional backup history in ../fixtures, measured at the end of 2026-11-17. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "equals": {
+          "result.runs": 26,
+          "result.systems": 4,
+          "result.critical": 4,
+          "result.failed_runs": 3,
+          "result.success_pct": 65.4,
+          "result.open": 8,
+          "result.high": 2
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "contains": [
+          "not_covered",
+          "APP-02",
+          "no_recent_good_backup",
+          "FILE-01",
+          "repeated_failures",
+          "size_drop",
+          "180 GB",
+          "520 GB",
+          "no_offsite_copy",
+          "since 2026-11-02",
+          "short_retention",
+          "14 days",
+          "warnings_ignored"
+        ],
+        "not_contains": [
+          "WEB-01"
+        ]
+      }
+    },
+    {
+      "id": "without-critical-list",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "equals": {
+          "result.critical": 0,
+          "result.open": 5,
+          "result.high": 0
+        },
+        "not_contains": [
+          "not_covered",
+          "no_offsite_copy"
+        ]
+      }
+    },
+    {
+      "id": "a-day-later-everything-is-late",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "as_of": "2026-11-19",
+        "code": "no_recent_good_backup"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 4
+        },
+        "contains": [
+          "MAIL-01 has no good backup in the last 48 hours"
+        ]
+      }
+    },
+    {
+      "id": "explain-file-server",
+      "tool": "meltemi_explain",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17",
+        "system": "file-01"
+      },
+      "expect": {
+        "contains": [
+          "no_recent_good_backup",
+          "repeated_failures",
+          "no_offsite_copy"
+        ],
+        "equals": {
+          "result.findings": 3
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "meltemi_draft_backup_note",
+      "approve": "Pat Example",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 6,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "meltemi_check",
+      "mode": "review",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.runs": 26,
+          "result.systems": 4,
+          "result.critical": 4,
+          "result.failed_runs": 3,
+          "result.success_pct": 65.4,
+          "result.open": 8,
+          "result.high": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 2
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "meltemi_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "jobs"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "../../../outside.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "meltemi_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "meltemi_write_report",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "meltemi-backups.csv",
+          "meltemi-backups.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "meltemi_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "meltemi_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-backup-start-job",
+      "tool": "backup_start_job",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-backup-delete-restore-points",
+      "tool": "backup_delete_restore_points",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "meltemi_draft_backup_note",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "meltemi_draft_backup_note",
+      "mode": "review",
+      "args": {
+        "jobs": "fixtures/jobs.csv",
+        "critical": "fixtures/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "meltemi_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "fixtures/intl/de/jobs.csv",
+        "critical": "fixtures/intl/de/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "equals": {
+          "result.runs": 26,
+          "result.systems": 4,
+          "result.critical": 4,
+          "result.failed_runs": 3,
+          "result.success_pct": 65.4,
+          "result.open": 8,
+          "result.high": 2
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "meltemi_check",
+      "args": {
+        "jobs": "fixtures/intl/ja/jobs.csv",
+        "critical": "fixtures/intl/ja/critical.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-17"
+      },
+      "expect": {
+        "equals": {
+          "result.runs": 26,
+          "result.systems": 4,
+          "result.critical": 4,
+          "result.failed_runs": 3,
+          "result.success_pct": 65.4,
+          "result.open": 8,
+          "result.high": 2
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}
