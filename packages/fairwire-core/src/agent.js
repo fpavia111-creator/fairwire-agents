@@ -82,7 +82,7 @@ export function wireAgent(cfg) {
   const out = `fairwire-out/${prefix}`;
   const MEMORY = memoryTools(prefix, { known_exception: KNOWN_EXCEPTION, ...(cfg.memoryKinds || {}) });
   const refused = refusedTools(cfg.refused || []);
-  const drafts = cfg.drafts ? draftPair({ prefix, outDir: out, ...cfg.drafts }) : { tools: [], rules: [] };
+  const drafts = cfg.drafts ? draftPair({ prefix, outDir: out, ...cfg.drafts }) : cfg.note ? draftPair({ prefix, outDir: out, ...noteDraft(cfg, () => evaluate) }) : { tools: [], rules: [] };
   const checkName = `${prefix}_check`, explainName = `${prefix}_explain`, reportName = `${prefix}_write_report`;
 
   /** Run the agent's checks, sort, apply accepted exceptions and count. */
@@ -179,6 +179,41 @@ export function wireAgent(cfg) {
       { tool: '*', decision: 'block', reason: `Not on the ${cfg.title} allowlist.` },
     ] },
   });
+}
+
+const SEV_ORDER = ['high', 'medium', 'low', 'info'];
+const cell = (v) => String(v ?? '').replace(/\|/g, '/').replace(/?
+/g, ' ').trim();
+
+/**
+ * The standard draft: a note listing the open findings at or above a severity, for the person
+ * or team who acts on them. cfg.note: { noun, verb, category, actor, to, subject, ask }.
+ */
+function noteDraft(cfg, getEvaluate) {
+  const n = cfg.note;
+  return {
+    noun: n.noun, verb: n.verb || 'send', category: n.category || 'binding_send', actor: n.actor || 'a person',
+    description: `Write drafts/${n.noun}-<date>.md: the open findings at or above min_severity (default medium), each with what to do, addressed to ${n.to}. Marked DRAFT; nothing is sent or changed. Approving it goes through ${cfg.prefix}_request_${n.verb || 'send'} (one named click); ${n.actor || 'a person'} acts on it.`,
+    required: cfg.required || [],
+    args: { ...cfg.args, to: { type: 'string', maxLength: 200, description: `Who the note goes to (default: a placeholder for ${n.to} to confirm)` }, min_severity: { type: 'string', enum: ['high', 'medium', 'low', 'info'], description: 'Lowest severity to include (default medium)' } },
+    build: async (a, ctx) => {
+      const o = await getEvaluate()(a, ctx);
+      const floor = SEV_ORDER.indexOf(a.min_severity || 'medium');
+      const items = o.items.filter((i) => !i.accepted && SEV_ORDER.indexOf(i.severity) <= floor);
+      if (!items.length) throw new Error(`no open findings at ${a.min_severity || 'medium'} or above to put in the note`);
+      const day = isoDate(a.as_of) || isoDate(new Date().toISOString());
+      const text = [
+        `**To:** ${a.to ? cell(a.to) : `[TO CONFIRM ${n.to}]`}`,
+        `**Subject:** ${n.subject} (${items.length} item(s), ${day})`, '',
+        cell(cfg.summary(o)), '',
+        '| # | Severity | Finding | About | Suggested next step |', '|---|---|---|---|---|',
+        ...items.map((i, k) => `| ${k + 1} | ${i.severity} | ${cell(i.message)} | ${cell(i.subject ?? i.key)} | ${cell(i.fix)} |`), '',
+        n.ask, '',
+        `Nothing in this note has been applied. ${n.actor ? n.actor[0].toUpperCase() + n.actor.slice(1) : 'A person'} decides and makes each change.`,
+      ].join('\n');
+      return { id: day, to: a.to || null, text, extra: { items: items.length } };
+    },
+  };
 }
 
 /** Read an optional settings file, validated against the agent's schema, merged over defaults. */

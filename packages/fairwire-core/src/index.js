@@ -24,7 +24,7 @@ export { readTable, TABLE_EXTENSIONS } from './tables.js';
 export { EXPORTS, exportProfile, carryGroup, firstRowPer, fullName, EXPORTS_BASIS_NOTE } from './exports.js';
 export { adaptRecords, readYesNo, parseAnyDate, inferDateOrder, cleanAmount, inferDecimal, normHeader, findHeaderRow, encodingWarning, conceptOf, stripUnit, unitInHeader, UNITS, DEFAULT_UNITS, describeSources, loadSourceOverrides, overrideFor, kindsByArg, columnShape, SOURCES_CONFIG_SCHEMA, SOURCES_FILE, FIELD_TYPES } from './sources.js';
 export { sha256, sha256File, canonical, safePath, readRecords, toNumber, round2 } from './util.js';
-export { demoRuntime, printStep } from './demo.js';
+export { demoRuntime, printStep, standardDemo } from './demo.js';
 export { foldText, readNumber, numberReader } from './intl.js';
 export { decodeText, encodingName, ENCODINGS } from './encoding.js';
 export { COLUMN_WORDS, COLUMN_LANGUAGES, FIELD_CONCEPTS, translatedNames, namesFor } from './i18n/columns.js';

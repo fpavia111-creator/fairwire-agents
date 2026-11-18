@@ -30,8 +30,8 @@ const agents = readdirSync(PK).filter((n) => /-of-/.test(n) && (!only.length || 
 
 // Seeded PRNG (mulberry32) so a run is repeatable.
 const rng = (seed) => () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-// Freight ids too: tracking, PRO, B/L, RMA, container, load and shipment numbers are unique per copy.
-const IDCOL = /internalid|externalid|(^|_)(id|ref|reference|number|no|sku|key|code|pro|bol|bl|awb|rma|tracking|container|load|shipment|booking|entry|receipt)$|^(id|sku|ref|login|user|username|email|mail|serial|tracking|pro|bol|rma|container|awb)$|email|invoice|order|request|po$|^fitid/i;
+// IT ids too: hosts, devices, serials, rules, jobs, tickets, lines and request ids are unique per copy.
+const IDCOL = /internalid|externalid|(^|_)(id|ref|reference|number|no|sku|key|code|host|hostname|device|computer|serial|rule|job|ticket|line|endpoint|ap|switch|printer|server|record|contract|source|system)$|^(id|sku|ref|login|user|username|email|mail|serial|tracking|pro|bol|rma|container|awb)$|email|invoice|order|request|po$|^fitid/i;
 const AMOUNT = /amount|total|price|cost|value|balance|qty|quantity|limit/i;
 
 // Copies of a row get a copy number k (1, 2, ...). Ids, emails and references get "-k",

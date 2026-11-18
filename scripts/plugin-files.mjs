@@ -16,9 +16,9 @@ for (const n of pkgs) {
   const desc = ((s) => s[0].toUpperCase() + s.slice(1))(p.description.replace(/^[A-Z]\w+ of [A-Z]\w+:\s*/, ''));
   want.set(join('packages', n, '.claude-plugin', 'plugin.json'), { name: n, version: p.version, description: desc, author: { name: p.author }, license: p.license, homepage: p.homepage, keywords: p.keywords });
   want.set(join('packages', n, '.mcp.json'), { mcpServers: { [n]: { command: 'npx', args: ['-y', `${n}@${p.version}`, 'mcp'] } } });
-  plugins.push({ name: n, source: `./packages/${n}`, description: desc, version: p.version, category: 'freight', keywords: [...new Set(p.keywords.filter((k) => !['mcp', 'mcp-server', 'fairwire'].includes(k)))] });
+  plugins.push({ name: n, source: `./packages/${n}`, description: desc, version: p.version, category: 'it-operations', keywords: [...new Set(p.keywords.filter((k) => !['mcp', 'mcp-server', 'fairwire', 'it-operations', 'network'].includes(k)))] });
 }
-want.set(join('.claude-plugin', 'marketplace.json'), { name: 'fairwire-freight', owner: { name: 'Fairwire' }, metadata: { description: 'Thirty freight and shipping cost agents. Each reads your exported files, writes reports locally and waits for a named person before anything that moves money, sends a message or changes a live system.' }, plugins });
+want.set(join('.claude-plugin', 'marketplace.json'), { name: 'fairwire-it', owner: { name: 'Mythos Machines' }, metadata: { description: 'Thirty-one IT and network agents. Each reads files an IT team exports, writes reports locally and waits for a named person before anything that changes a live device, firewall, DNS zone, directory or cloud account.' }, plugins });
 let stale = 0;
 for (const [rel, obj] of want) {
   const f = join(root, rel); const text = JSON.stringify(obj, null, 2) + '\n';
