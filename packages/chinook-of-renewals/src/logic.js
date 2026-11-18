@@ -56,11 +56,11 @@ export function reviewContracts(contractRows, spendRows = [], settings = {}, asO
   }
   const live = cs.filter((c) => !asOf || c.end >= asOf);
   const bySvc = new Map(); for (const c of live) if (c.service) bySvc.set(low(c.service), [...(bySvc.get(low(c.service)) || []), c]);
-  for (const [, list] of bySvc) if (list.length > 1) { const ids = list.map((c) => c.id).sort(); items.push(finding('overlapping_contracts', 'medium', ids.join('+'), `${list.length} contracts cover ${list[0].service} at once (${list.map((c) => `${c.id} with ${c.vendor}`).sort().join(', ')}).`, 'Keep one and plan the exit from the other at its next notice date.', { subject: list[0].vendor })); }
+  for (const [, list0] of bySvc) if (list0.length > 1) { const list = [...list0].sort((a, b) => (a.id < b.id ? -1 : 1)); const ids = list.map((c) => c.id).sort(); items.push(finding('overlapping_contracts', 'medium', ids.join('+'), `${list.length} contracts cover ${list[0].service} at once (${list.map((c) => `${c.id} with ${c.vendor}`).sort().join(', ')}).`, 'Keep one and plan the exit from the other at its next notice date.', { subject: list[0].vendor })); }
   const year = asOf ? addDays(asOf, -365) : null;
   const sp = spendRows.filter((r) => str(r.vendor) && isoDate(r.date)).map((r) => ({ vendor: str(r.vendor), vk: vkey(r.vendor), amount: num(r.amount) || 0, date: isoDate(r.date) })).filter((p) => !year || p.date >= year);
   const byV = new Map(); for (const p of sp) byV.set(p.vk, [...(byV.get(p.vk) || []), p]);
-  for (const [vk, pays] of byV) {
+  for (const [vk, pays0] of byV) { const pays = [...pays0].sort((a, b) => (a.vendor < b.vendor ? -1 : a.vendor > b.vendor ? 1 : a.date < b.date ? -1 : 1));
     const total = round2(pays.reduce((t, p) => t + p.amount, 0)); const mine = cs.filter((c) => c.vk === vk);
     if (!mine.length) { items.push(finding('spend_without_contract', 'medium', pays[0].vendor, `${pays[0].vendor} was paid ${total} in the last 12 months with no contract on file.`, 'Find the contract or order form and add it, or move the spend to a contracted vendor.', { subject: pays[0].vendor, amount: total })); continue; }
     const lastEnd = mine.map((c) => c.end).sort().at(-1); const after = pays.filter((p) => p.date > lastEnd);

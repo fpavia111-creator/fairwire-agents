@@ -1,0 +1,7 @@
+contract_id,vendor,service,owner,start_date,end_date,auto_renew,notice_days,annual_value,uplift_pct
+CT-101,Example Backup Inc.,Backup service,Ana Ortiz,2024-01-01,2026-12-31,yes,30,12000,3
+CT-102,Northwind Monitoring Ltd,Network monitoring,Ben Kim,2025-02-01,2027-01-31,yes,60,8000,9
+CT-103,Contoso Helpdesk,Service desk tool,,2024-03-01,2027-02-28,yes,90,15000,4
+CT-104,Fabrikam Security,Endpoint protection,Cy Diaz,2025-06-01,2027-05-31,no,0,20000,0
+CT-105,Tailspin Endpoint,Endpoint protection,Cy Diaz,2026-01-01,2026-12-31,yes,90,9000,5
+CT-106,Old Phone Co,Telephony,Dee Lee,2023-01-01,2026-09-30,no,0,6000,0
