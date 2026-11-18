@@ -1,0 +1,4 @@
+{
+  "stale_days": 30,
+  "min_os": { "iOS": "17.0", "Android": "13" }
+}

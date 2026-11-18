@@ -1,0 +1,9 @@
+デバイス,ユーザー,オペレーティングシステム,OSバージョン,ownership,最終チェックイン,暗号化,passcode,jailbroken,準拠状態,imei
+IPH-101,aortiz@corp.example,iOS,18.1,Corporate,2026/11/17 08:00:00,yes,yes,no,Compliant,350000000000101
+IPH-102,bkim@corp.example,iOS,16.7.2,Corporate,2026/11/17 08:00:00,yes,yes,no,Noncompliant,350000000000102
+AND-103,cdiaz@corp.example,Android,14,Personal,2026/11/16 08:00:00,yes,yes,yes,Noncompliant,350000000000103
+AND-104,dlee@corp.example,Android,12,Personal,2026/11/16 08:00:00,no,yes,no,Noncompliant,350000000000104
+IPH-105,emoss@corp.example,iOS,18.1,Corporate,2026/09/20 08:00:00,yes,yes,no,Compliant,350000000000105
+IPH-106,fnunez@corp.example,iOS,18.0,Corporate,2026/11/15 08:00:00,yes,yes,no,Compliant,350000000000106
+IPD-107,,iPadOS,18.1,Corporate,2026/11/17 08:00:00,yes,yes,no,Compliant,350000000000107
+AND-108,gpark@corp.example,Android,15,Corporate,2026/11/17 08:00:00,yes,yes,no,Noncompliant,350000000000108

@@ -1,0 +1,356 @@
+{
+  "suite": "eurybates-of-mobiles",
+  "root": "..",
+  "data_note": "Fictional mobile devices in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.devices": 8,
+          "result.personal": 2,
+          "result.open": 8,
+          "result.high": 3
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "jailbroken",
+          "AND-103",
+          "leaver_device",
+          "IPH-106",
+          "no_passcode_or_encryption",
+          "no encryption",
+          "stale_check_in",
+          "2026-09-20",
+          "old_os",
+          "16.7.2",
+          "no_owner",
+          "IPD-107",
+          "noncompliant",
+          "AND-108"
+        ],
+        "not_contains": [
+          "IPH-101"
+        ]
+      }
+    },
+    {
+      "id": "users-and-imeis-masked",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "not_contains": [
+          "corp.example",
+          "350000000000"
+        ],
+        "matches": [
+          "USR-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "no-minimum-os",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 6,
+          "result.high": 2
+        },
+        "not_contains": [
+          "old_os",
+          "leaver_device"
+        ]
+      }
+    },
+    {
+      "id": "explain-android",
+      "tool": "eurybates_explain",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "device": "android"
+      },
+      "expect": {
+        "contains": [
+          "jailbroken",
+          "no_passcode_or_encryption",
+          "old_os",
+          "noncompliant"
+        ],
+        "equals": {
+          "result.findings": 4
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "eurybates_draft_device_note",
+      "approve": "Pat Example",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 6,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "eurybates_check",
+      "mode": "review",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.devices": 8,
+          "result.personal": 2,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 3
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "eurybates_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "devices"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "../../../outside.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "eurybates_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "eurybates_write_report",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "eurybates-mobiles.csv",
+          "eurybates-mobiles.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "eurybates_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "eurybates_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-mdm-wipe-device",
+      "tool": "mdm_wipe_device",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-mdm-change-policy",
+      "tool": "mdm_change_policy",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "eurybates_draft_device_note",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "eurybates_draft_device_note",
+      "mode": "review",
+      "args": {
+        "devices": "fixtures/devices.csv",
+        "leavers": "fixtures/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "eurybates_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "fixtures/intl/de/devices.csv",
+        "leavers": "fixtures/intl/de/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.devices": 8,
+          "result.personal": 2,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "eurybates_check",
+      "args": {
+        "devices": "fixtures/intl/ja/devices.csv",
+        "leavers": "fixtures/intl/ja/leavers.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.devices": 8,
+          "result.personal": 2,
+          "result.open": 8,
+          "result.high": 3
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

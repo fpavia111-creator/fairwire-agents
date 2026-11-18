@@ -1,0 +1,57 @@
+{
+  "name": "eurybates-of-mobiles",
+  "version": "0.1.0",
+  "description": "Eurybates of Mobiles: Mobile device inventory from Intune, Jamf or any MDM export: devices that stopped checking in, old operating systems, no encryption or passcode, jailbroken or rooted devices, devices of people who left and devices with no owner. Names masked for the model. Drafts notes; never wipes or locks a device.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "eurybates-of-mobiles": "bin/eurybates-of-mobiles.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/eurybates-of-mobiles.js demo",
+    "eval": "node bin/eurybates-of-mobiles.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/eurybates-of-mobiles"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/eurybates-of-mobiles#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "mdm",
+    "intune",
+    "jamf",
+    "mobile-devices",
+    "byod"
+  ]
+}
