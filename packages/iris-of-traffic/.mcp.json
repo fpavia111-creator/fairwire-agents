@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "iris-of-traffic": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "iris-of-traffic@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

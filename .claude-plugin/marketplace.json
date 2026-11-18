@@ -1,0 +1,25 @@
+{
+  "name": "fairwire-it",
+  "owner": {
+    "name": "Mythos Machines"
+  },
+  "metadata": {
+    "description": "Thirty-one IT and network agents. Each reads files an IT team exports, writes reports locally and waits for a named person before anything that changes a live device, firewall, DNS zone, directory or cloud account."
+  },
+  "plugins": [
+    {
+      "name": "iris-of-traffic",
+      "source": "./packages/iris-of-traffic",
+      "description": "Network flow review from a NetFlow, IPFIX or sFlow export: cleartext protocols, risky ports reached from the internet, one host or destination taking most of the bytes, large uploads out of hours and very small packets. Writes a worklist and drafts a change request a network owner applies.",
+      "version": "0.1.0",
+      "category": "it-operations",
+      "keywords": [
+        "netflow",
+        "ipfix",
+        "sflow",
+        "network-traffic",
+        "top-talkers"
+      ]
+    }
+  ]
+}

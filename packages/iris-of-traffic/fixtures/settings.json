@@ -1,0 +1,4 @@
+{
+  "allowed_inbound": ["10.0.5.10:3389"],
+  "business_hours": [7, 19]
+}
