@@ -48,7 +48,7 @@ export function reviewChanges(rows, freezeRows = [], settings = {}) {
   const items = []; const [h0, h1] = s.business_hours;
   for (const c of cs) {
     const f = fz.find((x) => overlaps(c.start, c.end, x.start, x.end));
-    if (f) items.push(finding('in_freeze_window', c.type === 'emergency' ? 'medium' : 'high', c.id, `${c.id} on ${c.system} (${c.start}) falls inside the "${f.name}" freeze.`, c.type === 'emergency' ? 'Make sure the emergency is real and the freeze owner has agreed.' : 'Move it after the freeze, or get the freeze owner\'s written exception.', { subject: c.system }));
+    if (f) items.push(finding('in_freeze_window', c.type === 'emergency' ? 'medium' : 'high', c.id, `${c.id} on ${c.system} (${c.start}) falls inside the freeze window "${f.name}".`, c.type === 'emergency' ? 'Make sure the emergency is real and the freeze owner has agreed.' : 'Move it after the freeze, or get the freeze owner\'s written exception.', { subject: c.system }));
     if (c.type !== 'standard' && !c.approved) items.push(finding('not_approved', 'high', c.id, `${c.type === 'emergency' ? 'Emergency change' : 'Change'} ${c.id} on ${c.system} has no approval recorded.`, 'Get the approval before the window, or postpone the change.', { subject: c.system }));
     if (c.type !== 'standard' && !c.backout) items.push(finding('no_backout_plan', 'medium', c.id, `${c.id} on ${c.system} has no back-out plan.`, 'Write down how to undo it and how long that takes.', { subject: c.system }));
     if (c.type === 'normal' && !c.tested) items.push(finding('no_test_evidence', 'low', c.id, `${c.id} on ${c.system} has no test evidence.`, 'Attach what was tested and where.', { subject: c.system }));

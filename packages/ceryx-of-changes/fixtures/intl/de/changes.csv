@@ -1,0 +1,9 @@
+change_id;Anwendung;Produkt;Startzeit;Endzeit;risk;Typ;approval;backout_plan;test_evidence;outcome;requester
+CHG-6001;ERP;Upgrade database engine;24.11.2026 22:00:00;25.11.2026 02:00:00;High;Normal;Approved;Restore snapshot;Tested in staging;;Ana Ortiz
+CHG-6002;ERP;Patch app servers;24.11.2026 23:00:00;25.11.2026 01:00:00;High;Normal;Approved;Re-image from template;Tested in staging;;Ben Kim
+CHG-6003;Web shop;New payment page;27.11.2026 10:00:00;27.11.2026 12:00:00;High;Normal;Pending;Redeploy previous release;;;Cy Diaz
+CHG-6004;Firewall;Open port for vendor;20.11.2026 14:00:00;20.11.2026 15:00:00;Medium;Emergency;Approved;;n/a;;Dee Lee
+CHG-6005;Email;Change spam policy;19.11.2026 20:00:00;19.11.2026 21:00:00;Low;Standard;;;;;Eli Moss
+CHG-5990;Web shop;Cache settings;02.11.2026 21:00:00;02.11.2026 22:00:00;Medium;Normal;Approved;Revert config;Tested;Rolled back;Cy Diaz
+CHG-5995;Web shop;CDN rules;09.11.2026 21:00:00;09.11.2026 22:00:00;Medium;Normal;Approved;Revert config;Tested;Failed;Cy Diaz
+CHG-5996;HR system;Release 4.2;10.11.2026 21:00:00;10.11.2026 23:00:00;Medium;Normal;Approved;Redeploy 4.1;Tested;Successful;Fay Nunez
