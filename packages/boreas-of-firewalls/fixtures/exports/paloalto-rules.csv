@@ -1,0 +1,4 @@
+Name,Tags,Type,Source Zone,Source Address,Destination Zone,Destination Address,Application,Service,Action,Description,Rule Usage Hit Count,Rule Usage Last Hit
+allow-web-out,CHG-1002,universal,trust,10.0.0.0/8,untrust,any,any,"tcp/80,443",allow,Outbound web,900000,2026-11-17
+rdp-from-internet,,universal,untrust,any,dmz,10.0.5.20,any,tcp/3389,allow,Vendor support access,340,2026-11-16
+any-any-test,,universal,trust,any,trust,any,any,any,allow,,5,2026-11-10

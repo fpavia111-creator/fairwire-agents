@@ -1,0 +1,12 @@
+position;rule_id;Aktiviert;Aktion;src_zone;dst_zone;Quelle;Ziel-IP;Serviceart;Treffer;Letzter Treffer;log;Beschreibung;Verantwortlich;Ticketnummer;Ablaufdatum
+1;allow-dns-out;yes;allow;trust;untrust;10.0.0.0/8;any;udp/53;50.000;17.11.2026;yes;Outbound DNS;Network Team;CHG-1001;
+2;allow-web-out;yes;allow;trust;untrust;10.0.0.0/8;any;tcp/80,443;900.000;17.11.2026;yes;Outbound web;Network Team;CHG-1002;
+3;rdp-from-internet;yes;allow;untrust;dmz;any;10.0.5.20;tcp/3389;340;16.11.2026;yes;Vendor support access;Ana Ortiz;;
+4;temp-vendor-ftp;yes;allow;untrust;dmz;198.51.100.0/24;10.0.5.30;tcp/21;12;02.08.2026;yes;Vendor file drop;Ben Kim;CHG-1003;30.09.2026
+5;any-any-test;yes;allow;trust;trust;any;any;any;5;10.11.2026;no;;;;
+6;allow-web-out-copy;yes;allow;trust;untrust;10.1.0.0/16;any;tcp/443;0;;yes;Branch web;Network Team;CHG-1004;
+7;allow-dns-out-2;yes;allow;trust;untrust;10.0.0.0/8;any;udp/53;0;;yes;Outbound DNS again;Network Team;CHG-1001;
+8;legacy-smb;yes;allow;trust;dmz;10.0.0.0/8;10.0.5.40;tcp/445;0;;yes;Old file share;Network Team;CHG-0999;
+9;block-bad;yes;deny;untrust;any;any;any;any;120.000;17.11.2026;yes;Default deny;Network Team;CHG-0001;
+10;old-rule;disabled;allow;trust;dmz;10.0.3.0/24;10.0.5.50;tcp/8080;0;;yes;Retired app;Network Team;CHG-0500;
+11;mgmt-ssh;yes;allow;trust;mgmt;10.0.9.0/24;10.0.0.1;tcp/22;800;15.11.2026;yes;Admin SSH;Network Team;CHG-1005;
