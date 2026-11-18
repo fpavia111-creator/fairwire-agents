@@ -1,0 +1,5 @@
+{
+  "idle_pages": 100,
+  "cost_per_page_max": 0.25,
+  "lease_notice_days": 90
+}

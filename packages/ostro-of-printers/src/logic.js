@@ -23,8 +23,8 @@ export const PRINTER_FIELDS = Object.freeze({
   color_pages: { type: 'number', aliases: ['Colour Pages', 'Color Pages', 'Color Pages (month)'] },
   supply_pct: { type: 'number', aliases: ['Lowest Supply %', 'Toner %', 'Supply Level', 'Toner Level', 'Ink Level'] },
   lease_monthly: { type: 'money', aliases: ['Lease Monthly', 'Monthly Lease', 'Rental', 'Service Fee'] },
-  mono_click: { type: 'money', aliases: ['Mono Click', 'Mono CPP', 'Black Click Rate', 'Mono Cost Per Page'] },
-  color_click: { type: 'money', aliases: ['Colour Click', 'Color Click', 'Color CPP', 'Color Cost Per Page'] },
+  mono_click: { type: 'number', aliases: ['Mono Click', 'Mono CPP', 'Black Click Rate', 'Mono Cost Per Page'] },
+  color_click: { type: 'number', aliases: ['Colour Click', 'Color Click', 'Color CPP', 'Color Cost Per Page'] },
   lease_end: { type: 'date', aliases: ['Lease End', 'Contract End', 'End Date', 'Lease Expiry'] },
 });
 export const ASSET_FIELDS = Object.freeze({ printer: { aliases: ['Printer', 'Device Name', 'Name', 'Hostname', 'Asset Name'], required: true } });
