@@ -182,8 +182,7 @@ export function wireAgent(cfg) {
 }
 
 const SEV_ORDER = ['high', 'medium', 'low', 'info'];
-const cell = (v) => String(v ?? '').replace(/\|/g, '/').replace(/?
-/g, ' ').trim();
+const cell = (v) => String(v ?? '').replace(/[|]/g, '/').replace(/[\r\n]+/g, ' ').trim();
 
 /**
  * The standard draft: a note listing the open findings at or above a severity, for the person
