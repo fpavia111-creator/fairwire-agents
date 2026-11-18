@@ -1,0 +1,11 @@
+asset_id;Rechnername;Seriennummer;Zustand;Verantwortlich;Lagerort;Modell;warranty_end
+AST-1001;LAPTOP-101;SN-A1001;In use;Ana Ortiz;HQ 2nd floor;Latitude 7450;01.03.2028
+AST-1002;LAPTOP-102;SN-A1002;In use;Ben Kim;HQ 2nd floor;Latitude 7450;01.03.2028
+AST-1003;LAPTOP-103;SN-A1003;Retired;;Storeroom;Latitude 5420;01.06.2025
+AST-1004;LAPTOP-104;SN-A1004;In use;Cy Diaz;;Latitude 5420;15.12.2026
+AST-1005;DESK-105;SN-A1005;In use;Dee Lee;Branch 2;OptiPlex 7010;01.10.2026
+AST-1006;LAPTOP-106;SN-A1006;In use;Eli Moss;HQ 3rd floor;Latitude 7450;01.03.2028
+AST-1007;LAPTOP-107;SN-A1006;In use;Fay Nunez;HQ 3rd floor;Latitude 7450;01.03.2028
+AST-1008;SRV-108;SN-S1008;In use;;Server room;PowerEdge R650;01.01.2029
+AST-1009;LAPTOP-109;SN-A1009;In use;Gus Park;Branch 2;Latitude 7450;01.03.2028
+AST-1010;LAPTOP-110;SN-A1010;In use;Hal Quinn;HQ 2nd floor;Latitude 7450;01.03.2028

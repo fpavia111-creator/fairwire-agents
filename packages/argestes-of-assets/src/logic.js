@@ -41,18 +41,18 @@ const serialKey = (v) => str(v).toUpperCase().replace(/[\s-]/g, '');
 export function reviewAssets(cmdbRows, seenRows, settings = {}, asOf) {
   const s = { ...DEFAULTS, ...settings };
   const retired = (st) => s.retired_words.some((w) => low(st).includes(low(w)));
-  const cmdb = cmdbRows.filter((r) => str(r.asset_id)).map((r) => ({ id: str(r.asset_id), host: hostKey(r.hostname), hostShown: str(r.hostname), serial: serialKey(r.serial), status: str(r.status), owner: str(r.owner), location: str(r.location), warranty: isoDate(r.warranty_end) }));
-  const seen = seenRows.filter((r) => (str(r.hostname) || str(r.serial)) && isoDate(r.last_seen)).map((r) => ({ host: hostKey(r.hostname), hostShown: str(r.hostname), serial: serialKey(r.serial), source: str(r.source) || 'discovery', last: isoDate(r.last_seen) }));
+  const cmdb = cmdbRows.filter((r) => str(r.asset_id)).map((r) => ({ id: str(r.asset_id), host: hostKey(r.hostname), hostShown: str(r.hostname), serial: serialKey(r.serial), serialShown: str(r.serial), status: str(r.status), owner: str(r.owner), location: str(r.location), warranty: isoDate(r.warranty_end) }));
+  const seen = seenRows.filter((r) => (str(r.hostname) || str(r.serial)) && isoDate(r.last_seen)).map((r) => ({ host: hostKey(r.hostname), hostShown: str(r.hostname), serial: serialKey(r.serial), serialShown: str(r.serial), source: str(r.source) || 'discovery', last: isoDate(r.last_seen) }));
   const bySerial = new Map(); const byHost = new Map();
   for (const c of cmdb) { if (c.serial) bySerial.set(c.serial, [...(bySerial.get(c.serial) || []), c]); if (c.host) byHost.set(c.host, [...(byHost.get(c.host) || []), c]); }
   const items = []; const lastSeen = new Map();
   for (const x of seen) {
     const match = (x.serial && bySerial.get(x.serial)) || (x.host && byHost.get(x.host)) || null;
-    if (!match) { items.push(finding('not_in_cmdb', 'medium', x.serial || x.hostShown, `${x.hostShown || x.serial} (serial ${x.serial || 'unknown'}) was seen by ${x.source} on ${x.last} but has no CMDB record.`, 'Create the record with owner and location, or find out why an unknown device is on the network.', { subject: x.hostShown || x.serial })); continue; }
+    if (!match) { items.push(finding('not_in_cmdb', 'medium', x.serialShown || x.hostShown, `${x.hostShown || x.serialShown} (serial ${x.serialShown || 'unknown'}) was seen by ${x.source} on ${x.last} but has no CMDB record.`, 'Create the record with owner and location, or find out why an unknown device is on the network.', { subject: x.hostShown || x.serial })); continue; }
     for (const c of match) { const prev = lastSeen.get(c.id); if (!prev || x.last > prev.last) lastSeen.set(c.id, x); }
-    if (x.serial && x.host && match.length === 1 && match[0].serial === x.serial && match[0].host && match[0].host !== x.host) items.push(finding('hostname_mismatch', 'low', match[0].id, `${match[0].id} is ${match[0].hostShown} in the CMDB but ${x.hostShown} in ${x.source} (serial ${x.serial}).`, 'Update the CMDB name, or check whether the serial was copied onto the wrong record.', { subject: match[0].id }));
+    if (x.serial && x.host && match.length === 1 && match[0].serial === x.serial && match[0].host && match[0].host !== x.host) items.push(finding('hostname_mismatch', 'low', match[0].id, `${match[0].id} is ${match[0].hostShown} in the CMDB but ${x.hostShown} in ${x.source} (serial ${x.serialShown}).`, 'Update the CMDB name, or check whether the serial was copied onto the wrong record.', { subject: match[0].id }));
   }
-  for (const [serial, list] of bySerial) if (list.length > 1) items.push(finding('duplicate_serial', 'medium', serial, `Serial ${serial} is on ${list.length} CMDB records (${list.map((c) => c.id).sort().join(', ')}).`, 'Merge the records and keep the one with the right owner and history.', { subject: serial }));
+  for (const [serial, list] of bySerial) if (list.length > 1) items.push(finding('duplicate_serial', 'medium', list[0].serialShown, `Serial ${list[0].serialShown} is on ${list.length} CMDB records (${list.map((c) => c.id).sort().join(', ')}).`, 'Merge the records and keep the one with the right owner and history.', { subject: list[0].serialShown }));
   for (const c of cmdb) {
     const x = lastSeen.get(c.id); const age = x ? daysBetween(x.last, asOf) : null;
     if (retired(c.status)) { if (x && age !== null && age <= s.recent_days) items.push(finding('retired_but_seen', 'high', c.id, `${c.id} is "${c.status}" in the CMDB but ${x.source} saw it on ${x.last}.`, 'Find the device: either it was never retired, or someone is using a device that should be gone.', { subject: c.id })); continue; }
