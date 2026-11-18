@@ -84,7 +84,7 @@ export function reviewWifi({ aps = [], ssids = [], clients = [], rogues = [] }, 
   }
   for (const r of ssids) {
     const n = str(r.ssid); if (!n || yes(r.enabled) === false) continue; const sec = low(r.security);
-    if (/wep|tkip/.test(sec)) items.push(finding('weak_security', 'high', n, `Network "${n}" uses ${str(r.security)}, which can be broken in minutes.`, 'Move its devices to WPA2 or WPA3 (AES); replace devices that cannot.', { subject: n }));
+    if (/wep|tkip/.test(sec)) items.push(finding('weak_security', 'high', n, `Network "${n}" uses ${str(r.security)}, which is no longer considered secure.`, 'Move its devices to WPA2 or WPA3 (AES); replace devices that cannot.', { subject: n }));
     else if (/^(open|none|no security|unsecured|-)?$/.test(sec) || /^open/.test(sec)) items.push(finding('weak_security', /guest|visitor/i.test(n) ? 'low' : 'medium', n, `Network "${n}" has no password${/guest|visitor/i.test(n) ? ' (guest network)' : ''}.`, /guest|visitor/i.test(n) ? 'Keep it isolated from inside networks; consider OWE (enhanced open).' : 'Add WPA2 or WPA3, or isolate it like a guest network.', { subject: n }));
   }
   const cl = new Map();

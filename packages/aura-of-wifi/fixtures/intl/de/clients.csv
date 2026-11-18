@@ -1,0 +1,10 @@
+Hostname;Gerät;Frequenzband;rssi;capable_5ghz
+laptop-101;AP-HQ-02;5;-80;yes
+laptop-102;AP-HQ-02;5;-82;yes
+phone-103;AP-HQ-02;5;-78;yes
+laptop-104;AP-HQ-02;5;-60;yes
+phone-105;AP-HQ-01;2.4;-55;yes
+laptop-106;AP-HQ-01;2.4;-58;yes
+tablet-107;AP-HQ-01;2.4;-61;yes
+scanner-108;AP-HQ-01;2.4;-50;no
+laptop-109;AP-WH-02;5;-62;yes

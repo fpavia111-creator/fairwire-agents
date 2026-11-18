@@ -1,0 +1,6 @@
+Netzwerkname;security;Aktiviert
+Corp;WPA2-Enterprise;yes
+Guest;Open;yes
+Scanner;WPA-TKIP;yes
+Legacy-Cam;WEP;yes
+Old-Test;Open;no

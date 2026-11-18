@@ -1,0 +1,4 @@
+bssid;Netzwerkname;on_wire;classification
+AA:BB:CC:00:11:01;Corp;no;rogue
+AA:BB:CC:00:11:02;Free-WiFi;yes;rogue
+AA:BB:CC:00:11:03;NeighborNet;no;neighbor

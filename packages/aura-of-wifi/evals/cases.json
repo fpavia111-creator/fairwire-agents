@@ -1,0 +1,391 @@
+{
+  "suite": "aura-of-wifi",
+  "root": "..",
+  "data_note": "Fictional access points, networks, clients and rogues in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "aura_check",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.access_points": 5,
+          "result.radios": 10,
+          "result.offline": 1,
+          "result.networks": 5,
+          "result.clients": 9,
+          "result.open": 12,
+          "result.high": 5
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "aura_check",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "rogue_ap",
+          "wired network",
+          "own network names",
+          "weak_security",
+          "WEP",
+          "WPA-TKIP",
+          "guest network",
+          "ap_offline",
+          "AP-WH-01",
+          "old_firmware",
+          "10.3.0",
+          "bad_24_channel",
+          "channel 3",
+          "crowded_channel",
+          "too_many_ssids",
+          "weak_clients",
+          "sticky_24_clients"
+        ],
+        "not_contains": [
+          "NeighborNet",
+          "Old-Test"
+        ]
+      }
+    },
+    {
+      "id": "access-points-only",
+      "tool": "aura_check",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 5,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "minimum-firmware-setting",
+      "tool": "aura_check",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "settings": "fixtures/settings-firmware.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 7
+        },
+        "contains": [
+          "your minimum is 10.0"
+        ]
+      }
+    },
+    {
+      "id": "explain-busy-ap",
+      "tool": "aura_explain",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "ap": "AP-HQ-02"
+      },
+      "expect": {
+        "contains": [
+          "bad_24_channel",
+          "crowded_channel",
+          "too_many_ssids",
+          "weak_clients"
+        ],
+        "equals": {
+          "result.findings": 4
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "aura_draft_change_request",
+      "approve": "Pat Example",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 7,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "aura_check",
+      "mode": "review",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.access_points": 5,
+          "result.radios": 10,
+          "result.offline": 1,
+          "result.networks": 5,
+          "result.clients": 9,
+          "result.open": 12,
+          "result.high": 5
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "aura_check",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 5
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "aura_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "aps"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "aura_check",
+      "args": {
+        "aps": "../../../outside.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "aura_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "aura_write_report",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "aura-wifi.csv",
+          "aura-wifi.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "aura_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "aura_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-controller-apply-config",
+      "tool": "controller_apply_config",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-wifi-contain-rogue",
+      "tool": "wifi_contain_rogue",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "aura_draft_change_request",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "aura_draft_change_request",
+      "mode": "review",
+      "args": {
+        "aps": "fixtures/aps.csv",
+        "ssids": "fixtures/ssids.csv",
+        "clients": "fixtures/clients.csv",
+        "rogues": "fixtures/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "aura_request_submit",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "aura_check",
+      "args": {
+        "aps": "fixtures/intl/de/aps.csv",
+        "ssids": "fixtures/intl/de/ssids.csv",
+        "clients": "fixtures/intl/de/clients.csv",
+        "rogues": "fixtures/intl/de/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.access_points": 5,
+          "result.radios": 10,
+          "result.offline": 1,
+          "result.networks": 5,
+          "result.clients": 9,
+          "result.open": 12,
+          "result.high": 5
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "aura_check",
+      "args": {
+        "aps": "fixtures/intl/ja/aps.csv",
+        "ssids": "fixtures/intl/ja/ssids.csv",
+        "clients": "fixtures/intl/ja/clients.csv",
+        "rogues": "fixtures/intl/ja/rogues.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.access_points": 5,
+          "result.radios": 10,
+          "result.offline": 1,
+          "result.networks": 5,
+          "result.clients": 9,
+          "result.open": 12,
+          "result.high": 5
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

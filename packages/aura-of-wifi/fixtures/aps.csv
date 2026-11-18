@@ -1,0 +1,11 @@
+ap,site,model,firmware,status,last_seen,band,channel,utilization_pct,ssid_count
+AP-HQ-01,HQ,MR46,10.4.2,online,2026-11-18 08:00:00,2.4,1,35,3
+AP-HQ-01,HQ,MR46,10.4.2,online,2026-11-18 08:00:00,5,36,20,3
+AP-HQ-02,HQ,MR46,10.4.2,online,2026-11-18 08:00:00,2.4,3,80,6
+AP-HQ-02,HQ,MR46,10.4.2,online,2026-11-18 08:00:00,5,44,25,6
+AP-HQ-03,HQ,MR46,10.3.0,online,2026-11-18 08:00:00,2.4,11,30,3
+AP-HQ-03,HQ,MR46,10.3.0,online,2026-11-18 08:00:00,5,149,15,3
+AP-WH-01,Warehouse,MR36,9.8.1,offline,2026-11-10 07:12:00,2.4,6,0,3
+AP-WH-01,Warehouse,MR36,9.8.1,offline,2026-11-10 07:12:00,5,36,0,3
+AP-WH-02,Warehouse,MR36,9.8.1,online,2026-11-18 08:00:00,2.4,6,22,3
+AP-WH-02,Warehouse,MR36,9.8.1,online,2026-11-18 08:00:00,5,40,18,3
