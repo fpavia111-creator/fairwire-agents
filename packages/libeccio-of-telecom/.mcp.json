@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "libeccio-of-telecom": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "libeccio-of-telecom@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

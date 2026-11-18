@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "meltemi-of-backups": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "meltemi-of-backups@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

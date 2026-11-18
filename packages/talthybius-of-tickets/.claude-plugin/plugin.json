@@ -1,0 +1,22 @@
+{
+  "name": "talthybius-of-tickets",
+  "version": "0.1.0",
+  "description": "Ticket SLA aging from a service desk export: tickets past their response or resolution target by priority, aging buckets, tickets with no assignee, tickets reopened again and again, tickets parked on hold and the teams with the most breaches. Drafts a status note; never closes a ticket.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/talthybius-of-tickets#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "service-desk",
+    "sla",
+    "itsm",
+    "servicenow",
+    "jira-service-management"
+  ]
+}

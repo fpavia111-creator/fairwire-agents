@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "ostro-of-printers": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "ostro-of-printers@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "echo-of-voip",
+  "version": "0.1.0",
+  "description": "Call quality review from a phone system or SBC call-detail export: low MOS, packet loss, jitter and latency over your limits, one-way audio, short dropped calls, and sites or trunks where poor calls cluster. Drafts a ticket for the voice provider; never changes a codec or route.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/echo-of-voip#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "voip",
+    "call-quality",
+    "mos",
+    "jitter",
+    "sip",
+    "cdr"
+  ]
+}

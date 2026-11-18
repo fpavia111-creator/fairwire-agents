@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "angelia-of-signins": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "angelia-of-signins@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

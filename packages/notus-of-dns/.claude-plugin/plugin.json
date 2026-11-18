@@ -1,0 +1,22 @@
+{
+  "name": "notus-of-dns",
+  "version": "0.1.0",
+  "description": "DNS query review from resolver logs: names asked again and again, clients with many NXDOMAIN answers, long random-looking names (a tunnelling signal), SERVFAIL spikes, clients asking outside resolvers, and blocked names by client. Drafts a note for the network owner.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/notus-of-dns#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "dns",
+    "resolver",
+    "nxdomain",
+    "dns-tunneling",
+    "query-log"
+  ]
+}

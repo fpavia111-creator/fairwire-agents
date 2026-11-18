@@ -1,0 +1,22 @@
+{
+  "name": "ossa-of-logs",
+  "version": "0.1.0",
+  "description": "Log retention and coverage: log sources kept for less time than your policy, sources that went quiet, systems in your asset list sending no logs, daily volume jumps that raise cost, and sources kept far longer than policy. Drafts notes for the log platform owner; never changes retention.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/ossa-of-logs#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "logging",
+    "siem",
+    "log-retention",
+    "observability",
+    "coverage"
+  ]
+}

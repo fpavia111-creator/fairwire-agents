@@ -1,0 +1,23 @@
+{
+  "name": "aura-of-wifi",
+  "version": "0.1.0",
+  "description": "Wi-Fi controller export review: access points down or on old firmware, 2.4 GHz channels other than 1, 6 and 11, crowded channels, open, WEP or TKIP networks, too many SSIDs per radio, weak clients and rogue access points. Drafts a change request; never changes the controller.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/aura-of-wifi#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "wifi",
+    "wireless",
+    "access-points",
+    "meraki",
+    "unifi",
+    "aruba"
+  ]
+}

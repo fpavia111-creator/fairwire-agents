@@ -1,6 +1,12 @@
 # fairwire-core
 
-The shared core for **Fairwire Machine domain agents**: small MCP agents that each own one business process and cannot act outside it.
+The shared core for the **Fairwire IT and network agents** (Mythos Machines): small MCP agents that each own one IT job and cannot act outside it. Forked from lodestar-core (with its Windows fixes of 18 November 2026) and extended with:
+
+- **Personal-data masking** (`pii.js`): names, sign-in names, e-mail addresses, phone numbers, device ids and client addresses become stable HMAC pseudonyms before any result reaches the model; files written for the team keep the real values. `--pii mask|strict|off`; off is recorded on every audit line.
+- **IT helpers** (`it.js`): IPv4/IPv6, CIDR ranges, private and public addresses, port lists and coverage, MAC addresses, version comparison, dates, counts and sorts that do not depend on row order.
+- **The agent builder** (`agent.js`, `wireAgent`): check, explain, report, a draft note with a one-click request, accepted exceptions (`known_exception` memory) and refused live actions, from one short description per agent.
+
+The parts below come from lodestar-core unchanged in behaviour:
 
 - **Pack manifest** — name, version, a declared model pin, the tool allowlist and the policy. `defineManifest()` fails closed: an unpinned model (`latest`), a tool without a rule, a write marked `allow`, or a one-click action marked `allow` are rejected at load time.
 - **Talos-style policy** — every tool call gets `allow`, `ask` or `block`. Unknown tools are blocked. The default is block.

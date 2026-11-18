@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "aparctias-of-restores": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "aparctias-of-restores@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

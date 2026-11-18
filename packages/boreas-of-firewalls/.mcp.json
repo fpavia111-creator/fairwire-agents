@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "boreas-of-firewalls": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "boreas-of-firewalls@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

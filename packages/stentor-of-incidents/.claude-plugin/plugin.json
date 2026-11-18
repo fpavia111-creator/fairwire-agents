@@ -1,0 +1,22 @@
+{
+  "name": "stentor-of-incidents",
+  "version": "0.1.0",
+  "description": "Uptime and incident review: services below their availability target, time to acknowledge and to resolve against your targets, incidents with no review written, the same service failing again and again, incidents that followed a change, and the error budget left. Drafts review notes.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/stentor-of-incidents#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "incident-management",
+    "uptime",
+    "slo",
+    "mttr",
+    "postmortem"
+  ]
+}

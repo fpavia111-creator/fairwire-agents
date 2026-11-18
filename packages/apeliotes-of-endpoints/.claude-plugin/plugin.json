@@ -1,0 +1,22 @@
+{
+  "name": "apeliotes-of-endpoints",
+  "version": "0.1.0",
+  "description": "Endpoint protection coverage: devices in your asset list with no security agent, agents not reporting, old signatures or agent versions, protection or tamper protection off, passive mode, two security products on one device and high alerts left open. Drafts notes; never isolates or changes a device.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/apeliotes-of-endpoints#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "edr",
+    "antivirus",
+    "endpoint-security",
+    "defender",
+    "crowdstrike"
+  ]
+}

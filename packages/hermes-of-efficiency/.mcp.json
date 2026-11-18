@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "hermes-of-efficiency": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "hermes-of-efficiency@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

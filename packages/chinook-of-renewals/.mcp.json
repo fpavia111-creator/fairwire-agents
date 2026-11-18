@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "chinook-of-renewals": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chinook-of-renewals@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

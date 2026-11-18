@@ -1,0 +1,23 @@
+{
+  "name": "hermes-of-efficiency",
+  "version": "0.1.0",
+  "description": "AI usage review from an LLM usage or request log: the same prompt sent again and again, very large prompts, a large model used for tiny jobs, answers cut off at the output limit, and spend by app and model from a price table you supply. Drafts notes for the app owner.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/hermes-of-efficiency#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "llm",
+    "ai-usage",
+    "token-cost",
+    "prompt-caching",
+    "openai",
+    "anthropic"
+  ]
+}

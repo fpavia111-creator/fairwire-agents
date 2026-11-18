@@ -1,0 +1,22 @@
+{
+  "name": "aparctias-of-restores",
+  "version": "0.1.0",
+  "description": "Restore test review: critical systems with no restore test inside your interval, failed tests not re-run, restores slower than the recovery time objective, restored data older than the recovery point, and tests with no sign-off. Writes a test calendar and drafts the next test plan.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/aparctias-of-restores#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "restore-test",
+    "disaster-recovery",
+    "rto",
+    "rpo",
+    "business-continuity"
+  ]
+}

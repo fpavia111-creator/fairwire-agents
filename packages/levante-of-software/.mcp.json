@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "levante-of-software": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "levante-of-software@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

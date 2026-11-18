@@ -1,0 +1,22 @@
+{
+  "name": "bora-of-mfa",
+  "version": "0.1.0",
+  "description": "MFA coverage from an identity provider export: active users with no MFA registered, users with only SMS or voice, administrators without phishing-resistant MFA, people excluded from MFA policy, registered but never used, and shared accounts that can sign in. Names masked for the model. Drafts notes; never changes a policy.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/bora-of-mfa#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "mfa",
+    "entra-id",
+    "okta",
+    "identity",
+    "phishing-resistant"
+  ]
+}

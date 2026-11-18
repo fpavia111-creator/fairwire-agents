@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "icarus-of-retries": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "icarus-of-retries@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

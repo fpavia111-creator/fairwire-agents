@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "pheme-of-gateways": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "pheme-of-gateways@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

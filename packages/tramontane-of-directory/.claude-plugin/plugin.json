@@ -1,0 +1,22 @@
+{
+  "name": "tramontane-of-directory",
+  "version": "0.1.0",
+  "description": "Directory hygiene from Active Directory or Entra exports: computer objects not seen for months, unsupported operating systems, accounts with passwords that never expire or are not required, disabled accounts still in groups, empty groups, groups with no owner and nested group loops. Drafts clean-up lists; never edits the directory.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/tramontane-of-directory#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "active-directory",
+    "entra-id",
+    "directory-hygiene",
+    "stale-objects",
+    "groups"
+  ]
+}

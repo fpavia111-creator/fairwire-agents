@@ -39,7 +39,9 @@ for (const n of agents) {
   const data = JSON.parse(readFileSync(join(PK, n, 'evals', 'cases.json'), 'utf8'));
   // intl-* cases already read German or Japanese files; translating those again tests nothing.
   const cases = (data.cases || data).filter((c) => !/^intl-/.test(c.id));
-  const csvCases = cases.filter((c) => argFiles(c.args).length);
+  // Named vendor layouts under fixtures/exports/ (Palo Alto, AWS CUR, Entra ID) keep the vendor's own
+  // column names in every country, so translating their headers would test nothing real: they are left out.
+  const csvCases = cases.filter((c) => argFiles(c.args).length && !argFiles(c.args).some(([, f]) => /fixtures[/]exports[/]/.test(f)));
   if (!csvCases.length) { summary.push({ agent: n, cases: 0 }); continue; }
   const base = await runEvals(manifest, strip(csvCases), { root: join(PK, n) });
   const passedEn = new Set(base.results.filter((r) => r.pass).map((r) => r.id));

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "zephyrus-of-vpn": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "zephyrus-of-vpn@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

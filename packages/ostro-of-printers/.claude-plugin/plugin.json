@@ -1,0 +1,22 @@
+{
+  "name": "ostro-of-printers",
+  "version": "0.1.0",
+  "description": "Print fleet review from a print management export: printers nobody uses, the cost per page by device, colour share, devices offline or on old firmware, low supplies, leases ending and printers missing from your asset list. Drafts a consolidation note; never changes a printer.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/ostro-of-printers#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "printers",
+    "print-management",
+    "mps",
+    "cost-per-page",
+    "leases"
+  ]
+}

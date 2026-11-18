@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "tramontane-of-directory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tramontane-of-directory@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}
