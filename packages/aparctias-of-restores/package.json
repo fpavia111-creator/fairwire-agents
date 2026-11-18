@@ -1,0 +1,57 @@
+{
+  "name": "aparctias-of-restores",
+  "version": "0.1.0",
+  "description": "Aparctias of Restores: Restore test review: critical systems with no restore test inside your interval, failed tests not re-run, restores slower than the recovery time objective, restored data older than the recovery point, and tests with no sign-off. Writes a test calendar and drafts the next test plan.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "aparctias-of-restores": "bin/aparctias-of-restores.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/aparctias-of-restores.js demo",
+    "eval": "node bin/aparctias-of-restores.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/aparctias-of-restores"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/aparctias-of-restores#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "restore-test",
+    "disaster-recovery",
+    "rto",
+    "rpo",
+    "business-continuity"
+  ]
+}

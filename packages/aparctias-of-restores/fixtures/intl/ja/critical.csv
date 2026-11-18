@@ -1,0 +1,6 @@
+アプリケーション,rto_minutes,rpo_hours,test_interval_days
+SQL-01,240,24,180
+FILE-01,480,24,180
+MAIL-01,480,24,180
+ERP-01,240,4,90
+HR-APP,480,24,365

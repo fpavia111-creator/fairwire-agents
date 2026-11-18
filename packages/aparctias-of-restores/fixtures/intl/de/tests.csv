@@ -1,0 +1,8 @@
+test_id;Anwendung;tested_on;result;restore_minutes;data_age_hours;signed_off_by
+RT-101;SQL-01;10.02.2026;Pass;95;6;Ana Ortiz
+RT-102;SQL-01;12.08.2026;Pass;310;8;Ana Ortiz
+RT-103;FILE-01;05.09.2026;Fail;;;Ben Kim
+RT-104;MAIL-01;01.03.2026;Pass;120;30;Cy Diaz
+RT-105;WEB-01;20.10.2026;Pass;40;4;
+RT-106;HR-APP;15.07.2026;Fail;;;Dee Lee
+RT-107;HR-APP;29.07.2026;Pass;180;12;Dee Lee
