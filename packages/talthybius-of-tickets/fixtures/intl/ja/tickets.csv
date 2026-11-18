@@ -1,0 +1,12 @@
+チケット番号,優先度,起票日時,first_response_at,解決日時,state,担当チーム,assignee,reopen_count
+INC-1001,1 - Critical,2026/11/18 21:00:00,2026/11/18 21:20:00,,In Progress,Network,Ana Ortiz,0
+INC-1002,2 - High,2026/11/16 09:00:00,2026/11/16 10:00:00,,In Progress,Service Desk,Ben Kim,0
+INC-1003,3 - Moderate,2026/11/17 09:00:00,,,New,Service Desk,,0
+INC-1004,3 - Moderate,2026/11/10 09:00:00,2026/11/10 12:00:00,,On Hold,Applications,Cy Diaz,0
+INC-1005,4 - Low,2026/11/12 09:00:00,2026/11/12 11:00:00,2026/11/14 09:00:00,Resolved,Service Desk,Ben Kim,3
+INC-1006,3 - Moderate,2026/11/01 09:00:00,2026/11/01 10:00:00,2026/11/07 09:00:00,Resolved,Applications,Cy Diaz,0
+INC-1007,3 - Moderate,2026/11/02 09:00:00,2026/11/02 10:00:00,2026/11/08 09:00:00,Resolved,Applications,Dee Lee,0
+INC-1008,2 - High,2026/11/15 09:00:00,2026/11/15 15:00:00,2026/11/15 20:00:00,Resolved,Network,Ana Ortiz,0
+INC-1009,4 - Low,2026/11/17 14:00:00,2026/11/17 15:00:00,,In Progress,Service Desk,Ben Kim,0
+INC-1010,3 - Moderate,2026/11/16 10:00:00,2026/11/16 11:00:00,2026/11/16 15:00:00,Resolved,Network,Eli Moss,0
+INC-1011,4 - Low,2026/10/01 09:00:00,2026/10/01 10:00:00,,Awaiting user,Applications,Dee Lee,1

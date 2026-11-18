@@ -57,7 +57,7 @@ export function reviewTickets(rows, settings = {}, asOf) {
     if (isOpen && /hold|pending|waiting/i.test(t.state) && age > s.hold_days * 24) items.push(finding('parked_on_hold', 'low', t.id, `Ticket ${t.id} is "${t.state}" and was opened ${round1(age / 24)} days ago.`, 'Chase the person it waits for, or close it with a note.', { subject: t.team }));
     if (t.reopen >= s.reopen_min) items.push(finding('reopened_often', 'low', t.id, `Ticket ${t.id} was reopened ${t.reopen} times.`, 'Look for the root cause instead of closing it again.', { subject: t.team }));
   }
-  for (const tm of Object.values(teams)) { const sh = pct(tm.breached, tm.tickets); if (tm.tickets >= 3 && sh > s.team_breach_pct) items.push(finding('team_breach_rate', 'medium', tm.team, `${sh}% of ${tm.team}'s tickets missed their resolution target (${tm.breached} of ${tm.tickets}).`, 'Look at staffing, triage and the priorities the team receives.', { subject: tm.team })); }
+  for (const tm of Object.values(teams)) { const sh = pct(tm.breached, tm.tickets); if (tm.tickets >= 3 && sh > s.team_breach_pct) items.push(finding('team_breach_rate', 'medium', tm.team, `${sh}% of the tickets for ${tm.team} missed their resolution target (${tm.breached} of ${tm.tickets}).`, 'Look at staffing, triage and the priorities the team receives.', { subject: tm.team })); }
   const open = ts.filter((t) => OPEN(t.state) && !Number.isFinite(t.res)); const ageDays = (t) => (now - t.open) / 86400000;
   const buckets = { under_1_day: 0, '1_to_7_days': 0, '8_to_30_days': 0, over_30_days: 0 };
   for (const t of open) { const d = ageDays(t); buckets[d < 1 ? 'under_1_day' : d <= 7 ? '1_to_7_days' : d <= 30 ? '8_to_30_days' : 'over_30_days']++; }

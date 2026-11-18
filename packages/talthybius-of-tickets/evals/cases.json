@@ -1,0 +1,334 @@
+{
+  "suite": "talthybius-of-tickets",
+  "root": "..",
+  "data_note": "Fictional tickets in ../fixtures, measured at the end of 2026-11-18 in calendar hours. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.tickets": 11,
+          "result.open_tickets": 6,
+          "result.aging.over_30_days": 1,
+          "result.open": 11,
+          "result.high": 1
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "resolution_breached",
+          "INC-1002",
+          "response_breached",
+          "after 6 hours",
+          "no_assignee",
+          "INC-1003",
+          "team_breach_rate",
+          "Applications",
+          "parked_on_hold",
+          "INC-1011",
+          "reopened_often",
+          "3 times"
+        ],
+        "not_contains": [
+          "INC-1001"
+        ]
+      }
+    },
+    {
+      "id": "assignees-masked",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "not_contains": [
+          "Ana Ortiz",
+          "Ben Kim"
+        ]
+      }
+    },
+    {
+      "id": "tighter-p2-target",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings-tight.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 2
+        }
+      }
+    },
+    {
+      "id": "explain-team",
+      "tool": "talthybius_explain",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "ticket": "Applications"
+      },
+      "expect": {
+        "contains": [
+          "team_breach_rate",
+          "parked_on_hold"
+        ]
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "talthybius_draft_status_note",
+      "approve": "Pat Example",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 8,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "talthybius_check",
+      "mode": "review",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.tickets": 11,
+          "result.open_tickets": 6,
+          "result.aging.over_30_days": 1,
+          "result.open": 11,
+          "result.high": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 1
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "talthybius_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "tickets"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "../../../outside.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "talthybius_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "talthybius_write_report",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "talthybius-tickets.csv",
+          "talthybius-tickets.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "talthybius_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "talthybius_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-itsm-update-ticket",
+      "tool": "itsm_update_ticket",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-itsm-notify-requester",
+      "tool": "itsm_notify_requester",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "talthybius_draft_status_note",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "talthybius_draft_status_note",
+      "mode": "review",
+      "args": {
+        "tickets": "fixtures/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "talthybius_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "fixtures/intl/de/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.tickets": 11,
+          "result.open_tickets": 6,
+          "result.aging.over_30_days": 1,
+          "result.open": 11,
+          "result.high": 1
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "talthybius_check",
+      "args": {
+        "tickets": "fixtures/intl/ja/tickets.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.tickets": 11,
+          "result.open_tickets": 6,
+          "result.aging.over_30_days": 1,
+          "result.open": 11,
+          "result.high": 1
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}
