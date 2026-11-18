@@ -1,6 +1,7 @@
 {
   "name": "skiron-of-patches",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/skiron-of-patches",
   "description": "Skiron of Patches: Patch status review from WSUS, Intune, SCCM or any patch export: critical and high updates missing beyond your days-to-patch, devices that stopped reporting, pending reboots, updates that keep failing, operating systems past end of support, and the updates missing on the most devices. Drafts notes; never installs anything.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

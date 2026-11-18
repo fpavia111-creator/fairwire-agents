@@ -1,6 +1,7 @@
 {
   "name": "boreas-of-firewalls",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/boreas-of-firewalls",
   "description": "Boreas of Firewalls: Firewall rule review from a rule export (Palo Alto, FortiGate or any CSV): any-to-any allows, risky ports open from the internet, rules with no hits, rules shadowed by an earlier rule, duplicates, expired temporary rules, rules with no owner or ticket, and allows with logging off. Drafts a change request; never touches the firewall.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

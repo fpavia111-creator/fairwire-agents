@@ -1,6 +1,7 @@
 {
   "name": "etesian-of-zones",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/etesian-of-zones",
   "description": "Etesian of Zones: DNS zone hygiene from a zone export: names pointing at cloud services that may no longer exist (takeover risk), public names pointing at private addresses, duplicate and conflicting records, very short or very long TTLs, wildcards and records pointing at addresses you no longer own. Drafts a change request; never edits DNS.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

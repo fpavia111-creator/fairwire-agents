@@ -1,6 +1,7 @@
 {
   "name": "pheme-of-gateways",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/pheme-of-gateways",
   "description": "Pheme of Gateways: Email gateway review from Proofpoint, Mimecast, Defender or similar exports: high-confidence phishing released from quarantine, allow-listed senders that sent malware, the people targeted most, mail pulled back late, outbound spam from an internal mailbox and data-loss rule hits. Names masked for the model. Drafts notes; never releases or deletes mail.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

@@ -1,6 +1,7 @@
 {
   "name": "tramontane-of-directory",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/tramontane-of-directory",
   "description": "Tramontane of Directory: Directory hygiene from Active Directory or Entra exports: computer objects not seen for months, unsupported operating systems, accounts with passwords that never expire or are not required, disabled accounts still in groups, empty groups, groups with no owner and nested group loops. Drafts clean-up lists; never edits the directory.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

@@ -1,6 +1,7 @@
 {
   "name": "kaikias-of-leases",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/kaikias-of-leases",
   "description": "Kaikias of Leases: DHCP lease review: scopes near exhaustion, the same address leased to two devices, one device leasing in several scopes, reservations inside the dynamic range, leases from a DHCP server you do not run, and devices missing from your asset list. Drafts a note; never changes a scope.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

@@ -1,6 +1,7 @@
 {
   "name": "bora-of-mfa",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/bora-of-mfa",
   "description": "Bora of Mfa: MFA coverage from an identity provider export: active users with no MFA registered, users with only SMS or voice, administrators without phishing-resistant MFA, people excluded from MFA policy, registered but never used, and shared accounts that can sign in. Names masked for the model. Drafts notes; never changes a policy.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

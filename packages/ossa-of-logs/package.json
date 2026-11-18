@@ -1,6 +1,7 @@
 {
   "name": "ossa-of-logs",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/ossa-of-logs",
   "description": "Ossa of Logs: Log retention and coverage: log sources kept for less time than your policy, sources that went quiet, systems in your asset list sending no logs, daily volume jumps that raise cost, and sources kept far longer than policy. Drafts notes for the log platform owner; never changes retention.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

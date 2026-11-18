@@ -61,8 +61,8 @@ Bora of Mfa demo (fictional data) in a temporary folder, Auto on for the draft o
 
 ▶ Explain one finding
   status: executed  decision: allow
-  medium excluded_from_mfa: PERSON-f60b6fab (USR-0a201dcc) is excluded from the MFA policy. Fix: Remove the exclusion, or record why and until when, and add it to the break-glass list only if it is one.
-low registered_never_used: PERSON-f60b6fab (USR-0a201dcc) signs in but has not used a second factor since 2026-08-01. Fix: Check which sign-ins skip MFA (trusted locations, legacy apps) and close the gap.
+  medium excluded_from_mfa: PERSON-7d2d5615 (USR-c9fbe7ae) is excluded from the MFA policy. Fix: Remove the exclusion, or record why and until when, and add it to the break-glass list only if it is one.
+low registered_never_used: PERSON-7d2d5615 (USR-c9fbe7ae) signs in but has not used a second factor since 2026-08-01. Fix: Check which sign-ins skip MFA (trusted locations, legacy apps) and close the gap.
 
 ▶ Write the worklist
   status: executed  decision: allow

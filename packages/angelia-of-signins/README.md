@@ -55,19 +55,19 @@ Angelia of Signins demo (fictional data) in a temporary folder, Auto on for the 
 ▶ Check the exported files
   status: executed  decision: allow
   44 sign-in(s) for 21 account(s) from 9 address(es), 35 failed: 8 open finding(s), 3 high.
-    high    password_spray             IP-b2531b7c
-    high    success_after_failures     USR-01bd91bd
-    high    two_places_at_once         USR-b9c5a619
-    medium  country_not_allowed        USR-b9c5a619
-    medium  legacy_protocol            USR-c3aa97dc
-    medium  service_account_interactive USR-8de9de6a
-    low     disabled_account_attempts  USR-f60fac2a
-    low     failed_burst               USR-03f6d344
+    high    password_spray             IP-3eae5621
+    high    success_after_failures     USR-50e27434
+    high    two_places_at_once         USR-7c1e5b16
+    medium  country_not_allowed        USR-7c1e5b16
+    medium  legacy_protocol            USR-69c59d31
+    medium  service_account_interactive USR-09e9519e
+    low     disabled_account_attempts  USR-0fe9b5c6
+    low     failed_burst               USR-3f8b3071
 
 ▶ Explain one finding
   status: executed  decision: allow
-  high two_places_at_once: USR-b9c5a619 signed in from US at 2026-11-16 09:00:00 and from RO at 2026-11-16 09:50:00. Fix: Ask the person; a VPN can explain it, a stolen session cannot.
-medium country_not_allowed: USR-b9c5a619 signed in from RO. Fix: Confirm the trip; add a location-based policy if no one works from there.
+  high two_places_at_once: USR-7c1e5b16 signed in from US at 2026-11-16 09:00:00 and from RO at 2026-11-16 09:50:00. Fix: Ask the person; a VPN can explain it, a stolen session cannot.
+medium country_not_allowed: USR-7c1e5b16 signed in from RO. Fix: Confirm the trip; add a location-based policy if no one works from there.
 
 ▶ Write the worklist
   status: executed  decision: allow

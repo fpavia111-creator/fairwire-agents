@@ -1,6 +1,7 @@
 {
   "name": "ostro-of-printers",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/ostro-of-printers",
   "description": "Ostro of Printers: Print fleet review from a print management export: printers nobody uses, the cost per page by device, colour share, devices offline or on old firmware, low supplies, leases ending and printers missing from your asset list. Drafts a consolidation note; never changes a printer.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

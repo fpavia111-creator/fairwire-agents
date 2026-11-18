@@ -1,6 +1,7 @@
 {
   "name": "ceryx-of-changes",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/ceryx-of-changes",
   "description": "Ceryx of Changes: Change calendar review: changes on the same system that overlap, changes inside a freeze window, changes with no approval, back-out plan or test evidence, risky changes in business hours, emergency changes above your share and systems whose changes fail again and again. Drafts notes for the change board.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

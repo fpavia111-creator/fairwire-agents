@@ -1,6 +1,7 @@
 {
   "name": "echo-of-voip",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/echo-of-voip",
   "description": "Echo of Voip: Call quality review from a phone system or SBC call-detail export: low MOS, packet loss, jitter and latency over your limits, one-way audio, short dropped calls, and sites or trunks where poor calls cluster. Drafts a ticket for the voice provider; never changes a codec or route.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

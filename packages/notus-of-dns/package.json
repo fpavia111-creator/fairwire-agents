@@ -1,6 +1,7 @@
 {
   "name": "notus-of-dns",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/notus-of-dns",
   "description": "Notus of Dns: DNS query review from resolver logs: names asked again and again, clients with many NXDOMAIN answers, long random-looking names (a tunnelling signal), SERVFAIL spikes, clients asking outside resolvers, and blocked names by client. Drafts a note for the network owner.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

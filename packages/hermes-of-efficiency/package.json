@@ -1,6 +1,7 @@
 {
   "name": "hermes-of-efficiency",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/hermes-of-efficiency",
   "description": "Hermes of Efficiency: AI usage review from an LLM usage or request log: the same prompt sent again and again, very large prompts, a large model used for tiny jobs, answers cut off at the output limit, and spend by app and model from a price table you supply. Drafts notes for the app owner.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

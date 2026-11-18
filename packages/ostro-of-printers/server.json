@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/ostro-of-printers",
+  "title": "Ostro of Printers",
+  "description": "Ostro of Printers: Print fleet review from a print management export: printers nobody uses, the…",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents",
+    "source": "github",
+    "subfolder": "packages/ostro-of-printers"
+  },
+  "websiteUrl": "https://fair-agents.com/fairwire.html",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "ostro-of-printers",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

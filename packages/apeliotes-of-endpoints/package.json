@@ -1,6 +1,7 @@
 {
   "name": "apeliotes-of-endpoints",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/apeliotes-of-endpoints",
   "description": "Apeliotes of Endpoints: Endpoint protection coverage: devices in your asset list with no security agent, agents not reporting, old signatures or agent versions, protection or tamper protection off, passive mode, two security products on one device and high alerts left open. Drafts notes; never isolates or changes a device.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

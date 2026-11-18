@@ -64,3 +64,14 @@ test('pii: the runtime masks results and the audit line, and the report file kee
   assert.match(JSON.stringify(off.result), /Ana Ortiz/); assert.ok(off.warnings.some((w) => /masking is OFF/.test(w)));
   assert.throws(() => new AgentRuntime(manifest, { root, pii: 'loose' }), /pii must be one of/);
 });
+
+test('pii: a 200,000-character string is masked in linear time, and paths no file system takes are refused', async () => {
+  const m = new PiiMasker({ key });
+  const t0 = Date.now(); m.maskText('A'.repeat(200000)); m.maskText(`${'a'.repeat(100000)}@${'b'.repeat(100000)}`);
+  assert.ok(Date.now() - t0 < 2000, 'masking long text took too long');
+  const { safePath } = await import('../src/util.js');
+  const root = mkdtempSync(join(tmpdir(), 'pii-path-'));
+  assert.throws(() => safePath(root, 'A'.repeat(300)), /path is too long/);
+  assert.throws(() => safePath(root, `x/${'A'.repeat(5000)}`), /path is too long/);
+  assert.equal(safePath(root, 'reports/out'), join(root, 'reports', 'out'));
+});

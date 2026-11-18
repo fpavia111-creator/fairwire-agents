@@ -1,6 +1,7 @@
 {
   "name": "zephyrus-of-vpn",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/zephyrus-of-vpn",
   "description": "Zephyrus of Vpn: VPN and remote-access log review: sign-ins from countries outside your list, the same account in two far-apart places at once, failed-login bursts, sessions longer than your limit, accounts of leavers still connecting, shared accounts and old client versions. Names masked for the model. Drafts notes; never disables an account.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

@@ -115,20 +115,26 @@ async function argsPass(n) {
       for (const [label, val] of [['null', null], ['42', 42], ['[[]]', [[]]], ['{}', { a: { b: 1 } }], ['200,000 chars', 'A'.repeat(200000)], ['""', ''], ['NUL', 'a\0b'], ['-1', -1], ['1e308', 1e308], ['true', true],
         ['../ x6', '../../../../../../etc/passwd'], ['/etc/passwd', '/etc/passwd'], ['../escape', '../escape-' + n], ['a folder', 'fixtures'], ['missing file', 'fixtures/nope-does-not-exist.csv']]) muts.push([`${k} = ${label}`, { ...base, [k]: val }]);
     }
+    // One sandbox per tool (a fresh copy per call is slow on Windows, where every new file is scanned).
+    // Setup replays the earlier cases that leave state behind (drafts, reports, learned facts); read-only
+    // cases change nothing on disk and are skipped. Files written outside the root are checked after every call.
+    const { parent, root } = sandbox(n);
+    try { for (let i = 0; i < idx; i++) { const k = (manifest.tools.find((x) => x.name === cases[i].tool) || {}).kind; if (k === 'read' || !k) continue; await call(manifest, root, cases[i].tool, cases[i].args || {}); } } catch { /* setup only */ }
+    const seenOutside = new Set();
     for (const [label, args] of muts) {
-      const { parent, root } = sandbox(n); const where = `${t.name} [${label}]`; info.calls++;
-      try { for (let i = 0; i < idx; i++) await call(manifest, root, cases[i].tool, cases[i].args || {}); } catch { /* setup only */ }
+      const where = `${t.name} [${label}]`; info.calls++;
       const t0 = Date.now(); let out;
-      try { out = await call(manifest, root, t.name, args); } catch (e) { add({ n, kind: 'THROW', where, detail: String(e.stack || e).slice(0, 240) }); rmSync(parent, { recursive: true, force: true }); continue; }
+      try { out = await call(manifest, root, t.name, args); } catch (e) { add({ n, kind: 'THROW', where, detail: String(e.stack || e).slice(0, 240) }); continue; }
       const ms = Date.now() - t0; const reason = String(out.reason || ''); const txt = JSON.stringify(out);
+      if (process.env.HOSTILE_TRACE) process.stderr.write(`  ${n} ${where} ${ms}ms\n`);
       if (ms > 10000) add({ n, kind: 'SLOW', where, detail: `${ms} ms` });
       if (out.status === 'error' && CRASH.test(reason)) add({ n, kind: 'CRASH', where, detail: reason.slice(0, 200) });
       if (reason.length > 2000) add({ n, kind: 'HUGE_ERROR', where, detail: `${reason.length} characters` });
       if (reason.includes(root)) add({ n, kind: 'HOST_PATH_IN_ERROR', where, detail: reason.slice(0, 200) });
       if (/root:x:0|daemon:x:/.test(txt)) add({ n, kind: 'READ_OUTSIDE_ROOT', where });
-      for (const f of walk(parent)) { const rel = relative(parent, f); if (!rel.startsWith('root')) add({ n, kind: 'WROTE_OUTSIDE_ROOT', where, detail: rel }); }
-      rmSync(parent, { recursive: true, force: true });
+      for (const f of walk(parent)) { const rel = relative(parent, f); if (!rel.startsWith('root') && !seenOutside.has(rel)) { seenOutside.add(rel); add({ n, kind: 'WROTE_OUTSIDE_ROOT', where, detail: rel }); } }
     }
+    rmSync(parent, { recursive: true, force: true });
   }
 }
 

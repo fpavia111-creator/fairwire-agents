@@ -1,6 +1,7 @@
 {
   "name": "meltemi-of-backups",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/meltemi-of-backups",
   "description": "Meltemi of Backups: Backup job results review: jobs failing again and again, systems with no good backup inside your recovery point, critical systems no job covers, backups much smaller than usual, no offsite or immutable copy, and retention shorter than your policy. Drafts notes; never starts or deletes a backup.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

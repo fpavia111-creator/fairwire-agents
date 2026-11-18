@@ -53,18 +53,18 @@ Zephyrus of Vpn demo (fictional data) in a temporary folder, Auto on for the dra
 ▶ Check the exported files
   status: executed  decision: allow
   26 session(s) and sign-in(s) for 9 account(s), 12 failed, from 3 countr(ies): 7 open finding(s), 2 high.
-    high    leaver_connected           USR-f15655a6
-    high    two_places_at_once         USR-953e6392
-    medium  country_not_allowed        USR-953e6392
-    medium  failed_login_burst         USR-e6fc9caa
-    medium  shared_account             USR-3ad558bd
-    low     long_session               USR-00d91594
-    low     old_client                 USR-3d6e856d
+    high    leaver_connected           USR-7f4ad3cd
+    high    two_places_at_once         USR-bc8278d5
+    medium  country_not_allowed        USR-bc8278d5
+    medium  failed_login_burst         USR-cbbebe42
+    medium  shared_account             USR-56e1a00f
+    low     long_session               USR-eec8b717
+    low     old_client                 USR-20e1b909
 
 ▶ Explain one finding
   status: executed  decision: allow
-  high two_places_at_once: USR-953e6392 connected from US at 2026-11-16 09:00:00 and from RO at 2026-11-16 09:40:00. Fix: Ask the person; if it was not them, reset the password and revoke their sessions.
-medium country_not_allowed: USR-953e6392 connected 1 time(s) from RO. Fix: Confirm the trip with the person or their manager; block the country at the gateway if no one travels there.
+  high two_places_at_once: USR-bc8278d5 connected from US at 2026-11-16 09:00:00 and from RO at 2026-11-16 09:40:00. Fix: Ask the person; if it was not them, reset the password and revoke their sessions.
+medium country_not_allowed: USR-bc8278d5 connected 1 time(s) from RO. Fix: Confirm the trip with the person or their manager; block the country at the gateway if no one travels there.
 
 ▶ Write the worklist
   status: executed  decision: allow

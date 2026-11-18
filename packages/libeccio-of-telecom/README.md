@@ -49,17 +49,17 @@ Libeccio of Telecom demo (fictional data) in a temporary folder, Auto on for the
 ▶ Check the exported files
   status: executed  decision: allow
   2026-10: 8 line(s) billed 562.49, roaming 267.5: 7 open finding(s), 1 high.
-    high    line_of_leaver             PERSON-1825c0dd
-    medium  roaming_spike              PERSON-6cab9bb8
-    medium  unused_line                PERSON-2a257d9f
-    medium  unused_line                PERSON-7914b958
-    low     oversized_plan             PERSON-49872101
-    low     premium_charges            PERSON-44c79281
-    low     two_lines_one_user         PERSON-cb07c15a
+    high    line_of_leaver             PERSON-be0b77ba
+    medium  roaming_spike              PERSON-32ff1ab8
+    medium  unused_line                PERSON-dfc1b688
+    medium  unused_line                PERSON-726b84a6
+    low     oversized_plan             PERSON-18fb662c
+    low     premium_charges            PERSON-4b82fdec
+    low     two_lines_one_user         PERSON-164d6c4e
 
 ▶ Explain one finding
   status: executed  decision: allow
-  medium roaming_spike: Line +TEL-9c32e7cb (PERSON-6cab9bb8) ran up 267.5 in roaming in 2026-10. Fix: Add a travel pass before trips, or cap roaming on the line.
+  medium roaming_spike: Line +TEL-e6f2f5f6 (PERSON-32ff1ab8) ran up 267.5 in roaming in 2026-10. Fix: Add a travel pass before trips, or cap roaming on the line.
 
 ▶ Write the worklist
   status: executed  decision: allow

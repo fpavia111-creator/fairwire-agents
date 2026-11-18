@@ -1,6 +1,7 @@
 {
   "name": "libeccio-of-telecom",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/libeccio-of-telecom",
   "description": "Libeccio of Telecom: Telecom bill review: mobile lines with no use for months, lines still billed for people who left, roaming and premium charges, plans much bigger than the use, two lines for one person and fixed lines nobody calls from. Phone numbers masked for the model. Drafts cancellation lists; never cancels a line.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

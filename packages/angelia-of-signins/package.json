@@ -1,6 +1,7 @@
 {
   "name": "angelia-of-signins",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/angelia-of-signins",
   "description": "Angelia of Signins: Sign-in log review from Entra ID, Okta or Google exports: password spraying from one address, failed-login bursts, legacy protocols, sign-ins from countries outside your list, the same account in two far-apart places, sign-in attempts on disabled accounts and service accounts used interactively. Names masked for the model. Drafts notes; never blocks an account.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

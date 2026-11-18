@@ -491,7 +491,7 @@ export class AgentRuntime {
       return { status: 'executed', decision: d.decision, approved_by: approvedBy, auto: !!d.auto, result, ...(seen.length ? { sources: seen.slice(0, 20) } : {}), ...(applied.length ? { memory_applied: applied.slice(0, 100) } : {}), ...(warnings.length ? { warnings } : {}) };
     } catch (err) {
       this.usage.add(this.session, tool, 1, cost);
-      const reason = pii.maskText(friendlyError(err, this.root));
+      const reason = pii.maskText(clip(friendlyError(err, this.root)));
       this.#record(tool, args, { decision: d.decision, status: 'error', reason: reason.slice(0, 500), ...(err && err.errors ? { errors: pii.maskResult(err.errors.slice(0, 10)) } : {}) });
       return { status: 'error', decision: d.decision, reason: clip(reason), ...(err && err.errors ? { errors: clipErrors(err.errors) } : {}) };
     }

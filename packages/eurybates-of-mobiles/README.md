@@ -60,10 +60,10 @@ Eurybates of Mobiles demo (fictional data) in a temporary folder, Auto on for th
 
 ▶ Explain one finding
   status: executed  decision: allow
-  high jailbroken: AND-103 (Android, USR-e8c13d20) is reported jailbroken or rooted. Fix: Block it from company data and ask the person to restore the device or use another.
-high no_passcode_or_encryption: AND-104 (USR-b470e760) has no encryption. Fix: Enforce a passcode and encryption policy; block access until the device complies.
+  high jailbroken: AND-103 (Android, USR-a1e3641a) is reported jailbroken or rooted. Fix: Block it from company data and ask the person to restore the device or use another.
+high no_passcode_or_encryption: AND-104 (USR-6a575c45) has no encryption. Fix: Enforce a passcode and encryption policy; block access until the device complies.
 medium old_os: AND-104 runs Android 12, under your minimum of 13. Fix: Ask the person to update; replace devices that cannot.
-low noncompliant: AND-108 (USR-9dab2abc) is marked not compliant by device management. Fix: Check which policy it fails in the device management console.
+low noncompliant: AND-108 (USR-484b9284) is marked not compliant by device management. Fix: Check which policy it fails in the device management console.
 
 ▶ Write the worklist
   status: executed  decision: allow

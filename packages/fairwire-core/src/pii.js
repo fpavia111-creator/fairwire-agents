@@ -47,7 +47,9 @@ const FIXED = {};
 const MIN_TEXT = { name: 4, user: 3, phone: 6, device_id: 6, ip: 7, host: 4, any_ip: 7 };
 
 const TEXT_PATTERNS = [
-  [/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, '[EMAIL]'],
+  // The look-behind makes a match start only where an address can start, so a long run of letters
+  // with no "@" (a 200,000-character argument) is scanned once, not once per position.
+  [/(?<![A-Za-z0-9._%+-])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, '[EMAIL]'],
   [/(?<![\d.-])\+?\(?\b\d{3}\)?[-. ]\d{3}[-. ]\d{4}\b/g, '[PHONE]'],
 ];
 

@@ -41,11 +41,33 @@ export const DEFAULTS = Object.freeze({ internet_zones: ['untrust', 'outside', '
 
 const list = (v) => str(v).split(/[;,\s]+/).map((x) => x.trim().toLowerCase()).filter(Boolean);
 const allAny = (l) => !l.length || l.some(isAny);
+/** One address, zone or name list read once: "any" (or empty), and each entry with its CIDR range when it has one. */
+const prepList = (l) => ({ any: allAny(l), items: l.map((t) => ({ t, c: parseCidr(t) })) });
 /** a covers b: a is any, or every entry of b sits inside an entry of a (same text or a CIDR inside a CIDR). */
 function covers(a, b) {
-  if (allAny(a)) return true; if (allAny(b)) return false;
-  return b.every((x) => a.some((y) => { if (x === y) return true; const p = parseCidr(y), q = parseCidr(x); return !!p && !!q && p.first <= q.first && q.last <= p.last; }));
+  if (a.any) return true; if (b.any) return false;
+  return b.items.every((x) => a.items.some((y) => x.t === y.t || (!!y.c && !!x.c && y.c.first <= x.c.first && x.c.last <= y.c.last)));
 }
+/**
+ * Earlier rules indexed by one address list, so the shadow search looks only at rules that could cover
+ * the first entry of a later rule (any, the same text, or a CIDR), not at every earlier rule.
+ * Each bucket holds rule positions in policy order.
+ */
+class CoverIndex {
+  constructor() { this.any = []; this.text = new Map(); this.cidr = []; }
+  add(k, p) {
+    if (p.any) { this.any.push(k); return; }
+    for (const t of new Set(p.items.map((i) => i.t))) { let a = this.text.get(t); if (!a) this.text.set(t, (a = [])); a.push(k); }
+    if (p.items.some((i) => i.c)) this.cidr.push(k);
+  }
+  candidates(p) {
+    if (p.any) return [this.any];
+    const x = p.items[0]; const out = [this.any, this.text.get(x.t) || []];
+    if (x.c) out.push(this.cidr);
+    return out;
+  }
+}
+const bucketSize = (ls) => ls.reduce((n, l) => n + l.length, 0);
 const sig = (r) => [r.src_zone, r.dst_zone, r.source, r.destination, r.service, r.action].map((l) => (Array.isArray(l) ? [...l].sort().join(',') : l)).join('|');
 
 export function readRules(rows) {
@@ -62,6 +84,21 @@ export function reviewRules(rows, settings = {}, asOf) {
   const risky = s.risky_ports.map(Number);
   const fromInternet = (r) => r.src_zone.some((z) => internet.includes(z)) || (allAny(r.src_zone) && allAny(r.source));
   const seen = new Map();
+  const prep = rules.map((r) => ({ sz: prepList(r.src_zone), dz: prepList(r.dst_zone), s: prepList(r.source), d: prepList(r.destination) }));
+  const bySrc = new CoverIndex(); const byDst = new CoverIndex();
+  /** Position of the first enabled earlier rule that matches all of rule k's traffic, or -1. */
+  const shadowOf = (k) => {
+    const p = prep[k]; const r = rules[k]; const a = bySrc.candidates(p.s); const b = byDst.candidates(p.d);
+    let best = -1;
+    for (const l of bucketSize(a) <= bucketSize(b) ? a : b) {
+      for (const j of l) {
+        if (best !== -1 && j >= best) break;
+        const q = prep[j];
+        if (covers(q.sz, p.sz) && covers(q.dz, p.dz) && covers(q.s, p.s) && covers(q.d, p.d) && portsCover(rules[j].ports, r.ports)) { best = j; break; }
+      }
+    }
+    return best;
+  };
   rules.forEach((r, k) => {
     if (!r.enabled) { items.push(finding('disabled_rule', 'info', r.id, `Rule ${r.id} is disabled but still in the policy.`, 'Delete it in the next change window if nobody needs it back.', { subject: r.id })); return; }
     if (r.action === 'allow') {
@@ -74,10 +111,13 @@ export function reviewRules(rows, settings = {}, asOf) {
       if (r.log === false) items.push(finding('allow_without_logging', 'low', r.id, `Allow rule ${r.id} does not log.`, 'Turn on logging at session end so the rule can be reviewed and investigated.', { subject: r.id }));
     }
     const sg = sig(r);
-    if (seen.has(sg)) { items.push(finding('duplicate_rule', 'low', r.id, `Rule ${r.id} is the same as rule ${seen.get(sg)}.`, `Remove one of the two after checking which one the owner expects.`, { subject: r.id })); return; }
-    seen.set(sg, r.id);
-    const earlier = rules.slice(0, k).find((e) => e.enabled && covers(e.src_zone, r.src_zone) && covers(e.dst_zone, r.dst_zone) && covers(e.source, r.source) && covers(e.destination, r.destination) && portsCover(e.ports, r.ports));
-    if (earlier) items.push(finding('shadowed_rule', 'medium', r.id, `Rule ${r.id} never takes effect: earlier rule ${earlier.id} (${earlier.action}) already matches all of its traffic.`, earlier.action === r.action ? 'Remove the later rule.' : 'Check the order: the later rule was probably meant to win; move it above or narrow the earlier one.', { subject: r.id, shadowed_by: earlier.id }));
+    if (seen.has(sg)) items.push(finding('duplicate_rule', 'low', r.id, `Rule ${r.id} is the same as rule ${seen.get(sg)}.`, `Remove one of the two after checking which one the owner expects.`, { subject: r.id }));
+    else {
+      seen.set(sg, r.id);
+      const j = shadowOf(k); const earlier = j >= 0 ? rules[j] : null;
+      if (earlier) items.push(finding('shadowed_rule', 'medium', r.id, `Rule ${r.id} never takes effect: earlier rule ${earlier.id} (${earlier.action}) already matches all of its traffic.`, earlier.action === r.action ? 'Remove the later rule.' : 'Check the order: the later rule was probably meant to win; move it above or narrow the earlier one.', { subject: r.id, shadowed_by: earlier.id }));
+    }
+    bySrc.add(k, prep[k].s); byDst.add(k, prep[k].d);
   });
   const enabled = rules.filter((r) => r.enabled);
   return { rules: rules.length, enabled: enabled.length, allow: enabled.filter((r) => r.action === 'allow').length, deny: enabled.filter((r) => r.action === 'deny').length, items };

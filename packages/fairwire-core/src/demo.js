@@ -1,13 +1,21 @@
 import { mkdtempSync, cpSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { AgentRuntime } from './runtime.js';
+
+/**
+ * Pseudonym key for the demo only. The demo data is fictional, so a fixed key per agent is safe and keeps the
+ * demo output (and the README built from it) the same on every run. Real runs use the per-install key
+ * in the state folder (see loadPiiKey), never this one.
+ */
+export const demoPiiKey = (manifest) => createHash('sha256').update(`fairwire demo key ${manifest.name}`).digest();
 
 /** Copy bundled fixtures into a temp folder and return a runtime rooted there. */
 export function demoRuntime(manifest, fixturesDir, options = {}) {
   const root = mkdtempSync(join(tmpdir(), `${manifest.name}-demo-`));
   cpSync(fixturesDir, root, { recursive: true });
-  return new AgentRuntime(manifest, { root, ...options });
+  return new AgentRuntime(manifest, { root, piiKey: demoPiiKey(manifest), ...options });
 }
 
 export function printStep(label, r) {
@@ -31,7 +39,7 @@ export async function standardDemo(manifest, fixturesDir, d) {
   const prefix = manifest.tools[0].name.split('_')[0];
   const draftTool = manifest.tools.find((t) => /_draft_/.test(t.name));
   const reqTool = manifest.tools.find((t) => /_request_/.test(t.name));
-  const rt = new AgentRuntime(manifest, { root, mode: 'auto', autoActions: draftTool ? [draftTool.name] : [] });
+  const rt = new AgentRuntime(manifest, { root, mode: 'auto', autoActions: draftTool ? [draftTool.name] : [], piiKey: demoPiiKey(manifest) });
   process.stdout.write(`${d.title} (fictional data) in a temporary folder, Auto on for the draft only\n`);
   const c = await rt.call(`${prefix}_check`, d.args);
   printStep('Check the exported files', c);

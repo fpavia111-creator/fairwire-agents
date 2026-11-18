@@ -1,6 +1,7 @@
 {
   "name": "iris-of-traffic",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/iris-of-traffic",
   "description": "Iris of Traffic: Network flow review from a NetFlow, IPFIX or sFlow export: cleartext protocols, risky ports reached from the internet, one host or destination taking most of the bytes, large uploads out of hours and very small packets. Writes a worklist and drafts a change request a network owner applies.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

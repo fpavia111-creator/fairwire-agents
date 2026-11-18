@@ -66,8 +66,8 @@ Arke of Admins demo (fictional data) in a temporary folder, Auto on for the draf
 
 ▶ Explain one finding
   status: executed  decision: allow
-  medium admin_reads_mail: Admin account PERSON-cc1d5ecd (USR-7f46604c) also has a mailbox. Fix: Give the person a separate admin account without mail.
-medium standing_admin: PERSON-cc1d5ecd (USR-7f46604c) holds Global Administrator permanently. Fix: Make the assignment eligible so it is activated just in time, with approval for the top roles.
+  medium admin_reads_mail: Admin account PERSON-9e1d8960 (USR-18da80d8) also has a mailbox. Fix: Give the person a separate admin account without mail.
+medium standing_admin: PERSON-9e1d8960 (USR-18da80d8) holds Global Administrator permanently. Fix: Make the assignment eligible so it is activated just in time, with approval for the top roles.
 
 ▶ Write the worklist
   status: executed  decision: allow

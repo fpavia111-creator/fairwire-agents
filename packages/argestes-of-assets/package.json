@@ -1,6 +1,7 @@
 {
   "name": "argestes-of-assets",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/argestes-of-assets",
   "description": "Argestes of Assets: Asset inventory against the CMDB: devices seen on the network or in device management but missing from the CMDB, CMDB records not seen for months, duplicate serial numbers, retired records still active, missing owners or locations, and warranties ending. Drafts CMDB fix lists; never edits the CMDB.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

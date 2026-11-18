@@ -1,6 +1,7 @@
 {
   "name": "arke-of-admins",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/arke-of-admins",
   "description": "Arke of Admins: Privileged role review from directory role exports: more global administrators than your cap, standing assignments where you use just-in-time, admins without MFA, admin accounts that also read mail, roles held by guests, break-glass accounts that signed in or lack an exclusion note. Names masked for the model. Drafts notes; never removes a role.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

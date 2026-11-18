@@ -1,6 +1,7 @@
 {
   "name": "aura-of-wifi",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/aura-of-wifi",
   "description": "Aura of Wifi: Wi-Fi controller export review: access points down or on old firmware, 2.4 GHz channels other than 1, 6 and 11, crowded channels, open, WEP or TKIP networks, too many SSIDs per radio, weak clients and rogue access points. Drafts a change request; never changes the controller.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

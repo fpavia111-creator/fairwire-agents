@@ -1,6 +1,7 @@
 {
   "name": "talthybius-of-tickets",
   "version": "0.1.0",
+  "mcpName": "io.github.fpavia111-creator/talthybius-of-tickets",
   "description": "Talthybius of Tickets: Ticket SLA aging from a service desk export: tickets past their response or resolution target by priority, aging buckets, tickets with no assignee, tickets reopened again and again, tickets parked on hold and the teams with the most breaches. Drafts a status note; never closes a ticket.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

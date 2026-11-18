@@ -50,16 +50,16 @@ Pheme of Gateways demo (fictional data) in a temporary folder, Auto on for the d
 ▶ Check the exported files
   status: executed  decision: allow
   60 message(s), 35 inbound (28.6% quarantined or blocked), 25 outbound, 11 threat(s): 6 open finding(s), 3 high.
-    high    allowlist_sent_threat      USR-62dd29a3
-    high    outbound_spam              USR-f375523a
-    high    released_threat            USR-2b6b72eb
-    medium  late_clawback              USR-000e01ac
-    low     dlp_hits                   USR-52bbbed0
-    low     most_targeted              USR-d057c07f
+    high    allowlist_sent_threat      USR-01c75166
+    high    outbound_spam              USR-1309abef
+    high    released_threat            USR-5701881e
+    medium  late_clawback              USR-0dc63cac
+    low     dlp_hits                   USR-74cf4e20
+    low     most_targeted              USR-31436ba3
 
 ▶ Explain one finding
   status: executed  decision: allow
-  high released_threat: Message MSG-0027 to USR-2b6b72eb was judged Phish and released from quarantine. Fix: Pull the message back, check whether links were clicked or attachments opened, and review who may release threats.
+  high released_threat: Message MSG-0027 to USR-5701881e was judged Phish and released from quarantine. Fix: Pull the message back, check whether links were clicked or attachments opened, and review who may release threats.
 
 ▶ Write the worklist
   status: executed  decision: allow

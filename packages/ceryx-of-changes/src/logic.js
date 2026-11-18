@@ -43,11 +43,20 @@ const filled = (v) => { const t = str(v); return !!t && yes(t) !== false && !/^(
 
 export function reviewChanges(rows, freezeRows = [], settings = {}) {
   const s = { ...DEFAULTS, ...settings };
-  const cs = rows.filter((r) => str(r.change_id) && str(r.system) && Number.isFinite(toMs(r.start))).map((r) => { const start = str(r.start); const end = Number.isFinite(toMs(r.end)) ? str(r.end) : new Date(toMs(start) + 3600000).toISOString().slice(0, 19).replace('T', ' '); const type = low(r.type); return { id: str(r.change_id), system: str(r.system), sys: low(r.system), start, end, risk: low(r.risk), type: /emerg/.test(type) ? 'emergency' : /standard|pre-?approved/.test(type) ? 'standard' : 'normal', approved: /approv|yes|true|granted/i.test(str(r.approval)) && !/not|pending|reject|requested/i.test(str(r.approval)), backout: filled(r.backout_plan), tested: filled(r.test_evidence), failed: /fail|rolled|backed out|unsuccess/i.test(str(r.outcome)) }; });
-  const fz = freezeRows.filter((r) => str(r.name) && Number.isFinite(toMs(r.start)) && Number.isFinite(toMs(r.end))).map((r) => ({ name: str(r.name), start: str(r.start), end: str(r.end) }));
+  const cs = rows.filter((r) => str(r.change_id) && str(r.system) && Number.isFinite(toMs(r.start))).map((r) => { const start = str(r.start); const end = Number.isFinite(toMs(r.end)) ? str(r.end) : new Date(toMs(start) + 3600000).toISOString().slice(0, 19).replace('T', ' '); const type = low(r.type); return { id: str(r.change_id), system: str(r.system), sys: low(r.system), start, end, t0: toMs(start), t1: toMs(end), risk: low(r.risk), type: /emerg/.test(type) ? 'emergency' : /standard|pre-?approved/.test(type) ? 'standard' : 'normal', approved: /approv|yes|true|granted/i.test(str(r.approval)) && !/not|pending|reject|requested/i.test(str(r.approval)), backout: filled(r.backout_plan), tested: filled(r.test_evidence), failed: /fail|rolled|backed out|unsuccess/i.test(str(r.outcome)) }; });
+  const fz = freezeRows.filter((r) => str(r.name) && Number.isFinite(toMs(r.start)) && Number.isFinite(toMs(r.end))).map((r) => ({ name: str(r.name), start: str(r.start), end: str(r.end), t0: toMs(r.start), t1: toMs(r.end) }))
+    .sort((a, b) => a.t0 - b.t0 || (a.name < b.name ? -1 : a.name > b.name ? 1 : a.t1 - b.t1));
+  const latestEnd = []; for (const f of fz) latestEnd.push(Math.max(latestEnd.length ? latestEnd[latestEnd.length - 1] : -Infinity, f.t1));
+  /** The earliest-starting freeze window that overlaps [t0, t1), or undefined (end exclusive, as overlaps()). */
+  const freezeFor = (t0, t1) => {
+    if (!(t0 < t1) || !fz.length) return undefined;
+    let lo = 0, hi = fz.length; while (lo < hi) { const m = (lo + hi) >> 1; if (fz[m].t0 < t1) lo = m + 1; else hi = m; }
+    const n = lo; lo = 0; hi = n; while (lo < hi) { const m = (lo + hi) >> 1; if (latestEnd[m] > t0) hi = m; else lo = m + 1; }
+    return lo < n ? fz[lo] : undefined;
+  };
   const items = []; const [h0, h1] = s.business_hours;
   for (const c of cs) {
-    const f = fz.find((x) => overlaps(c.start, c.end, x.start, x.end));
+    const f = freezeFor(c.t0, c.t1);
     if (f) items.push(finding('in_freeze_window', c.type === 'emergency' ? 'medium' : 'high', c.id, `${c.id} on ${c.system} (${c.start}) falls inside the freeze window "${f.name}".`, c.type === 'emergency' ? 'Make sure the emergency is real and the freeze owner has agreed.' : 'Move it after the freeze, or get the freeze owner\'s written exception.', { subject: c.system }));
     if (c.type !== 'standard' && !c.approved) items.push(finding('not_approved', 'high', c.id, `${c.type === 'emergency' ? 'Emergency change' : 'Change'} ${c.id} on ${c.system} has no approval recorded.`, 'Get the approval before the window, or postpone the change.', { subject: c.system }));
     if (c.type !== 'standard' && !c.backout) items.push(finding('no_backout_plan', 'medium', c.id, `${c.id} on ${c.system} has no back-out plan.`, 'Write down how to undo it and how long that takes.', { subject: c.system }));
@@ -55,10 +64,10 @@ export function reviewChanges(rows, freezeRows = [], settings = {}) {
     const h = hourOf(c.start); const wd = weekdayOf(c.start);
     if (/high|major|critical/.test(c.risk) && h !== null && h >= h0 && h < h1 && wd >= 1 && wd <= 5) items.push(finding('risky_in_business_hours', 'medium', c.id, `High-risk change ${c.id} on ${c.system} starts at ${c.start}, during business hours.`, 'Move it to a quiet window unless the business has agreed.', { subject: c.system }));
   }
-  const bySys = new Map(); for (const c of cs) bySys.set(c.sys, [...(bySys.get(c.sys) || []), c]);
+  const bySys = new Map(); for (const c of cs) { const l = bySys.get(c.sys); if (l) l.push(c); else bySys.set(c.sys, [c]); }
   for (const [, list] of bySys) {
-    const l = [...list].sort((a, b) => toMs(a.start) - toMs(b.start) || (a.id < b.id ? -1 : 1));
-    for (let i = 0; i < l.length; i++) for (let j = i + 1; j < l.length; j++) if (overlaps(l[i].start, l[i].end, l[j].start, l[j].end)) { const both = /high/.test(l[i].risk) && /high/.test(l[j].risk); items.push(finding('overlapping_changes', both ? 'high' : 'medium', `${l[i].id}+${l[j].id}`, `${l[i].id} and ${l[j].id} both change ${l[i].system} at the same time (${l[i].start} and ${l[j].start}).`, 'Merge them or move one, so a failure can be traced to one change.', { subject: l[i].system })); }
+    const l = [...list].sort((a, b) => a.t0 - b.t0 || (a.id < b.id ? -1 : 1));
+    for (let i = 0; i < l.length; i++) for (let j = i + 1; j < l.length && l[j].t0 < l[i].t1; j++) if (l[i].t0 < l[i].t1 && l[j].t0 < l[j].t1 && l[i].t0 < l[j].t1) { const both = /high/.test(l[i].risk) && /high/.test(l[j].risk); items.push(finding('overlapping_changes', both ? 'high' : 'medium', `${l[i].id}+${l[j].id}`, `${l[i].id} and ${l[j].id} both change ${l[i].system} at the same time (${l[i].start} and ${l[j].start}).`, 'Merge them or move one, so a failure can be traced to one change.', { subject: l[i].system })); }
     const failed = l.filter((c) => c.failed); if (failed.length >= s.failed_min) items.push(finding('repeat_failed_changes', 'medium', l[0].system, `${failed.length} changes on ${l[0].system} failed or were rolled back (${failed.map((c) => c.id).join(', ')}).`, 'Review how changes to this system are tested before the next one.', { subject: l[0].system }));
   }
   const em = cs.filter((c) => c.type === 'emergency').length; const share = pct(em, cs.length);
