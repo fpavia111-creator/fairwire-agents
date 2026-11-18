@@ -1,0 +1,5 @@
+{
+  "approved": ["Microsoft 365 Apps", "Visio Professional", "7-Zip", "Design Suite Pro"],
+  "prohibited": ["uTorrent"],
+  "min_versions": { "7-Zip": "24.0" }
+}
