@@ -1,0 +1,46 @@
+name: test
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ matrix.node }}' }
+      - run: npm ci
+      - run: npm test
+      - name: Evals (every agent)
+        shell: bash
+        run: |
+          for p in packages/*/; do n=$(basename "$p"); [ "$n" = fairwire-core ] && continue
+            (cd "$p" && node "bin/$n.js" eval) || exit 1; done
+      - name: Plugin files match the packages
+        run: npm run plugin:check
+      - name: Hostile inputs (planted formulas, HTML, path tricks and AI-directed text in every agent's data)
+        run: npm run hostile
+      - name: International files (every spreadsheet eval case in 8 languages, legacy encodings, comma decimals, kg and km)
+        run: npm run intl
+      - name: Generated README sections match the agents (Linux only; the demo output holds paths)
+        if: runner.os == 'Linux'
+        run: npm run readme:check
+      - name: MCP conformance with the official SDK client (Linux, Node 22)
+        if: runner.os == 'Linux' && matrix.node == 22
+        run: |
+          npm i --no-save @modelcontextprotocol/sdk ajv ajv-formats
+          npm run mcp:check
+      - name: Pack contents stay clean
+        shell: bash
+        run: |
+          for p in packages/*/; do (cd "$p" && npm pack --dry-run --json > /tmp/pack.json && node -e "
+            const f=require('/tmp/pack.json')[0].files.map(x=>x.path);
+            const bad=f.filter(x=>/(^|\/)(node_modules|\.fairwire|fairwire-out)\/|\.npmrc$|\.tgz$/.test(x));
+            if(bad.length){console.error('$p', bad);process.exit(1)}") || exit 1; done

@@ -1,0 +1,7 @@
+node_modules/
+.fairwire/
+fairwire-out/
+*.tgz
+.npmrc
+mcp-conformance.json
+scratch/

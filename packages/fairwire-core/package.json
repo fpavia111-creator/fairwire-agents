@@ -1,0 +1,51 @@
+{
+  "name": "fairwire-core",
+  "version": "0.1.0",
+  "description": "Shared core for the Fairwire IT and network agents: personal-data masking, IP, port and date helpers, the agent builder, pinned-model pack manifests, allow/ask/block policy, Review/Assist/Auto modes with caps and a kill switch, hash-chained JSONL audit logs, a zero-dependency stdio MCP server and fixture-based evals.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./testkit": "./src/testkit.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairwire-approve": "bin/fairwire-approve.js",
+    "fairwire-verify-log": "bin/fairwire-verify-log.js",
+    "fairwire-new-agent": "bin/fairwire-new-agent.js",
+    "fairwire-license": "bin/fairwire-license.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/fairwire-core"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-core#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "ai-agents",
+    "guardrails",
+    "human-in-the-loop",
+    "audit-log",
+    "fairwire"
+  ]
+}

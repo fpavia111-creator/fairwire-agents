@@ -1,0 +1,32 @@
+{
+  "name": "fairwire-agents",
+  "private": true,
+  "description": "Fairwire: IT and network agents monorepo (31 agents). Each reads files an IT team exports and drafts notes; every change to a live system stays one named person's click.",
+  "license": "MIT",
+  "workspaces": [
+    "packages/fairwire-core",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces",
+    "evals": "node scripts/run-all-evals.mjs",
+    "hostile": "node scripts/hostile-inputs.mjs",
+    "hostile:args": "node scripts/hostile-inputs.mjs --args",
+    "release:check": "node scripts/release-check.mjs",
+    "release:check:offline": "node scripts/release-check.mjs --offline",
+    "bench": "node scripts/bench.mjs",
+    "plugin": "node scripts/plugin-files.mjs",
+    "plugin:check": "node scripts/plugin-files.mjs --check",
+    "intl": "node scripts/intl-check.mjs",
+    "intl:fixtures": "node scripts/make-intl-fixtures.mjs",
+    "policy:evals": "node scripts/policy-evals.mjs",
+    "mcp:check": "node scripts/mcp-conformance.mjs",
+    "readme": "node scripts/readme-sections.mjs",
+    "readme:check": "node scripts/readme-sections.mjs --check",
+    "samples": "node scripts/sample-reports.mjs",
+    "check": "node scripts/family-check.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
