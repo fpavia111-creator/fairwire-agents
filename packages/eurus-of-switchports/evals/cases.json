@@ -1,0 +1,358 @@
+{
+  "suite": "eurus-of-switchports",
+  "root": "..",
+  "data_note": "Fictional switch ports in ../fixtures, as of 2026-11-18. No model is called.",
+  "cases": [
+    {
+      "id": "check-totals",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.switches": 2,
+          "result.ports": 12,
+          "result.ports_up": 9,
+          "result.trunks": 3,
+          "result.vlans_used": 5,
+          "result.open": 8
+        }
+      }
+    },
+    {
+      "id": "every-planted-issue",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "contains": [
+          "trunk_all_vlans",
+          "Gi1/0/2",
+          "access_in_vlan1",
+          "half_duplex",
+          "crc_errors",
+          "1450 CRC errors",
+          "vlan_not_in_plan",
+          "VLAN 99",
+          "unused_enabled_port",
+          "since 2026-07-01",
+          "no_description",
+          "unused_vlan",
+          "voice-old"
+        ],
+        "not_contains": [
+          "Gi1/0/11",
+          "Gi1/0/8 is enabled"
+        ]
+      }
+    },
+    {
+      "id": "ports-only-no-plan",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.open": 6
+        },
+        "not_contains": [
+          "vlan_not_in_plan",
+          "unused_vlan"
+        ]
+      }
+    },
+    {
+      "id": "later-date-more-unused",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "as_of": "2027-02-01"
+      },
+      "expect": {
+        "contains": [
+          "Gi1/0/8 is enabled but unused since 2026-11-10"
+        ]
+      }
+    },
+    {
+      "id": "explain-floor-switch",
+      "tool": "eurus_explain",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "switch": "sw-floor-2"
+      },
+      "expect": {
+        "contains": [
+          "access_in_vlan1",
+          "half_duplex",
+          "unused_enabled_port",
+          "vlan_not_in_plan"
+        ],
+        "equals": {
+          "result.findings": 4
+        }
+      }
+    },
+    {
+      "id": "draft-after-approval",
+      "tool": "eurus_draft_change_request",
+      "approve": "Pat Example",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.items": 4,
+          "result.open_markers": 1
+        }
+      }
+    },
+    {
+      "id": "review-mode-still-reads",
+      "tool": "eurus_check",
+      "mode": "review",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.switches": 2,
+          "result.ports": 12,
+          "result.ports_up": 9,
+          "result.trunks": 3,
+          "result.vlans_used": 5,
+          "result.open": 8
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "severity-filter",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18",
+        "severity": "high"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.findings": 0
+        }
+      },
+      "generated": true
+    },
+    {
+      "id": "missing-argument-named",
+      "tool": "eurus_check",
+      "args": {},
+      "expect": {
+        "status": "error",
+        "contains": [
+          "ports"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "../../../outside.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "invented-tool-name-refused",
+      "tool": "eurus_apply_every_fix_now",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "write-report-writes-files",
+      "tool": "eurus_write_report",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "eurus-ports.csv",
+          "eurus-ports.html"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "recall-memory-starts-empty",
+      "tool": "eurus_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty"
+        ]
+      },
+      "generated": true
+    },
+    {
+      "id": "accept-learning-stays-one-click",
+      "tool": "eurus_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-switch-apply-config",
+      "tool": "switch_apply_config",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "never-switch-ssh-session",
+      "tool": "switch_ssh_session",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "draft-waits-for-a-person",
+      "tool": "eurus_draft_change_request",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      },
+      "generated": true
+    },
+    {
+      "id": "review-mode-drafts-nothing",
+      "tool": "eurus_draft_change_request",
+      "mode": "review",
+      "args": {
+        "ports": "fixtures/ports.csv",
+        "vlans": "fixtures/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "status": "blocked"
+      },
+      "generated": true
+    },
+    {
+      "id": "request-stays-one-click",
+      "tool": "eurus_request_submit",
+      "mode": "auto",
+      "args": {
+        "draft": "fixtures/README.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": {
+        "status": "needs_approval"
+      },
+      "generated": true
+    },
+    {
+      "id": "intl-de-check-totals",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "fixtures/intl/de/ports.csv",
+        "vlans": "fixtures/intl/de/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.switches": 2,
+          "result.ports": 12,
+          "result.ports_up": 9,
+          "result.trunks": 3,
+          "result.vlans_used": 5,
+          "result.open": 8
+        }
+      },
+      "note": "German export of the same data (fixtures/intl/de); must match the English case \"check-totals\"."
+    },
+    {
+      "id": "intl-ja-check-totals",
+      "tool": "eurus_check",
+      "args": {
+        "ports": "fixtures/intl/ja/ports.csv",
+        "vlans": "fixtures/intl/ja/vlans.csv",
+        "settings": "fixtures/settings.json",
+        "as_of": "2026-11-18"
+      },
+      "expect": {
+        "equals": {
+          "result.switches": 2,
+          "result.ports": 12,
+          "result.ports_up": 9,
+          "result.trunks": 3,
+          "result.vlans_used": 5,
+          "result.open": 8
+        }
+      },
+      "note": "Japanese export of the same data (fixtures/intl/ja); must match the English case \"check-totals\"."
+    }
+  ]
+}

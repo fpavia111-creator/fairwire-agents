@@ -1,0 +1,13 @@
+Gerät;port;Beschreibung;admin_status;oper_status;Verkehrsträger;VLAN-ID;allowed_vlans;duplex;crc_errors;Letzter Treffer
+sw-core-01;Gi1/0/1;uplink to sw-floor-2;up;up;trunk;1;10,20,30;full;0;18.11.2026 08:00:00
+sw-core-01;Gi1/0/2;;up;up;trunk;1;all;full;0;18.11.2026 08:00:00
+sw-core-01;Gi1/0/3;server-01;up;up;access;30;;full;0;18.11.2026 08:00:00
+sw-core-01;Gi1/0/4;server-02;up;up;access;30;;full;1.450;18.11.2026 08:00:00
+sw-floor-2;Gi1/0/1;uplink to sw-core-01;up;up;trunk;1;10,20,30;full;0;18.11.2026 08:00:00
+sw-floor-2;Gi1/0/5;desk 2-05;up;up;access;1;;full;0;18.11.2026 08:00:00
+sw-floor-2;Gi1/0/6;desk 2-06;up;up;access;10;;half;0;18.11.2026 08:00:00
+sw-floor-2;Gi1/0/7;desk 2-07;up;down;access;10;;auto;0;01.07.2026 09:00:00
+sw-floor-2;Gi1/0/8;desk 2-08;up;down;access;10;;auto;0;10.11.2026 09:00:00
+sw-floor-2;Gi1/0/9;lab;up;up;access;99;;full;0;18.11.2026 08:00:00
+sw-floor-2;Gi1/0/10;printer 2-1;up;up;access;20;;full;0;18.11.2026 08:00:00
+sw-floor-2;Gi1/0/11;spare;down;down;access;10;;auto;0;05.01.2026 09:00:00
