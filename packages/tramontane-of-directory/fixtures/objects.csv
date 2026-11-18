@@ -1,0 +1,18 @@
+type,name,enabled,last_logon,os,pwd_never_expires,pwd_not_required,member_of,members,managed_by,nested_groups
+user,aortiz,True,2026-11-17,,False,False,Staff;VPN Users,,,
+user,bkim,True,2026-11-16,,True,False,Staff,,,
+user,cdiaz,True,2026-11-15,,False,True,Staff,,,
+user,svc-backup,True,2026-11-18,,True,False,Backup Operators,,,
+user,dlee,False,2026-06-01,,False,False,Staff;Domain Admins,,,
+user,emoss,False,2026-05-01,,False,False,,,,
+computer,PC-101,True,2026-11-17,Windows 11 Enterprise,,,,,,
+computer,PC-102,True,2026-06-20,Windows 11 Enterprise,,,,,,
+computer,PC-103,True,2026-11-10,Windows 10 Enterprise,,,,,,
+computer,SRV-OLD,True,2025-12-01,Windows Server 2012 R2,,,,,,
+computer,PC-104,False,2025-01-01,Windows 7 Professional,,,,,,
+group,Staff,True,,,,,,120,HR Team,
+group,VPN Users,True,,,,,,40,,
+group,Old Project,True,,,,,,0,IT Team,
+group,Finance Share,True,,,,,,12,Finance Lead,Finance Readers
+group,Finance Readers,True,,,,,,8,Finance Lead,Finance Share
+group,Domain Admins,True,,,,,,3,,

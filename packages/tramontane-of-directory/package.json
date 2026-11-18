@@ -1,0 +1,57 @@
+{
+  "name": "tramontane-of-directory",
+  "version": "0.1.0",
+  "description": "Tramontane of Directory: Directory hygiene from Active Directory or Entra exports: computer objects not seen for months, unsupported operating systems, accounts with passwords that never expire or are not required, disabled accounts still in groups, empty groups, groups with no owner and nested group loops. Drafts clean-up lists; never edits the directory.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "tramontane-of-directory": "bin/tramontane-of-directory.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/tramontane-of-directory.js demo",
+    "eval": "node bin/tramontane-of-directory.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/tramontane-of-directory"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/tramontane-of-directory#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "active-directory",
+    "entra-id",
+    "directory-hygiene",
+    "stale-objects",
+    "groups"
+  ]
+}

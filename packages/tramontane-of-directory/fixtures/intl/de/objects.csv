@@ -1,0 +1,18 @@
+Typ;Vollständiger Name;Aktiviert;Letzte Anmeldung;Betriebssystem;pwd_never_expires;pwd_not_required;member_of;members;managed_by;nested_groups
+user;aortiz;True;17.11.2026;;False;False;"Staff;VPN Users";;;
+user;bkim;True;16.11.2026;;True;False;Staff;;;
+user;cdiaz;True;15.11.2026;;False;True;Staff;;;
+user;svc-backup;True;18.11.2026;;True;False;Backup Operators;;;
+user;dlee;False;01.06.2026;;False;False;"Staff;Domain Admins";;;
+user;emoss;False;01.05.2026;;False;False;;;;
+computer;PC-101;True;17.11.2026;Windows 11 Enterprise;;;;;;
+computer;PC-102;True;20.06.2026;Windows 11 Enterprise;;;;;;
+computer;PC-103;True;10.11.2026;Windows 10 Enterprise;;;;;;
+computer;SRV-OLD;True;01.12.2025;Windows Server 2012 R2;;;;;;
+computer;PC-104;False;01.01.2025;Windows 7 Professional;;;;;;
+group;Staff;True;;;;;;120;HR Team;
+group;VPN Users;True;;;;;;40;;
+group;Old Project;True;;;;;;0;IT Team;
+group;Finance Share;True;;;;;;12;Finance Lead;Finance Readers
+group;Finance Readers;True;;;;;;8;Finance Lead;Finance Share
+group;Domain Admins;True;;;;;;3;;

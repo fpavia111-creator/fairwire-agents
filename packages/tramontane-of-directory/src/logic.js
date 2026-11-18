@@ -63,7 +63,7 @@ export function reviewDirectory(rows, settings = {}, asOf) {
   const seenLoop = new Set();
   for (const g of groups.values()) {
     const path = []; const onPath = new Set();
-    const visit = (n) => { const k = low(n); if (onPath.has(k)) { const cyc = path.slice(path.indexOf(k)); const key = [...cyc].sort().join(' > '); if (!seenLoop.has(key)) { seenLoop.add(key); items.push(finding('nested_group_loop', 'medium', key, `Groups ${cyc.map((x) => groups.get(x)?.name || x).join(' > ')} contain each other in a loop.`, 'Break the loop by removing one of the nested memberships.', { subject: 'group' })); } return; } const node = groups.get(k); if (!node || path.length > 50) return; path.push(k); onPath.add(k); for (const c of node.nested) visit(c); path.pop(); onPath.delete(k); };
+    const visit = (n) => { const k = low(n); if (onPath.has(k)) { const raw = path.slice(path.indexOf(k)); const m = raw.indexOf([...raw].sort()[0]); const cyc = [...raw.slice(m), ...raw.slice(0, m)]; const key = [...cyc].sort().join(' > '); if (!seenLoop.has(key)) { seenLoop.add(key); items.push(finding('nested_group_loop', 'medium', key, `Groups ${cyc.map((x) => groups.get(x)?.name || x).join(' > ')} contain each other in a loop.`, 'Break the loop by removing one of the nested memberships.', { subject: 'group' })); } return; } const node = groups.get(k); if (!node || path.length > 50) return; path.push(k); onPath.add(k); for (const c of node.nested) visit(c); path.pop(); onPath.delete(k); };
     visit(g.name);
   }
   const count = (t) => objs.filter((o) => o.type === t).length;

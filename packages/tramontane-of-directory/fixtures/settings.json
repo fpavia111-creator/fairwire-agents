@@ -1,0 +1,4 @@
+{
+  "stale_days": 90,
+  "service_account_prefixes": ["svc-"]
+}
