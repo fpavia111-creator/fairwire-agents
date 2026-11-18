@@ -1,0 +1,57 @@
+{
+  "name": "pheme-of-gateways",
+  "version": "0.1.0",
+  "description": "Pheme of Gateways: Email gateway review from Proofpoint, Mimecast, Defender or similar exports: high-confidence phishing released from quarantine, allow-listed senders that sent malware, the people targeted most, mail pulled back late, outbound spam from an internal mailbox and data-loss rule hits. Names masked for the model. Drafts notes; never releases or deletes mail.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "pheme-of-gateways": "bin/pheme-of-gateways.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/pheme-of-gateways.js demo",
+    "eval": "node bin/pheme-of-gateways.js eval"
+  },
+  "dependencies": {
+    "fairwire-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
+    "directory": "packages/pheme-of-gateways"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/pheme-of-gateways#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "it-operations",
+    "network",
+    "fairwire",
+    "email-security",
+    "phishing",
+    "quarantine",
+    "proofpoint",
+    "mimecast"
+  ]
+}
