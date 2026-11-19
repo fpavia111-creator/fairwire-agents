@@ -90,11 +90,12 @@ for (const n of readdirSync(PK).filter((x) => /^fairwire-(?!core$)/.test(x) && (
   const { manifest } = await import(pathToFileURL(join(PK, n, 'src', 'index.js')).href);
   const f = join(PK, n, 'README.md'); if (!existsSync(f)) continue;
   const block = section(n, manifest, demoText(n));
-  let txt = readFileSync(f, 'utf8');
+  // Compared without line-ending differences (a Windows checkout may hold CRLF).
+  let txt = readFileSync(f, 'utf8').replace(/\r\n/g, '\n'); const was = txt;
   // The hand-written tool table is replaced by the generated one.
   if (!txt.includes(START)) txt = txt.replace(/\n## Tools\n[\s\S]*?(?=\n## )/, '\n');
   const next = txt.includes(START) ? txt.replace(new RegExp(`${START}[\\s\\S]*?${END}`), block) : txt.includes('\n## Limits') ? txt.replace(/\n## Limits\b/, `\n${block}\n\n## Limits`) : `${txt.trimEnd()}\n\n${block}\n`;
-  if (next === readFileSync(f, 'utf8')) continue;
+  if (next === was) continue;
   if (check) { console.log(`${n}: README generated part is out of date`); stale++; continue; }
   writeFileSync(f, next); console.log(`${n}: README updated`);
 }

@@ -1,0 +1,9 @@
+# Every text file is checked out with LF, Windows included. With CRLF, npm rewrites the bin scripts
+# (a fresh clone showed 35 modified files) and the generated-file checks (readme:check, plugin:check) differ.
+* text=auto eol=lf
+# Exports from other countries keep their bytes exactly as written (Windows-1252, Shift_JIS, CRLF): that is what they test.
+**/fixtures/intl/** -text
+**/test/fixtures/** -text
+*.xlsx binary
+*.zip binary
+*.png binary

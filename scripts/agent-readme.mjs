@@ -47,7 +47,7 @@ for (const n of readdirSync(PK).filter((x) => /^fairwire-(?!core$)/.test(x) && e
     '## Licence', '', 'MIT. Fictional data only in `fixtures/`.', '',
   ];
   const f = join(P, 'README.md');
-  const old = existsSync(f) ? readFileSync(f, 'utf8') : '';
+  const old = existsSync(f) ? readFileSync(f, 'utf8').replace(/\r\n/g, '\n') : ''; // a Windows checkout may hold CRLF
   const gen = old.includes(START) ? old.slice(old.indexOf(START), old.indexOf(END) + END.length) : '';
   let next = L.join('\n');
   if (gen) next = next.replace('\n## Limits', `\n${gen}\n\n## Limits`);
