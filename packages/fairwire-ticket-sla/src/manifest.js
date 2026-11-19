@@ -14,6 +14,8 @@ const PROFILES = [
 ];
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { response_breached: ['first_response_at'], no_assignee: ['assignee'] },
   pkg, prefix: 'tickets', title: 'Fairwire Ticket SLA',
   description: 'Reviews a service desk export for SLA aging: open tickets past their resolution or response targets, tickets with nobody assigned, teams with many breaches, tickets parked on hold and tickets reopened again and again, with aging buckets by priority. Assignee names are masked for the model. Drafts a status note; never closes a ticket.',
   args, required: ['tickets'],

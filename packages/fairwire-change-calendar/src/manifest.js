@@ -10,6 +10,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { not_approved: ['approval'], no_backout_plan: ['backout_plan'], no_test_evidence: ['test_evidence'] },
   pkg, prefix: 'changes', title: 'Fairwire Change Calendar',
   description: 'Reviews a change calendar: changes inside a freeze, changes with no approval, overlapping changes on the same system, no back-out plan or test evidence, high-risk changes in business hours, systems whose changes keep failing and a high share of emergency changes. Drafts notes for the change board.',
   args, required: ['changes'],

@@ -11,6 +11,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { missing_owner_or_location: ['owner', 'location'] },
   pkg, prefix: 'assets', title: 'Fairwire Asset Inventory',
   description: 'Compares the CMDB with devices seen on the network or in device management: retired records still seen, devices with no record, duplicate serials, renamed devices, ghost records, records with no owner or location, and warranties ending. Owner names are masked for the model. Drafts CMDB fix lists; never edits the CMDB.',
   args, required: ['cmdb', 'seen'],

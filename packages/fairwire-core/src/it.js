@@ -102,6 +102,33 @@ export const isRandomMac = (m) => { const n = normMac(m); return !!n && (parseIn
 // -------------------------------------------------------------- ports ----
 export const PORT_NAMES = Object.freeze({ 20: 'FTP data', 21: 'FTP', 22: 'SSH', 23: 'Telnet', 25: 'SMTP', 53: 'DNS', 69: 'TFTP', 80: 'HTTP', 110: 'POP3', 123: 'NTP', 135: 'MS RPC', 137: 'NetBIOS', 138: 'NetBIOS', 139: 'NetBIOS', 143: 'IMAP', 161: 'SNMP', 389: 'LDAP', 443: 'HTTPS', 445: 'SMB', 514: 'Syslog', 636: 'LDAPS', 993: 'IMAPS', 995: 'POP3S', 1433: 'SQL Server', 1521: 'Oracle', 3306: 'MySQL', 3389: 'RDP', 5060: 'SIP', 5061: 'SIP TLS', 5432: 'PostgreSQL', 5900: 'VNC', 6379: 'Redis', 8080: 'HTTP alt', 8443: 'HTTPS alt', 9200: 'Elasticsearch', 27017: 'MongoDB' });
 /** Ports that should rarely be open to the internet. A default; settings replace it. */
+// ---------------------------------------------------------- end of support ----
+/**
+ * Operating systems past their vendor's end of security updates, as of 19 November 2026 (checked against
+ * endoflife.date and Microsoft's lifecycle pages by scripts/realdata.mjs). A dated default: customers replace
+ * it with the unsupported_os setting, for example to drop "Windows 10" while they pay for extended security
+ * updates. Entries match as text, case-insensitive, not followed by a digit; "*" stands for any text
+ * ("Windows 11*23H2" matches "Windows 11 Pro 23H2"). Long-term servicing systems (LTSC, LTSB, IoT) are only
+ * matched by an entry that names them, so "Windows 10" does not flag Windows 10 Enterprise LTSC 2021.
+ */
+export const END_OF_SUPPORT_OS = Object.freeze([
+  'Windows 2000', 'Windows XP', 'Windows Vista', 'Windows 7', 'Windows 8', 'Windows 10', 'LTSB',
+  'Windows 11*21H2', 'Windows 11*22H2', 'Windows 11*23H2', 'Windows 11 Home*24H2', 'Windows 11 Pro*24H2',
+  'Windows Server 2003', 'Windows Server 2008', 'Windows Server 2012',
+]);
+export const END_OF_SUPPORT_AS_OF = '2026-11-19';
+const LONG_TERM = /\b(ltsc|ltsb|iot)\b/i;
+/** The first entry of list that os matches, or undefined. */
+export function osPastSupport(os, list = END_OF_SUPPORT_OS) {
+  const a = String(os ?? '').trim(); if (!a) return undefined;
+  return list.find((entry) => {
+    const e = String(entry ?? '').trim(); if (!e) return false;
+    if (LONG_TERM.test(a) && !LONG_TERM.test(e)) return false;
+    const re = new RegExp(e.split('*').map((p) => p.replace(/[.+?^${}()|[\]\\]/g, (ch) => `\\${ch}`)).join('.*') + '(?![0-9])', 'i');
+    return re.test(a);
+  });
+}
+
 export const RISKY_INBOUND_PORTS = Object.freeze([21, 23, 135, 137, 138, 139, 445, 1433, 1521, 3306, 3389, 5432, 5900, 6379, 9200, 27017, 161, 69]);
 /** Protocols that send data, and often passwords, without encryption. */
 export const CLEARTEXT = Object.freeze({ ports: [21, 23, 80, 110, 143, 69, 161, 389, 8080], names: ['http', 'ftp', 'telnet', 'pop3', 'imap', 'tftp', 'snmp', 'snmpv1', 'snmpv2', 'snmpv2c', 'ldap'] });

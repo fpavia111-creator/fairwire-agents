@@ -30,6 +30,7 @@ export const SETTINGS_SCHEMA = { type: 'object', additionalProperties: false, pr
 } };
 export const DEFAULTS = Object.freeze({ public_zones: [], owned_cidrs: [], active_cloud_hosts: [], cloud_suffixes: [], ttl_min: 60, ttl_max: 604800 });
 
+const DNSSEC = new Set(['RRSIG', 'NSEC', 'NSEC3', 'SIG', 'KEY']);
 const fqdn = (name, zone) => { const n = low(name).replace(/\.$/, ''); const z = low(zone).replace(/\.$/, ''); if (!n || n === '@') return z; return z && !n.endsWith(z) ? `${n}.${z}` : n; };
 
 /** Count items per key in one pass (a filter per group is quadratic). */
@@ -40,7 +41,7 @@ export function reviewZones(rows, settings = {}) {
   const rs = rows.filter((r) => str(r.name) && str(r.type) && str(r.value)).map((r) => { const zone = low(r.zone).replace(/\.$/, ''); return { zone, name: fqdn(r.name, zone), type: str(r.type).toUpperCase(), value: low(r.value).replace(/\.$/, ''), ttl: num(r.ttl) }; });
   const items = []; const pub = s.public_zones.map(low); const active = new Set(s.active_cloud_hosts.map((h) => low(h).replace(/\.$/, '')));
   const cloud = [...CLOUD, ...s.cloud_suffixes.map(low)];
-  const byName = new Map(); for (const r of rs) byName.set(r.name, [...(byName.get(r.name) || []), r]);
+  const byName = new Map(); for (const r of rs) { const l = byName.get(r.name); if (l) l.push(r); else byName.set(r.name, [r]); }
   const seen = new Set();
   for (const r of rs) {
     const sig = `${r.name}|${r.type}|${r.value}`;
@@ -55,7 +56,8 @@ export function reviewZones(rows, settings = {}) {
     if (r.ttl !== null && (r.ttl < s.ttl_min || r.ttl > s.ttl_max)) items.push(finding('ttl_out_of_range', 'low', sig, `${r.type} record ${r.name} has a TTL of ${r.ttl} seconds.`, r.ttl < s.ttl_min ? 'Raise it unless you are about to move the record; very short TTLs add load and cost.' : 'Lower it so a change takes effect within a day or so.', { subject: r.zone }));
     if (r.name.startsWith('*.')) items.push(finding('wildcard_record', 'low', sig, `${r.name} is a wildcard ${r.type} record pointing at ${r.value}.`, 'Replace it with the names you actually use, unless a service needs it.', { subject: r.zone }));
   }
-  for (const [name, list] of byName) { const types = new Set(list.map((r) => r.type)); if (types.has('CNAME') && types.size > 1) items.push(finding('cname_conflict', 'high', name, `${name} has a CNAME and also ${[...types].filter((t) => t !== 'CNAME').sort().join(', ')} records.`, 'Keep either the CNAME or the other records, not both.', { subject: list[0].zone })); }
+  // DNSSEC records (RRSIG, NSEC, NSEC3) sit beside a CNAME by design (RFC 4035) and are not a conflict.
+  for (const [name, list] of byName) { const types = new Set(list.map((r) => r.type).filter((t) => !DNSSEC.has(t))); if (types.has('CNAME') && types.size > 1) items.push(finding('cname_conflict', 'high', name, `${name} has a CNAME and also ${[...types].filter((t) => t !== 'CNAME').sort().join(', ')} records.`, 'Keep either the CNAME or the other records, not both.', { subject: list[0].zone })); }
   const zones = [...new Set(rs.map((r) => r.zone))].sort();
   return { records: rs.length, zones: zones.length, names: byName.size, cnames: rs.filter((r) => r.type === 'CNAME').length, by_zone: ((nr, nf) => zones.map((zone) => ({ zone, records: nr.get(zone) || 0, findings: nf.get(zone) || 0 })))(countBy(rs, (r) => r.zone), countBy(items, (i) => i.subject)), items };
 }

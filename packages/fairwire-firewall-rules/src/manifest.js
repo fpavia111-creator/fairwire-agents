@@ -14,6 +14,8 @@ const PROFILES = [
 ];
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { no_owner_or_ticket: ['owner'] },
   pkg, prefix: 'firewall', title: 'Fairwire Firewall Rules',
   description: 'Reviews a firewall rule export: any-to-any allows, risky ports open from the internet, expired temporary rules, rules shadowed by an earlier rule, duplicates, unused rules, rules with no owner or ticket, allows with logging off and disabled rules left in the policy. Drafts a change request; never touches the firewall.',
   args, required: ['rules'],

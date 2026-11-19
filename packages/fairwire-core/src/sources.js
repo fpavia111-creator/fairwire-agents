@@ -155,6 +155,17 @@ const clipName = (s) => { const t = String(s); return t.length > 80 ? t.slice(0,
  * Returns { rows, report }. report.adapted is false when the file was already in
  * the agent's own layout and came back untouched.
  */
+// Exports write "no value" in many ways: "?" (the UCI ServiceNow incident log), "NULL" and "(null)" (database
+// dumps), "#N/A" (spreadsheets). In a mapped column these mean empty. "N/A", "none" and dashes are only
+// read as empty in date and number columns, where they cannot be a value.
+const EMPTY_ANY = /^(\?|null|\(null\)|#n\/a)$/i;
+const EMPTY_TYPED = /^(n\/a|none|\(none\)|\(empty\)|-+)$/i;
+export function isEmptyMark(v, type) {
+  if (typeof v !== 'string') return false;
+  const s = v.trim(); if (!s) return false;
+  return EMPTY_ANY.test(s) || (['date', 'datetime', 'number', 'money'].includes(type) && EMPTY_TYPED.test(s));
+}
+
 export function adaptRecords(table, def, { override = null, kind = '', arg = '', file = '' } = {}) {
   const ov = override || {};
   const fields = def.fields || {};
@@ -265,7 +276,7 @@ export function adaptRecords(table, def, { override = null, kind = '', arg = '',
   const fileMark = sum.comma > sum.dot ? ',' : sum.dot > sum.comma ? '.' : table.delimiter === ';' ? ',' : '.';
   for (const [f, e] of evidence) decimals.set(f, ov.decimal || (profile && profile.decimal) || (e.comma > e.dot ? ',' : e.dot > e.comma ? '.' : fileMark));
 
-  let ambiguousDates = 0, badDates = 0, badAmounts = 0, convertedDates = 0, numericDates = 0, skipped = 0;
+  let ambiguousDates = 0, badDates = 0, badAmounts = 0, convertedDates = 0, numericDates = 0, skipped = 0, emptyMarks = 0;
   // A value set by a profile's "values" table or "default" is final: it is the
   // agent's own word ("never", "active") and is not parsed as a date or amount.
   const convert = (p, v, final = false) => {
@@ -316,6 +327,7 @@ export function adaptRecords(table, def, { override = null, kind = '', arg = '',
       else if (p.spec.compute) { v = p.spec.compute(r, get, helpers); if ((v === undefined || v === null || String(v).trim() === '') && p.spec.default !== undefined) { v = p.spec.default; final = true; } }
       else {
         v = get(p.from[0]);
+        if (isEmptyMark(v, p.fd.type)) { v = ''; emptyMarks++; }
         const blank = v === undefined || v === null || String(v).trim() === '';
         if (blank && p.spec.default !== undefined) { v = p.spec.default; final = true; }
         else if (!blank && p.spec.transform) v = p.spec.transform(v, r, get, helpers);
@@ -347,6 +359,7 @@ export function adaptRecords(table, def, { override = null, kind = '', arg = '',
   if (ambiguousDates && softDmy) warnings.push(`${ambiguousDates} date(s) such as 03.04.2026 could be day-first or month-first; read as day/month/year because the file writes dates with dots. Set "date_order": "mdy" in ${SOURCES_FILE} if the file is month-first.`);
   else if (ambiguousDates) warnings.push(`${ambiguousDates} date(s) such as 03/04/2026 could be month-first or day-first; read as month/day/year. Set "date_order": "dmy" in ${SOURCES_FILE} if the file is day-first.`);
   if (dateOrder === 'mixed') warnings.push(`The date columns mix month-first and day-first values; each was read by its own digits where possible. Check the dates.`);
+  if (emptyMarks) warnings.push(`${emptyMarks} value(s) written as "?", "NULL" or "#N/A" (or "N/A", "none" in a date or number column) were read as empty.`);
   if (badDates) warnings.push(`${badDates} date value(s) could not be read and were left as they are.`);
   if (badAmounts) warnings.push(`${badAmounts} amount value(s) could not be read and were left as they are.`);
   if (unitsAssumed.length) warnings.push(`No unit in the column name of ${unitsAssumed.join(', ')}; read as metric (kg, km or cm) because the column was found by its translated name, and converted. Set "units" in ${SOURCES_FILE} if that is wrong.`);

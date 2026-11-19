@@ -1,0 +1,23 @@
+; Fictional zone for example.com in master-file format (as BIND, Windows DNS or a zone transfer writes it).
+; Same planted problems as records.csv, plus a DNSSEC signature next to a CNAME, which is not a conflict.
+$ORIGIN example.com.
+$TTL 3600
+@           IN  SOA  ns1.example.com. hostmaster.example.com. (
+                     2026111801 ; serial
+                     7200 3600 1209600 3600 )
+@           IN  NS     ns1.example.com.
+@           IN  A      203.0.113.10
+www         IN  CNAME  @
+www         IN  RRSIG  CNAME 13 3 3600 20261201000000 20261118000000 12345 example.com. c2lnbmF0dXJl
+shop        IN  CNAME  example-shop.azurewebsites.net.
+docs        IN  CNAME  example-docs.github.io.
+promo2024   IN  CNAME  promo2024-example.s3-website-us-east-1.amazonaws.com.
+intranet    IN  A      10.20.0.15
+legacy      IN  A      198.51.100.77
+mail        IN  A      203.0.113.25
+mail        IN  A      203.0.113.25
+status  30  IN  CNAME  status-page.example.net.
+status      IN  TXT    "verification=abc123; kept in quotes"
+*.preview   IN  A      203.0.113.40
+api 1209600 IN  A      203.0.113.30
+ns1         IN  A      203.0.113.53

@@ -10,6 +10,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { admin_without_mfa: ['mfa'], break_glass_no_note: ['note'] },
   pkg, prefix: 'admin_roles', title: 'Fairwire Admin Roles',
   description: 'Reviews privileged role assignments: more top admins than your cap, guests with admin roles, admins without MFA, break-glass accounts that signed in or have no note, standing assignments where you use just-in-time, admin accounts that also read mail and admins who no longer sign in. Names are masked for the model. Drafts notes; never removes a role.',
   args, required: ['roles'],

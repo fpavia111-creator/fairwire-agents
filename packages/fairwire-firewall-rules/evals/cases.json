@@ -81,13 +81,15 @@
       "expect": {
         "equals": {
           "result.rules": 3,
-          "result.open": 5,
+          "result.open": 2,
           "result.high": 2
         },
         "contains": [
-          "paloalto_security_rules"
+          "paloalto_security_rules",
+          "no_owner_or_ticket: the export has no owner column"
         ]
-      }
+      },
+      "note": "A Palo Alto rule export has no owner column, so the owner check is skipped and said so (it used to flag every rule)."
     },
     {
       "id": "explain-ftp-rule",

@@ -22,6 +22,31 @@
       }
     },
     {
+      "id": "zone-file",
+      "tool": "dns_records_check",
+      "args": {
+        "records": "fixtures/exports/example-com.zone",
+        "settings": "fixtures/settings.json"
+      },
+      "expect": {
+        "equals": {
+          "result.format": "zone file",
+          "result.records": 17,
+          "result.open": 8,
+          "result.high": 2
+        },
+        "contains": [
+          "dangling_cname",
+          "private_ip_in_public_zone",
+          "cname_conflict"
+        ],
+        "not_contains": [
+          "www.example.com has a CNAME"
+        ]
+      },
+      "note": "A master file with the same planted problems as records.csv; the RRSIG beside the www CNAME is DNSSEC, not a conflict."
+    },
+    {
       "id": "every-planted-issue",
       "tool": "dns_records_check",
       "args": {

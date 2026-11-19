@@ -16,6 +16,8 @@ const PROFILES = [
 ];
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { untagged_spend: ['owner'] },
   pkg, prefix: 'cloud_costs', title: 'Fairwire Cloud Costs',
   description: 'Reviews AWS, Azure and Google Cloud cost exports for the latest month: spend in regions outside your list, services that jumped month on month, spend with no owner tag, commitments about to end, dev and test resources running all month, data egress and marketplace charges. Drafts notes for owners; never changes a cloud account.',
   args, required: ['costs'],

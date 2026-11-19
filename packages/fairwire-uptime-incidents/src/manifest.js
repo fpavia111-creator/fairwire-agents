@@ -10,6 +10,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { missing_postmortem: ['postmortem'] },
   pkg, prefix: 'incidents', title: 'Fairwire Uptime Incidents',
   description: 'Reviews uptime and incident exports: services below their availability target, major incidents with no review, services failing again and again, slow acknowledgement and resolution against your targets, error budgets nearly spent and incidents that followed a change. Drafts review notes.',
   args, required: ['incidents'],

@@ -14,12 +14,14 @@ export const CHECKS = Object.freeze({
 
 export const CHANGE_FIELDS = Object.freeze({
   change_id: { aliases: ['Change', 'Change ID', 'Number', 'ID', 'Key'], required: true },
-  system: { aliases: ['System', 'Configuration Item', 'CI', 'Service', 'Application'], required: true },
+  system: { aliases: ['System', 'Configuration Item', 'CI', 'CI Name', 'CI Name (aff)', 'Affected CI', 'Configuration Item Name', 'Service', 'Application'], required: true },
   title: { aliases: ['Title', 'Short Description', 'Summary', 'Description'] },
   start: { type: 'datetime', aliases: ['Planned Start', 'Start', 'Start Date', 'Scheduled Start', 'Window Start'], required: true },
   end: { type: 'datetime', aliases: ['Planned End', 'End', 'End Date', 'Scheduled End', 'Window End'] },
-  risk: { aliases: ['Risk', 'Risk Level', 'Impact'] },
+  risk: { aliases: ['Risk', 'Risk Level', 'Risk Assessment', 'Impact'] },
   type: { aliases: ['Type', 'Change Type', 'Category'] },
+  // HP Service Manager and others keep "emergency" as its own yes/no column (BPI Challenge 2014 change records).
+  emergency: { aliases: ['Emergency Change', 'Emergency', 'Is Emergency'] },
   approval: { aliases: ['Approval', 'Approved', 'Approval Status', 'CAB Approval'] },
   backout_plan: { aliases: ['Backout Plan', 'Back-out Plan', 'Rollback Plan', 'Backout'] },
   test_evidence: { aliases: ['Test Evidence', 'Test Plan', 'Tested', 'Testing'] },
@@ -36,14 +38,15 @@ export const SETTINGS_SCHEMA = { type: 'object', additionalProperties: false, pr
   business_hours: { type: 'array', items: { type: 'integer', minimum: 0, maximum: 24 }, minItems: 2, maxItems: 2, description: 'First and last hour of business, e.g. [8, 18] (default)' },
   emergency_share_pct: { type: 'number', minimum: 1, maximum: 100, description: 'Share of emergency changes above which it is flagged (default 15)' },
   failed_min: { type: 'integer', minimum: 2, description: 'Failed or rolled-back changes on one system before it is flagged (default 2)' },
+  max_window_hours: { type: 'number', minimum: 1, description: 'A planned window longer than this is a planning range, not an implementation window: it is counted (long_windows) but not compared for overlaps (default 72)' },
 } };
-export const DEFAULTS = Object.freeze({ business_hours: [8, 18], emergency_share_pct: 15, failed_min: 2 });
+export const DEFAULTS = Object.freeze({ business_hours: [8, 18], emergency_share_pct: 15, failed_min: 2, max_window_hours: 72 });
 
 const filled = (v) => { const t = str(v); return !!t && yes(t) !== false && !/^(n\/a|none|-|tbd|todo)$/i.test(t); };
 
 export function reviewChanges(rows, freezeRows = [], settings = {}) {
   const s = { ...DEFAULTS, ...settings };
-  const cs = rows.filter((r) => str(r.change_id) && str(r.system) && Number.isFinite(toMs(r.start))).map((r) => { const start = str(r.start); const end = Number.isFinite(toMs(r.end)) ? str(r.end) : new Date(toMs(start) + 3600000).toISOString().slice(0, 19).replace('T', ' '); const type = low(r.type); return { id: str(r.change_id), system: str(r.system), sys: low(r.system), start, end, t0: toMs(start), t1: toMs(end), risk: low(r.risk), type: /emerg/.test(type) ? 'emergency' : /standard|pre-?approved/.test(type) ? 'standard' : 'normal', approved: /approv|yes|true|granted/i.test(str(r.approval)) && !/not|pending|reject|requested/i.test(str(r.approval)), backout: filled(r.backout_plan), tested: filled(r.test_evidence), failed: /fail|rolled|backed out|unsuccess/i.test(str(r.outcome)) }; });
+  const cs = rows.filter((r) => str(r.change_id) && str(r.system) && Number.isFinite(toMs(r.start))).map((r) => { const start = str(r.start); const end = Number.isFinite(toMs(r.end)) ? str(r.end) : new Date(toMs(start) + 3600000).toISOString().slice(0, 19).replace('T', ' '); const type = low(r.type); const emerg = /^(y|yes|true|1)$/i.test(str(r.emergency)); return { id: str(r.change_id), system: str(r.system), sys: low(r.system), start, end, t0: toMs(start), t1: toMs(end), risk: low(r.risk), type: /emerg/.test(type) || emerg ? 'emergency' : /standard|pre-?approved/.test(type) ? 'standard' : 'normal', approved: /approv|yes|true|granted/i.test(str(r.approval)) && !/not|pending|reject|requested/i.test(str(r.approval)), backout: filled(r.backout_plan), tested: filled(r.test_evidence), failed: /fail|rolled|backed out|unsuccess/i.test(str(r.outcome)) }; });
   const fz = freezeRows.filter((r) => str(r.name) && Number.isFinite(toMs(r.start)) && Number.isFinite(toMs(r.end))).map((r) => ({ name: str(r.name), start: str(r.start), end: str(r.end), t0: toMs(r.start), t1: toMs(r.end) }))
     .sort((a, b) => a.t0 - b.t0 || (a.name < b.name ? -1 : a.name > b.name ? 1 : a.t1 - b.t1));
   const latestEnd = []; for (const f of fz) latestEnd.push(Math.max(latestEnd.length ? latestEnd[latestEnd.length - 1] : -Infinity, f.t1));
@@ -65,12 +68,17 @@ export function reviewChanges(rows, freezeRows = [], settings = {}) {
     if (/high|major|critical/.test(c.risk) && h !== null && h >= h0 && h < h1 && wd >= 1 && wd <= 5) items.push(finding('risky_in_business_hours', 'medium', c.id, `High-risk change ${c.id} on ${c.system} starts at ${c.start}, during business hours.`, 'Move it to a quiet window unless the business has agreed.', { subject: c.system }));
   }
   const bySys = new Map(); for (const c of cs) { const l = bySys.get(c.sys); if (l) l.push(c); else bySys.set(c.sys, [c]); }
+  // Found on the public BPI Challenge 2014 change records: planned windows of weeks or months overlap
+  // everything on their system. Only implementation-sized windows are compared, and each pair is reported once.
+  const maxMs = s.max_window_hours * 3600000; const isLong = (c) => c.t1 - c.t0 > maxMs; const pairs = new Set();
   for (const [, list] of bySys) {
-    const l = [...list].sort((a, b) => a.t0 - b.t0 || (a.id < b.id ? -1 : 1));
-    for (let i = 0; i < l.length; i++) for (let j = i + 1; j < l.length && l[j].t0 < l[i].t1; j++) if (l[i].t0 < l[i].t1 && l[j].t0 < l[j].t1 && l[i].t0 < l[j].t1) { const both = /high/.test(l[i].risk) && /high/.test(l[j].risk); items.push(finding('overlapping_changes', both ? 'high' : 'medium', `${l[i].id}+${l[j].id}`, `${l[i].id} and ${l[j].id} both change ${l[i].system} at the same time (${l[i].start} and ${l[j].start}).`, 'Merge them or move one, so a failure can be traced to one change.', { subject: l[i].system })); }
-    const failed = l.filter((c) => c.failed); if (failed.length >= s.failed_min) items.push(finding('repeat_failed_changes', 'medium', l[0].system, `${failed.length} changes on ${l[0].system} failed or were rolled back (${failed.map((c) => c.id).join(', ')}).`, 'Review how changes to this system are tested before the next one.', { subject: l[0].system }));
+    const all = [...list].sort((a, b) => a.t0 - b.t0 || (a.id < b.id ? -1 : 1)); const l = all.filter((c) => !isLong(c));
+    for (let i = 0; i < l.length; i++) for (let j = i + 1; j < l.length && l[j].t0 < l[i].t1; j++) if (l[i].id !== l[j].id && l[i].t0 < l[i].t1 && l[j].t0 < l[j].t1 && l[i].t0 < l[j].t1 && !pairs.has(`${l[i].sys}|${l[i].id}|${l[j].id}`)) { pairs.add(`${l[i].sys}|${l[i].id}|${l[j].id}`); const both = /high/.test(l[i].risk) && /high/.test(l[j].risk); items.push(finding('overlapping_changes', both ? 'high' : 'medium', `${l[i].id}+${l[j].id}`, `${l[i].id} and ${l[j].id} both change ${l[i].system} at the same time (${l[i].start} and ${l[j].start}).`, 'Merge them or move one, so a failure can be traced to one change.', { subject: l[i].system })); }
+    const failed = all.filter((c) => c.failed); if (failed.length >= s.failed_min) items.push(finding('repeat_failed_changes', 'medium', all[0].system, `${failed.length} changes on ${all[0].system} failed or were rolled back (${failed.map((c) => c.id).join(', ')}).`, 'Review how changes to this system are tested before the next one.', { subject: all[0].system }));
   }
-  const em = cs.filter((c) => c.type === 'emergency').length; const share = pct(em, cs.length);
-  if (cs.length >= 5 && share > s.emergency_share_pct) items.push(finding('emergency_share', 'low', 'emergency', `${share}% of changes (${em} of ${cs.length}) were emergencies.`, 'Look at why work skips normal planning; frequent emergencies hide risk.', { subject: 'all systems' }));
-  return { changes: cs.length, systems: bySys.size, emergency: em, failed: cs.filter((c) => c.failed).length, freezes: fz.length, items };
+  // One change can have a row per affected system; the share counts changes, not rows.
+  const ids = new Map(); for (const c of cs) ids.set(c.id, ids.get(c.id) || c.type === 'emergency');
+  const total = ids.size; const em = [...ids.values()].filter(Boolean).length; const share = pct(em, total);
+  if (total >= 5 && share > s.emergency_share_pct) items.push(finding('emergency_share', 'low', 'emergency', `${share}% of changes (${em} of ${total}) were emergencies.`, 'Look at why work skips normal planning; frequent emergencies hide risk.', { subject: 'all systems' }));
+  return { changes: total, rows: cs.length, long_windows: new Set(cs.filter(isLong).map((c) => c.id)).size, systems: bySys.size, emergency: em, failed: new Set(cs.filter((c) => c.failed).map((c) => c.id)).size, freezes: fz.length, items };
 }

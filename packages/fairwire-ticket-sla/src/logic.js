@@ -16,7 +16,7 @@ export const TICKET_FIELDS = Object.freeze({
   opened_at: { type: 'datetime', aliases: ['Opened', 'Created', 'opened_at', 'Created Date', 'Submitted'], required: true },
   first_response_at: { type: 'datetime', aliases: ['First Response', 'First Responded', 'Responded At', 'First Reply'] },
   resolved_at: { type: 'datetime', aliases: ['Resolved', 'Resolved At', 'Closed', 'Resolution Date', 'resolved_at'] },
-  state: { aliases: ['State', 'Status', 'Ticket Status'] },
+  state: { aliases: ['State', 'Status', 'Ticket Status', 'incident_state', 'Incident state'] },
   team: { aliases: ['Assignment group', 'Team', 'Group', 'Queue', 'assignment_group'] },
   assignee: { aliases: ['Assigned to', 'Assignee', 'Agent', 'Technician', 'Owner'], pii: 'name' },
   reopen_count: { type: 'number', aliases: ['Reopen Count', 'Reopened', 'Times Reopened'] },
@@ -48,7 +48,9 @@ export function reviewTickets(rows, settings = {}, asOf) {
   for (const t of ts) {
     const isOpen = OPEN(t.state) && !Number.isFinite(t.res); const end = Number.isFinite(t.res) ? t.res : now; const age = hours(t.open, end);
     const resT = s.resolve_hours[t.p]; const respT = s.response_hours[t.p];
-    const breached = resT !== undefined && age > resT;
+    // A closed ticket with no resolution time cannot be measured (1,556 such rows in the public ServiceNow log).
+    const measurable = isOpen || Number.isFinite(t.res);
+    const breached = measurable && resT !== undefined && age > resT;
     const tm = teams[t.team] || (teams[t.team] = { team: t.team, tickets: 0, breached: 0, open: 0 }); tm.tickets++; if (breached) tm.breached++; if (isOpen) tm.open++;
     const pr = pri[t.p] || (pri[t.p] = { priority: t.p, open: 0, breached_open: 0 }); if (isOpen) { pr.open++; if (breached) pr.breached_open++; }
     if (isOpen && breached) items.push(finding('resolution_breached', ['P1', 'P2'].includes(t.p) ? 'high' : 'medium', t.id, `${t.p} ticket ${t.id} (${t.team}) has been open ${age} hours; the target is ${resT}.`, 'Escalate it to the team lead today, or agree a new date with the requester.', { subject: t.team }));

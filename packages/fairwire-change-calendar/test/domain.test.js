@@ -48,3 +48,16 @@ test('a change with no end gets a one-hour window; rows without a start are left
   const o = reviewChanges([c('a', { end: '' }), c('b', { start: '2026-11-24 22:30:00', end: '' }), c('z', { start: 'soon' })], [], {});
   assert.equal(o.changes, 2); assert.ok(o.items.some((i) => i.code === 'overlapping_changes'));
 });
+
+test('real change exports: a months-long planning window is counted, not compared; one change on several rows is one change; a yes/no emergency column counts', () => {
+  // Shapes found in the public BPI Challenge 2014 (HP Service Manager) change records.
+  const long = c('plan', { start: '2026-08-01 07:00:00', end: '2027-01-31 00:00:00' });
+  const o = reviewChanges([long, c('a'), c('b', { start: '2026-11-24 22:30:00', end: '2026-11-24 23:30:00' })]);
+  assert.deepEqual(o.items.filter((i) => i.code === 'overlapping_changes').map((i) => i.key), ['a+b'], 'the planning window overlaps nothing');
+  assert.equal(o.long_windows, 1);
+  const twoRows = reviewChanges([c('x', { system: 'ERP' }), c('x', { system: 'CRM' }), c('y', { system: 'ERP', start: '2026-11-24 22:15:00' })]);
+  assert.equal(twoRows.changes, 2); assert.equal(twoRows.rows, 3);
+  assert.equal(twoRows.items.filter((i) => i.code === 'overlapping_changes').length, 1, 'x and y on ERP, once');
+  const em = reviewChanges([1, 2, 3, 4, 5].map((k) => c(`e${k}`, { system: `S${k}`, type: 'Release Type 11', emergency: k === 1 ? 'Y' : 'N' })));
+  assert.equal(em.emergency, 1);
+});

@@ -85,9 +85,23 @@ export function wireAgent(cfg) {
   const drafts = cfg.drafts ? draftPair({ prefix, outDir: out, ...cfg.drafts }) : cfg.note ? draftPair({ prefix, outDir: out, ...noteDraft(cfg, () => evaluate) }) : { tools: [], rules: [] };
   const checkName = `${prefix}_check`, explainName = `${prefix}_explain`, reportName = `${prefix}_write_report`;
 
-  /** Run the agent's checks, sort, apply accepted exceptions and count. */
+  /**
+   * Run the agent's checks, sort, apply accepted exceptions and count.
+   * cfg.needs ({ code: [field, ...] }) names the columns a "value is missing" check depends on. When the
+   * export has no such column at all (not just empty cells), that check would flag every row, so its
+   * findings are dropped and checks_skipped says why. Found by the final pass on real exports.
+   */
   async function evaluate(a, ctx) {
-    const o = await cfg.run(a, ctx);
+    const seen = new Set();
+    const watched = cfg.needs ? new Proxy(ctx, { get(t, p) {
+      if (p === 'records') return (...args) => { const rows = t.records(...args); for (const r of rows.slice(0, 200)) if (r && typeof r === 'object') for (const k of Object.keys(r)) seen.add(k); return rows; };
+      const v = Reflect.get(t, p); return typeof v === 'function' ? v.bind(t) : v;
+    } }) : ctx;
+    const o = await cfg.run(a, watched);
+    const skipped = [];
+    if (cfg.needs && seen.size) for (const [code, fields] of Object.entries(cfg.needs)) { const absent = [].concat(fields).filter((f) => !seen.has(f)); if (absent.length) skipped.push({ code, absent }); }
+    const skip = new Set(skipped.map((s) => s.code));
+    if (skipped.length) { o.items = (o.items || []).filter((i) => !skip.has(i.code)); o.checks_skipped = skipped.map((s) => `${s.code}: the export has no ${s.absent.join(' or ')} column`); }
     const asOf = isoDate(a.as_of) || isoDate(new Date().toISOString());
     const facts = ctx.memoryFacts('known_exception').map((f) => ({ ...f.value, id: f.id, accepted_by: f.accepted_by }));
     const items = sortFindings(o.items || []).map((i) => {
@@ -97,7 +111,7 @@ export function wireAgent(cfg) {
     const open = items.filter((i) => !i.accepted);
     return { ...o, items, open: open.length, accepted: items.length - open.length, high: open.filter((i) => i.severity === 'high').length, by_finding: byFinding(open) };
   }
-  const line = (o) => `${cfg.summary(o)}${o.accepted ? ` ${o.accepted} finding(s) accepted as known.` : ''}`;
+  const line = (o) => `${cfg.summary(o)}${o.accepted ? ` ${o.accepted} finding(s) accepted as known.` : ''}${o.checks_skipped ? ` ${o.checks_skipped.length} check(s) skipped for a column the export does not have.` : ''}`;
 
   const tools = [
     {

@@ -11,6 +11,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { no_owner: ['user'] },
   pkg, prefix: 'mobile', title: 'Fairwire Mobile Devices',
   description: 'Reviews a mobile device export from device management: jailbroken or rooted devices, devices of people who left, no passcode or encryption, devices that stopped checking in, operating systems under your minimum, other non-compliance and company devices with no owner. Users and device ids are masked for the model. Drafts notes; never wipes or locks a device.',
   args, required: ['devices'],

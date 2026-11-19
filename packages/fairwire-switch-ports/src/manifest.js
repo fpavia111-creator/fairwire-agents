@@ -11,6 +11,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { no_description: ['description'] },
   pkg, prefix: 'switch_ports', title: 'Fairwire Switch Ports',
   description: 'Reviews a switch port and VLAN inventory: trunks carrying every VLAN, access ports in VLAN 1, half duplex links, CRC errors, ports in VLANs outside your plan, enabled ports unused for months, trunks with no description and VLANs nobody uses. Drafts a change request; never changes a switch.',
   args, required: ['ports'],

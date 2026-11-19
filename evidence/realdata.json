@@ -1,0 +1,218 @@
+{
+  "run": "2026-11-19",
+  "node": "v24.20.0",
+  "sources": [
+    {
+      "id": "uci",
+      "agent": "fairwire-ticket-sla",
+      "name": "Incident management process enriched event log (UCI Machine Learning Repository, dataset 498)",
+      "system": "ServiceNow (incident audit log of an IT company, anonymised)",
+      "page": "https://archive.ics.uci.edu/dataset/498",
+      "url": "https://archive.ics.uci.edu/static/public/498/incident+management+process+enriched+event+log.zip",
+      "file": {
+        "bytes": 2400214,
+        "sha256": "6294e29a311647306bfdfc85783f7df66517c197b9cd49aa5ee36ba9c525d1d6",
+        "downloaded": "2026-11-19"
+      },
+      "licence": "CC BY 4.0. Amaral, Fantinato and Peres (2018), doi:10.24432/C57S4H",
+      "rows_in_file": 141712,
+      "incidents": 24918,
+      "result": {
+        "summary": "24918 ticket(s), 0 open (0 older than 30 days): 87 open finding(s), 0 high. 1 check(s) skipped for a column the export does not have.",
+        "by_finding": {
+          "reopened_often": {
+            "severity": "low",
+            "count": 30
+          },
+          "team_breach_rate": {
+            "severity": "medium",
+            "count": 57
+          }
+        },
+        "checks_skipped": [
+          "response_breached: the export has no first_response_at column"
+        ],
+        "warnings": [
+          "incident_list.csv: 4438 value(s) written as \"?\", \"NULL\" or \"#N/A\" (or \"N/A\", \"none\" in a date or number column) were read as empty.",
+          "Personal-data masking is OFF (pii: off): names, sign-in names, phone numbers and client addresses in this result are real."
+        ]
+      },
+      "checks": {
+        "open_tickets": {
+          "agent": 0,
+          "expected": 0,
+          "note": "every incident ends Closed in the log"
+        },
+        "reopened_often": {
+          "agent": 30,
+          "file": 30
+        },
+        "team_breach_rate_vs_made_sla": {
+          "agent_flagged": 57,
+          "servicenow_flagged": 60,
+          "both": 56,
+          "agent_only": 1,
+          "servicenow_only": 4,
+          "note": "agent: default resolution targets (P1 4 h, P2 24 h, P3 72 h, P4 120 h, calendar hours); ServiceNow: the instance's own SLA definitions, not published"
+        }
+      }
+    },
+    {
+      "id": "bpic",
+      "agent": "fairwire-change-calendar",
+      "name": "BPI Challenge 2014: Change details (4TU.ResearchData)",
+      "system": "HP Service Manager change records of Rabobank Group ICT",
+      "page": "https://data.4tu.nl/datasets/e9c00fe9-c87a-450e-8bd6-d5e06a6b309a",
+      "url": "https://data.4tu.nl/file/e9c00fe9-c87a-450e-8bd6-d5e06a6b309a/9d7cd406-9826-4adf-8418-c751b475f556",
+      "file": {
+        "bytes": 6668750,
+        "sha256": "451d3c6b9d21f7cd0937b627efad4836d2516a19fd53258dbb97af00dd7c5d14",
+        "downloaded": "2026-11-19",
+        "md5_matches_publisher": true
+      },
+      "md5": "24a9fd1b2d7f7a46469ee85b4c14e598",
+      "licence": "4TU.ResearchData General Terms of Use. van Dongen (2014), doi:10.4121/uuid:d5ccb355-ca67-480f-8739-289b9b593aaf",
+      "result": {
+        "summary": "18000 change(s) on 10193 system(s), 35 emergency, 0 failed, 0 freeze window(s): 2471 open finding(s), 0 high. 3 check(s) skipped for a column the export does not have.",
+        "changes": 18000,
+        "rows": 30275,
+        "long_windows": 6230,
+        "by_finding": {
+          "overlapping_changes": {
+            "severity": "medium",
+            "count": 2419
+          },
+          "risky_in_business_hours": {
+            "severity": "medium",
+            "count": 52
+          }
+        },
+        "checks_skipped": [
+          "not_approved: the export has no approval column",
+          "no_backout_plan: the export has no backout_plan column",
+          "no_test_evidence: the export has no test_evidence column"
+        ],
+        "warnings": [
+          "Personal-data masking is OFF (pii: off): names, sign-in names, phone numbers and client addresses in this result are real."
+        ]
+      }
+    },
+    {
+      "id": "root",
+      "agent": "fairwire-dns-records",
+      "name": "DNS root zone file",
+      "system": "IANA root zone in master-file format (as published by InterNIC)",
+      "page": "https://www.iana.org/domains/root/files",
+      "url": "https://www.internic.net/domain/root.zone",
+      "file": {
+        "bytes": 2257904,
+        "sha256": "19e9ca061a9574bfe6da30ee5019fadca646fb94480bcc7a7d5fb06164556835",
+        "downloaded": "2026-11-19"
+      },
+      "licence": "Published by IANA for public download; no licence stated",
+      "result": {
+        "summary": "25020 record(s) for 7344 name(s) in 1 zone(s), 0 CNAME(s): 0 open finding(s), 0 high.",
+        "records": 25020,
+        "records_in_file": 25020,
+        "record_types": {
+          "SOA": 1,
+          "RRSIG": 2791,
+          "NS": 7569,
+          "NSEC": 1437,
+          "DNSKEY": 3,
+          "ZONEMD": 1,
+          "DS": 1663,
+          "A": 5921,
+          "AAAA": 5634
+        },
+        "format": "zone file",
+        "by_finding": {}
+      }
+    },
+    {
+      "id": "eol",
+      "agents": [
+        "fairwire-patch-status",
+        "fairwire-directory-hygiene",
+        "fairwire-mobile-devices"
+      ],
+      "name": "endoflife.date (Windows, Windows Server, iOS, Android)",
+      "system": "End-of-support dates collected from vendor pages",
+      "page": "https://endoflife.date",
+      "licence": "MIT (endoflife.date project)",
+      "files": {
+        "windows": {
+          "bytes": 13343,
+          "sha256": "5d2fed3345f0ceb97e1eb72013169a40387983bec204384b45283c07a6e5d055",
+          "downloaded": "2026-11-19"
+        },
+        "windows-server": {
+          "bytes": 5207,
+          "sha256": "7d05bf3bddc722ebf6d56ca787fe9cbf4ea07cfbfce065b92d366d591f7ec3df",
+          "downloaded": "2026-11-19"
+        },
+        "ios": {
+          "bytes": 2886,
+          "sha256": "31e8d9cefbca01fded613df1708ef73ff0ca8335143ce0eb6845211777b81e32",
+          "downloaded": "2026-11-19"
+        },
+        "android": {
+          "bytes": 5431,
+          "sha256": "93084684ab3088ad075eecd63f8f0a44f416247588d5d27708f8bd4ffb52801e",
+          "downloaded": "2026-11-19"
+        }
+      },
+      "result": {
+        "patch_status": {
+          "ended": 53,
+          "ended_and_flagged": 43,
+          "ended_not_flagged": [
+            "Windows 10 IoT Enterprise 1507 (ended 2020-11-10)",
+            "Windows Server 23H2 AC (ended 2026-05-12)",
+            "Windows Server 20H2 SAC (ended 2022-08-09)",
+            "Windows Server 2004 SAC (ended 2021-12-14)",
+            "Windows Server 1909 SAC (ended 2021-05-11)",
+            "Windows Server 1903 SAC (ended 2020-12-08)",
+            "Windows Server 1809 SAC (ended 2020-11-10)",
+            "Windows Server 1803 SAC (ended 2019-11-12)",
+            "Windows Server 1709 SAC (ended 2019-04-09)",
+            "Windows Server 2000 (ended 2010-07-13)"
+          ],
+          "flagged_but_supported": []
+        },
+        "directory_hygiene": {
+          "ended": 53,
+          "ended_and_flagged": 43,
+          "ended_not_flagged": [
+            "Windows 10 IoT Enterprise 1507 (ended 2020-11-10)",
+            "Windows Server 23H2 AC (ended 2026-05-12)",
+            "Windows Server 20H2 SAC (ended 2022-08-09)",
+            "Windows Server 2004 SAC (ended 2021-12-14)",
+            "Windows Server 1909 SAC (ended 2021-05-11)",
+            "Windows Server 1903 SAC (ended 2020-12-08)",
+            "Windows Server 1809 SAC (ended 2020-11-10)",
+            "Windows Server 1803 SAC (ended 2019-11-12)",
+            "Windows Server 1709 SAC (ended 2019-04-09)",
+            "Windows Server 2000 (ended 2010-07-13)"
+          ],
+          "flagged_but_supported": []
+        },
+        "still_supported": {
+          "ios": [
+            "15",
+            "16",
+            "18",
+            "26",
+            "27"
+          ],
+          "android": [
+            "14",
+            "15",
+            "16",
+            "17"
+          ]
+        }
+      }
+    }
+  ]
+}

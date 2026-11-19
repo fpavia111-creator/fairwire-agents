@@ -43,3 +43,17 @@ test('TTLs outside the limits and wildcards', () => {
 test('rows missing a name, type or value are left out', () => {
   assert.equal(reviewZones([r('', 'A', '1.2.3.4'), r('a', '', '1.2.3.4'), r('a', 'A', '')], {}).records, 0);
 });
+
+test('zone (master) files: $ORIGIN, $TTL, @, relative names, a blank owner, multi-line SOA and quoted semicolons', async () => {
+  const { parseZoneFile, looksLikeZoneFile } = await import('../src/zonefile.js');
+  const text = [
+    '$ORIGIN example.org.', '$TTL 300', '@ IN SOA ns1 host ( 1 ; serial', '  2 3 4 5 )',
+    'www 60 IN CNAME @', '    IN RRSIG CNAME 13 3 60 1 2 3 example.org. sig', 'txt IN TXT "a; b"', 'abs.other.org. IN A 192.0.2.1',
+  ].join('\n');
+  assert.ok(looksLikeZoneFile(text)); assert.ok(!looksLikeZoneFile('zone,name,type,value,ttl\nexample.com,www,A,192.0.2.1,300'));
+  const { rows } = parseZoneFile(text);
+  assert.deepEqual(rows.map((r) => [r.name, r.type, r.ttl]), [['example.org.', 'SOA', 300], ['www.example.org.', 'CNAME', 60], ['www.example.org.', 'RRSIG', 300], ['txt.example.org.', 'TXT', 300], ['abs.other.org.', 'A', 300]]);
+  assert.equal(rows[1].value, 'example.org.'); assert.equal(rows[3].value, '"a; b"');
+  const r = (await import('../src/logic.js')).reviewZones(rows);
+  assert.ok(!r.items.some((i) => i.code === 'cname_conflict'), 'a DNSSEC signature beside a CNAME is not a conflict');
+});

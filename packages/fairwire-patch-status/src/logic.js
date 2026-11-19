@@ -1,5 +1,5 @@
 // Fairwire Patch Status: patch status review from a per-device, per-update export. Pure functions.
-import { num, str, low, isoDate, daysBetween, pct, finding } from 'fairwire-core';
+import { num, str, low, isoDate, daysBetween, pct, finding, END_OF_SUPPORT_OS, osPastSupport } from 'fairwire-core';
 
 export const CHECKS = Object.freeze({
   overdue_critical: 'A device missing a critical update for longer than your days-to-patch for critical updates.',
@@ -27,14 +27,13 @@ export const PATCH_FIELDS = Object.freeze({
 export const SETTINGS_SCHEMA = { type: 'object', additionalProperties: false, properties: {
   days_to_patch: { type: 'object', additionalProperties: false, properties: { critical: { type: 'integer', minimum: 0, description: 'Days for critical updates (default 14)' }, important: { type: 'integer', minimum: 0, description: 'Days for important updates (default 30)' }, moderate: { type: 'integer', minimum: 0, description: 'Days for moderate updates (default 60)' }, low: { type: 'integer', minimum: 0, description: 'Days for low updates (default 90)' } }, description: 'Your patch policy: days after release by which each severity must be installed' },
   stale_scan_days: { type: 'integer', minimum: 1, description: 'Days since the last scan after which a device counts as not reporting (default 7)' },
-  unsupported_os: { type: 'array', items: { type: 'string' }, maxItems: 100, description: 'Operating system names past end of support, matched as text (default: Windows 7, 8, 8.1 and 10, Windows Server 2008 and 2012)' },
+  unsupported_os: { type: 'array', items: { type: 'string' }, maxItems: 100, description: 'Operating systems past end of support, matched as text; "*" stands for any text, and LTSC, LTSB or IoT systems are only matched by an entry that names them (default: END_OF_SUPPORT_OS as of 19 Nov 2026: Windows 2000, XP, Vista, 7, 8, 8.1 and 10, Windows 10 LTSB, Windows 11 21H2 to 23H2 and Home and Pro 24H2, Windows Server 2003, 2008 and 2012)' },
   widely_missing_pct: { type: 'number', minimum: 1, maximum: 100, description: 'Share of devices missing one update above which it is flagged (default 20)' },
 } };
-export const DEFAULTS = Object.freeze({ days_to_patch: { critical: 14, important: 30, moderate: 60, low: 90 }, stale_scan_days: 7, unsupported_os: ['Windows 7', 'Windows 8', 'Windows 10', 'Windows Server 2008', 'Windows Server 2012'], widely_missing_pct: 20 });
+export const DEFAULTS = Object.freeze({ days_to_patch: { critical: 14, important: 30, moderate: 60, low: 90 }, stale_scan_days: 7, unsupported_os: END_OF_SUPPORT_OS, widely_missing_pct: 20 });
 
 const sevOf = (v) => { const t = low(v); return /crit/.test(t) ? 'critical' : /import|high/.test(t) ? 'important' : /moder|medium/.test(t) ? 'moderate' : /low/.test(t) ? 'low' : 'important'; };
 const stateOf = (v) => { const t = low(v); return /fail|error/.test(t) ? 'failed' : /reboot|restart/.test(t) ? 'pending_reboot' : /missing|needed|required|not installed|applicable|pending|downloaded|approved/.test(t) ? 'missing' : 'installed'; };
-const osMatch = (os, name) => { const a = low(os), b = low(name); const i = a.indexOf(b); return i >= 0 && !/[0-9]/.test(a[i + b.length] || '') && !(b === 'windows 8' && false); };
 
 export function reviewPatches(rows, settings = {}, asOf) {
   const s = { ...DEFAULTS, ...settings, days_to_patch: { ...DEFAULTS.days_to_patch, ...(settings.days_to_patch || {}) } };
@@ -43,7 +42,7 @@ export function reviewPatches(rows, settings = {}, asOf) {
   const items = []; const missingBy = new Map();
   for (const [dev, list] of byDev) {
     const os = list.find((r) => r.os)?.os || ''; const group = list.find((r) => r.group)?.group || '';
-    const bad = s.unsupported_os.find((n) => osMatch(os, n));
+    const bad = osPastSupport(os, s.unsupported_os);
     if (bad) items.push(finding('unsupported_os', 'high', dev, `${dev} runs ${os}, which is past its vendor end of support.`, 'Upgrade or replace it; until then, isolate it and confirm whether extended security updates are paid for.', { subject: dev, group }));
     const scan = list.map((r) => r.scan).filter(Boolean).sort().at(-1);
     if (scan && asOf && daysBetween(scan, asOf) > s.stale_scan_days) items.push(finding('not_reporting', 'medium', dev, `${dev} last reported its patch state on ${scan}.`, 'Check that the device is on and its update agent is running; its findings below may be out of date.', { subject: dev, group }));

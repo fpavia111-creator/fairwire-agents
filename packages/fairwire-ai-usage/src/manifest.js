@@ -9,6 +9,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { no_app_tag: ['app'] },
   pkg, prefix: 'ai_usage', title: 'Fairwire AI Usage',
   description: 'Reviews an LLM usage or request log: the same prompt sent again and again with no cache hit, very large prompts and payloads, a large model used for tiny jobs, answers cut off at the output limit and requests no app owns, with spend by app and model from the price table you supply. Prompt text is never returned and users are masked.',
   args, required: ['usage'],

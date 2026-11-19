@@ -11,6 +11,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { no_owner: ['owner'] },
   pkg, prefix: 'renewals', title: 'Fairwire Contract Renewals',
   description: 'Reviews IT contracts and renewals: notice deadlines for auto-renewing contracts, deadlines already missed, price rises above your cap, contracts with no owner, two contracts for one service, vendors paid with no contract, payments after a contract ended and spend above the contract value. Writes a deadline calendar and drafts notice letters for a person to send.',
   args, required: ['contracts'],

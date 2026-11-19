@@ -10,6 +10,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { group_without_owner: ['managed_by'] },
   pkg, prefix: 'directory', title: 'Fairwire Directory Hygiene',
   description: 'Reviews Active Directory or Entra ID exports for hygiene: accounts with "password not required", nested group loops, passwords that never expire, unsupported computers, disabled accounts still in groups, stale computer objects, groups with no owner and empty groups. User names are masked for the model. Drafts clean-up lists; never edits the directory.',
   args, required: ['objects'],

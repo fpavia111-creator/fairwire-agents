@@ -11,6 +11,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { no_offsite_copy: ['copy_type'] },
   pkg, prefix: 'backups', title: 'Fairwire Backup Jobs',
   description: 'Reviews backup job results: critical systems no job covers, systems with no good backup inside their RPO, runs failing or warning again and again, backups much smaller than usual, no offsite or immutable copy, and retention shorter than your policy. Drafts notes; never starts or deletes a backup.',
   args, required: ['jobs'],

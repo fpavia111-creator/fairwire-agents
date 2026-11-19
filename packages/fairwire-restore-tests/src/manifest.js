@@ -11,6 +11,8 @@ const args = {
 };
 
 export const manifest = wireAgent({
+  // Columns the "value is missing" checks depend on: an export without the column skips the check instead of flagging every row.
+  needs: { no_sign_off: ['signed_off_by'] },
   pkg, prefix: 'restores', title: 'Fairwire Restore Tests',
   description: 'Reviews restore tests: critical systems never tested, failed tests not repeated, tests overdue for their interval, restores slower than the RTO, restored data older than the RPO and tests nobody signed off. Writes a test calendar and drafts the next test plan.',
   args, required: ['tests'],

@@ -59,3 +59,29 @@ test('builder: the report writes CSV, HTML and a calendar; the request waits for
   const ex = await rt.call('demo_explain', { rules: 'rules.csv', rule: 'nope' }); assert.equal(ex.status, 'error'); assert.match(ex.reason, /nothing found for rule/);
   const blocked = await new AgentRuntime(agent(), { root: d, audit: false, mode: 'auto' }).call('firewall_push', {}); assert.equal(blocked.status, 'blocked');
 });
+
+test('builder: a "missing value" check is skipped, and said so, when the export has no such column at all', async () => {
+  const withNeeds = () => wireAgent({ pkg, prefix: 'need', title: 'Needs', description: 'Needs test.', args: { rules: { type: 'string', description: 'Rules file' } }, required: ['rules'],
+    sources: { rules: { label: 'Rules', args: ['rules'], fields: { name: { required: true }, owner: { pii: 'name' } } } },
+    needs: { no_owner: ['owner'] },
+    run: (a, ctx) => { const rows = ctx.records(a.rules); return { rules: rows.length, items: rows.filter((r) => !r.owner).map((r) => finding('no_owner', 'low', r.name, `${r.name} has no owner`, 'Name one')) }; },
+    summary: (o) => `${o.rules} rule(s), ${o.open} open.`, check: { title: 'Check', description: 'Check.' }, report: { title: 'Needs', base: 'needs' } });
+  const d = mkdtempSync(join(tmpdir(), 'needs-'));
+  writeFileSync(join(d, 'with.csv'), 'name,owner\nr1,\nr2,Ana Ortiz\n');
+  writeFileSync(join(d, 'without.csv'), 'name,action\nr1,allow\nr2,allow\n');
+  const rt = new AgentRuntime(withNeeds(), { root: d, audit: false });
+  const a = await rt.call('need_check', { rules: 'with.csv' });
+  assert.deepEqual(a.result.items.map((i) => i.key), ['r1'], 'an empty cell in an existing column is still a finding');
+  assert.equal(a.result.checks_skipped, undefined);
+  const b = await rt.call('need_check', { rules: 'without.csv' });
+  assert.equal(b.result.items.length, 0, 'no owner column: nothing to judge');
+  assert.deepEqual(b.result.checks_skipped, ['no_owner: the export has no owner column']);
+  assert.match(b.result.summary, /1 check\(s\) skipped/);
+});
+
+test('sources: "?", NULL and #N/A in a mapped column read as empty; N/A and none only in dates and numbers', async () => {
+  const { isEmptyMark } = await import('../src/sources.js');
+  for (const v of ['?', 'NULL', '(null)', '#N/A']) assert.ok(isEmptyMark(v, 'text'), v);
+  for (const v of ['N/A', 'none', '-']) { assert.ok(isEmptyMark(v, 'datetime'), v); assert.ok(!isEmptyMark(v, 'text'), `${v} stays in a text column`); }
+  assert.ok(!isEmptyMark('Ana', 'text')); assert.ok(!isEmptyMark('', 'text')); assert.ok(!isEmptyMark(0, 'number'));
+});

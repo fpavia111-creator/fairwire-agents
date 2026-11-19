@@ -41,3 +41,15 @@ test('it: counts and sorts do not depend on row order; loose yes/no and numbers'
   assert.equal(yes('Enabled'), true); assert.equal(yes('not registered'), false); assert.equal(yes('maybe'), null);
   assert.equal(num('1.234,56'), 1234.56); assert.equal(num(''), null); assert.equal(pct(1, 3), 33.3); assert.equal(pct(1, 0), 0);
 });
+
+test('end of support: Windows 11 feature updates, long-term servicing editions, and a customer list', async () => {
+  const { osPastSupport, END_OF_SUPPORT_OS } = await import('../src/it.js');
+  // Checked against endoflife.date on 19 Nov 2026 (scripts/realdata.mjs).
+  const past = ['Windows XP Professional', 'Windows 8.1 Pro', 'Windows 10 Pro 22H2', 'Windows 10 Enterprise 2016 LTSB', 'Windows 11 Pro 23H2', 'Windows 11 Enterprise 23H2', 'Windows 11 Pro 24H2', 'Windows Server 2012 R2', 'Windows Server 2003 SP2'];
+  const supported = ['Windows 11 Pro 25H2', 'Windows 11 Enterprise 24H2', 'Windows 10 Enterprise LTSC 2021', 'Windows 10 IoT Enterprise LTSC 2021', 'Windows Server 2016', 'Windows Server 2022', 'Windows 100', ''];
+  for (const os of past) assert.ok(osPastSupport(os), os);
+  for (const os of supported) assert.equal(osPastSupport(os), undefined, os);
+  assert.ok(END_OF_SUPPORT_OS.includes('Windows 10'));
+  assert.equal(osPastSupport('Windows 10 Pro 22H2', ['Windows 7']), undefined, 'a customer paying for extended updates drops Windows 10 from the list');
+  assert.equal(osPastSupport('Ubuntu 18.04 LTS', ['Ubuntu 18.04']), 'Ubuntu 18.04'); assert.equal(osPastSupport('Ubuntu 18x04', ['Ubuntu 18.04']), undefined, 'dots are literal');
+});

@@ -25,7 +25,9 @@
     "readme:check": "node scripts/readme-sections.mjs --check",
     "samples": "node scripts/sample-reports.mjs",
     "check": "node scripts/family-check.mjs",
-    "accuracy": "node scripts/accuracy.mjs"
+    "accuracy": "node scripts/accuracy.mjs",
+    "model-view": "node scripts/model-view.mjs",
+    "realdata": "node scripts/realdata.mjs"
   },
   "engines": {
     "node": ">=20"

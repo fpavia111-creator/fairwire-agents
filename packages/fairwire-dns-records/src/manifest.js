@@ -1,10 +1,11 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { wireAgent, fileArg, SETTINGS_ARG, settingsFrom, LIMITS } from 'fairwire-core';
 import { RECORD_FIELDS, SETTINGS_SCHEMA, DEFAULTS, reviewZones } from './logic.js';
+import { looksLikeZoneFile, parseZoneFile } from './zonefile.js';
 
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 const args = {
-  records: fileArg('DNS zone export under --root (Route 53, Azure DNS, Cloudflare, Windows DNS or any CSV, Excel or JSON): one row per record with zone, name, type, value and TTL'),
+  records: fileArg('DNS zone export under --root: a zone (master) file as BIND, Windows DNS, Cloudflare or a zone transfer writes it, or a CSV, Excel or JSON list (Route 53, Azure DNS) with zone, name, type, value and TTL'),
   settings: SETTINGS_ARG('public_zones, owned_cidrs, active_cloud_hosts, cloud_suffixes, ttl_min, ttl_max'),
 };
 
@@ -14,7 +15,15 @@ export const manifest = wireAgent({
   args, required: ['records'],
   sources: { records: { label: 'DNS records', args: ['records'], fields: RECORD_FIELDS } },
   configSchemas: { dns_records_settings: SETTINGS_SCHEMA },
-  run: (a, ctx) => reviewZones(ctx.records(a.records, 'records'), settingsFrom(a, ctx, 'dns_records_settings', DEFAULTS)),
+  run: (a, ctx) => {
+    const settings = settingsFrom(a, ctx, 'dns_records_settings', DEFAULTS);
+    // A zone (master) file is read here; anything else goes through the usual table reader.
+    if (statSync(ctx.path(a.records)).size <= 200 * 1024 * 1024) {
+      const text = ctx.readText(a.records);
+      if (looksLikeZoneFile(text)) { const z = parseZoneFile(text); return { ...reviewZones(z.rows, settings), format: 'zone file', ...(z.includes || z.skipped ? { zone_file: { includes_not_followed: z.includes, lines_not_read: z.skipped } } : {}) }; }
+    }
+    return reviewZones(ctx.records(a.records, 'records'), settings);
+  },
   summary: (o) => `${o.records} record(s) for ${o.names} name(s) in ${o.zones} zone(s), ${o.cnames} CNAME(s): ${o.open} open finding(s), ${o.high} high.`,
   check: { title: 'Review DNS zones', description: 'Review the zone export and list takeover-prone CNAMEs, CNAME conflicts, private or foreign addresses, duplicates, TTL problems and wildcards.' },
   explain: { arg: 'name', argSchema: { type: 'string', maxLength: 300, description: 'Record name or zone from dns_records_check' }, title: 'Explain one name or zone', description: 'Every finding for one record name or zone.', match: (i, v) => i.key === v || String(i.key).split('|')[0] === String(v).toLowerCase() || i.subject === String(v).toLowerCase() },

@@ -1,5 +1,5 @@
 // Fairwire Directory Hygiene: Active Directory or Entra ID hygiene. Pure functions.
-import { num, str, low, yes, isoDate, daysBetween, finding } from 'fairwire-core';
+import { num, str, low, yes, isoDate, daysBetween, finding, END_OF_SUPPORT_OS, osPastSupport } from 'fairwire-core';
 
 export const CHECKS = Object.freeze({
   password_not_required: 'An enabled user account flagged "password not required" (it may have an empty password).',
@@ -28,16 +28,15 @@ export const OBJECT_FIELDS = Object.freeze({
 
 export const SETTINGS_SCHEMA = { type: 'object', additionalProperties: false, properties: {
   stale_days: { type: 'integer', minimum: 1, description: 'Days without a logon after which a computer counts as stale (default 90)' },
-  unsupported_os: { type: 'array', items: { type: 'string' }, maxItems: 100, description: 'Operating systems past end of support (default Windows 7, 8, 10, Server 2008, Server 2012)' },
+  unsupported_os: { type: 'array', items: { type: 'string' }, maxItems: 100, description: 'Operating systems past end of support, matched as text; "*" stands for any text, and LTSC, LTSB or IoT systems are only matched by an entry that names them (default: END_OF_SUPPORT_OS as of 19 Nov 2026: Windows 2000, XP, Vista, 7, 8, 8.1 and 10, Windows 10 LTSB, Windows 11 21H2 to 23H2 and Home and Pro 24H2, Windows Server 2003, 2008 and 2012)' },
   privileged_groups: { type: 'array', items: { type: 'string' }, maxItems: 100, description: 'Groups that grant admin rights (default Domain Admins, Enterprise Admins, Schema Admins, Administrators, Account Operators, Backup Operators)' },
   service_account_prefixes: { type: 'array', items: { type: 'string' }, maxItems: 20, description: 'Name prefixes of service accounts, e.g. "svc-" (their non-expiring passwords are low, not medium)' },
   builtin_groups: { type: 'array', items: { type: 'string' }, maxItems: 200, description: 'Groups that need no owner (default the built-in admin and user groups)' },
 } };
 const PRIV = ['Domain Admins', 'Enterprise Admins', 'Schema Admins', 'Administrators', 'Account Operators', 'Backup Operators'];
-export const DEFAULTS = Object.freeze({ stale_days: 90, unsupported_os: ['Windows 7', 'Windows 8', 'Windows 10', 'Windows Server 2008', 'Windows Server 2012'], privileged_groups: PRIV, service_account_prefixes: ['svc-', 'svc_', 'sa-'], builtin_groups: [...PRIV, 'Domain Users', 'Domain Computers', 'Domain Controllers', 'Users', 'Guests'] });
+export const DEFAULTS = Object.freeze({ stale_days: 90, unsupported_os: END_OF_SUPPORT_OS, privileged_groups: PRIV, service_account_prefixes: ['svc-', 'svc_', 'sa-'], builtin_groups: [...PRIV, 'Domain Users', 'Domain Computers', 'Domain Controllers', 'Users', 'Guests'] });
 
 const list = (v) => str(v).split(/[;|]/).map((x) => x.replace(/^CN=([^,]+).*$/i, '$1').trim()).filter(Boolean);
-const osMatch = (os, name) => { const a = low(os), b = low(name); const i = a.indexOf(b); return i >= 0 && !/[0-9]/.test(a[i + b.length] || ''); };
 
 export function reviewDirectory(rows, settings = {}, asOf) {
   const s = { ...DEFAULTS, ...settings };
@@ -47,7 +46,7 @@ export function reviewDirectory(rows, settings = {}, asOf) {
   for (const o of objs) {
     if (o.type === 'computer' && o.enabled) {
       if (o.last && asOf && daysBetween(o.last, asOf) > s.stale_days) items.push(finding('stale_computer', 'low', o.name, `Computer ${o.name} last logged on to the domain on ${o.last}.`, 'Disable it, move it to a holding OU, and delete it after a further wait if nobody asks.', { subject: 'computer' }));
-      const bad = s.unsupported_os.find((n) => osMatch(o.os, n)); if (bad) items.push(finding('unsupported_os_computer', 'medium', o.name, `Computer ${o.name} runs ${o.os}, which is past end of support.`, 'Upgrade or retire it; if it is already gone, clean up the object.', { subject: 'computer' }));
+      const bad = osPastSupport(o.os, s.unsupported_os); if (bad) items.push(finding('unsupported_os_computer', 'medium', o.name, `Computer ${o.name} runs ${o.os}, which is past end of support.`, 'Upgrade or retire it; if it is already gone, clean up the object.', { subject: 'computer' }));
     }
     if (o.type === 'user') {
       if (o.enabled && o.notreq) items.push(finding('password_not_required', 'high', o.name, `User ${o.name} is enabled and flagged "password not required".`, 'Clear the flag and set a strong password; check when and why it was set.', { subject: 'user' }));

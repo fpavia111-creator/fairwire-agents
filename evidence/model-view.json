@@ -1,0 +1,740 @@
+{
+  "run": "2026-11-19",
+  "mode": "mask (default)",
+  "totals": {
+    "agents": 31,
+    "agents_with_personal_fields": 16,
+    "canary_values": 262,
+    "canary_leaks": 0
+  },
+  "agents": [
+    {
+      "agent": "fairwire-admin-roles",
+      "masked": [
+        "display_name",
+        "mailbox",
+        "user"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "assignment_type",
+        "break_glass",
+        "last_sign_in",
+        "mfa",
+        "note",
+        "role",
+        "user_type"
+      ],
+      "free_text": [
+        "note"
+      ],
+      "canary_values": 18,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 24
+    },
+    {
+      "agent": "fairwire-ai-usage",
+      "masked": [
+        "prompt (never returned; a hash only)",
+        "user"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "app",
+        "at",
+        "bytes",
+        "cached_tokens",
+        "model",
+        "output_tokens",
+        "prompt",
+        "prompt_hash",
+        "prompt_tokens",
+        "request_id",
+        "stop_reason"
+      ],
+      "free_text": [],
+      "canary_values": 33,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-api-retries",
+      "masked": [],
+      "masked_in_strict_only": [
+        "endpoint"
+      ],
+      "clear": [
+        "at",
+        "attempt",
+        "bytes",
+        "request_id",
+        "retry_after",
+        "status",
+        "tokens"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-asset-inventory",
+      "masked": [
+        "owner"
+      ],
+      "masked_in_strict_only": [
+        "hostname"
+      ],
+      "clear": [
+        "asset_id",
+        "last_seen",
+        "location",
+        "model",
+        "serial",
+        "source",
+        "status",
+        "warranty_end"
+      ],
+      "free_text": [],
+      "canary_values": 8,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-backup-jobs",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "copy_type",
+        "ended_at",
+        "job",
+        "retention_days",
+        "rpo_hours",
+        "size_bytes",
+        "started_at",
+        "status",
+        "system",
+        "target",
+        "tier"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-call-quality",
+      "masked": [
+        "caller_number"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "call_id",
+        "codec",
+        "duration",
+        "jitter_ms",
+        "latency_ms",
+        "loss_pct",
+        "mos",
+        "packets_received",
+        "packets_sent",
+        "site",
+        "started_at",
+        "trunk"
+      ],
+      "free_text": [],
+      "canary_values": 35,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 2
+    },
+    {
+      "agent": "fairwire-change-calendar",
+      "masked": [
+        "requester"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "approval",
+        "backout_plan",
+        "change_id",
+        "emergency",
+        "end",
+        "name",
+        "outcome",
+        "risk",
+        "start",
+        "system",
+        "test_evidence",
+        "title",
+        "type"
+      ],
+      "free_text": [
+        "backout_plan",
+        "outcome",
+        "test_evidence",
+        "title"
+      ],
+      "canary_values": 6,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-cloud-costs",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "account",
+        "charge_type",
+        "commitment",
+        "cost",
+        "date",
+        "end_date",
+        "environment",
+        "monthly_amount",
+        "owner",
+        "region",
+        "resource_id",
+        "service",
+        "type",
+        "usage_hours",
+        "usage_type"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-contract-renewals",
+      "masked": [
+        "owner"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "amount",
+        "annual_value",
+        "auto_renew",
+        "contract_id",
+        "date",
+        "end_date",
+        "notice_days",
+        "service",
+        "start_date",
+        "uplift_pct",
+        "vendor"
+      ],
+      "free_text": [],
+      "canary_values": 4,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-dhcp-leases",
+      "masked": [],
+      "masked_in_strict_only": [
+        "hostname",
+        "ip"
+      ],
+      "clear": [
+        "end",
+        "lease_expires",
+        "mac",
+        "name",
+        "reservation",
+        "scope",
+        "server",
+        "start"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-directory-hygiene",
+      "masked": [
+        "name (user objects)"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "enabled",
+        "last_logon",
+        "managed_by",
+        "member_of",
+        "members",
+        "name",
+        "nested_groups",
+        "os",
+        "pwd_never_expires",
+        "pwd_not_required",
+        "type"
+      ],
+      "free_text": [],
+      "canary_values": 6,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 8
+    },
+    {
+      "agent": "fairwire-dns-queries",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "action",
+        "at",
+        "client",
+        "count",
+        "qtype",
+        "query",
+        "rcode",
+        "resolver"
+      ],
+      "free_text": [
+        "query"
+      ],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-dns-records",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "name",
+        "ttl",
+        "type",
+        "value",
+        "zone"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-email-gateway",
+      "masked": [
+        "recipient",
+        "sender"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "action",
+        "allowlisted",
+        "clawed_back_at",
+        "direction",
+        "dlp_rule",
+        "message_id",
+        "received_at",
+        "verdict"
+      ],
+      "free_text": [
+        "dlp_rule"
+      ],
+      "canary_values": 38,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 16
+    },
+    {
+      "agent": "fairwire-endpoint-protection",
+      "masked": [],
+      "masked_in_strict_only": [
+        "device"
+      ],
+      "clear": [
+        "agent_version",
+        "alert_id",
+        "created",
+        "last_seen",
+        "mode",
+        "product",
+        "protection",
+        "severity",
+        "signature_date",
+        "status",
+        "tamper_protection",
+        "title",
+        "type"
+      ],
+      "free_text": [
+        "title"
+      ],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-firewall-rules",
+      "masked": [
+        "owner"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "action",
+        "description",
+        "destination",
+        "dst_zone",
+        "enabled",
+        "expires",
+        "hits",
+        "last_hit",
+        "log",
+        "position",
+        "rule_id",
+        "service",
+        "source",
+        "src_zone",
+        "ticket"
+      ],
+      "free_text": [
+        "description"
+      ],
+      "canary_values": 3,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-log-retention",
+      "masked": [],
+      "masked_in_strict_only": [
+        "host"
+      ],
+      "clear": [
+        "avg_daily_gb",
+        "category",
+        "daily_gb",
+        "last_event",
+        "retention_days",
+        "source",
+        "type"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-mfa-coverage",
+      "masked": [
+        "display_name",
+        "user"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "department",
+        "enabled",
+        "excluded",
+        "is_admin",
+        "last_mfa",
+        "last_sign_in",
+        "methods",
+        "mfa_registered",
+        "user_type"
+      ],
+      "free_text": [],
+      "canary_values": 20,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 24
+    },
+    {
+      "agent": "fairwire-mobile-devices",
+      "masked": [
+        "imei",
+        "user"
+      ],
+      "masked_in_strict_only": [
+        "device"
+      ],
+      "clear": [
+        "compliance",
+        "encrypted",
+        "end_date",
+        "jailbroken",
+        "last_check_in",
+        "os_version",
+        "ownership",
+        "passcode",
+        "platform"
+      ],
+      "free_text": [],
+      "canary_values": 15,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 5
+    },
+    {
+      "agent": "fairwire-network-traffic",
+      "masked": [],
+      "masked_in_strict_only": [
+        "dst_ip",
+        "src_ip"
+      ],
+      "clear": [
+        "bytes",
+        "dst_port",
+        "packets",
+        "protocol",
+        "src_host",
+        "start"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-patch-status",
+      "masked": [],
+      "masked_in_strict_only": [
+        "device"
+      ],
+      "clear": [
+        "failures",
+        "group",
+        "last_scan",
+        "os",
+        "released",
+        "severity",
+        "state",
+        "title",
+        "update"
+      ],
+      "free_text": [
+        "title"
+      ],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-print-fleet",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "color_click",
+        "color_pages",
+        "firmware",
+        "last_seen",
+        "lease_end",
+        "lease_monthly",
+        "model",
+        "mono_click",
+        "mono_pages",
+        "printer",
+        "site",
+        "status",
+        "supply_pct"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-restore-tests",
+      "masked": [
+        "signed_off_by"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "data_age_hours",
+        "restore_minutes",
+        "result",
+        "rpo_hours",
+        "rto_minutes",
+        "system",
+        "test_id",
+        "test_interval_days",
+        "tested_on"
+      ],
+      "free_text": [],
+      "canary_values": 4,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-sign-in-logs",
+      "masked": [
+        "client_ip",
+        "user"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "app",
+        "at",
+        "client_app",
+        "country",
+        "failure_reason",
+        "interactive",
+        "result"
+      ],
+      "free_text": [
+        "failure_reason"
+      ],
+      "canary_values": 30,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 24
+    },
+    {
+      "agent": "fairwire-software-licenses",
+      "masked": [],
+      "masked_in_strict_only": [
+        "device"
+      ],
+      "clear": [
+        "annual_cost",
+        "product",
+        "publisher",
+        "seats",
+        "version"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-switch-ports",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "admin_status",
+        "allowed_vlans",
+        "crc_errors",
+        "description",
+        "duplex",
+        "last_used",
+        "mode",
+        "name",
+        "oper_status",
+        "port",
+        "switch",
+        "vlan"
+      ],
+      "free_text": [
+        "description"
+      ],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-telecom-bills",
+      "masked": [
+        "line_number",
+        "user"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "data_allowance_gb",
+        "data_gb",
+        "end_date",
+        "line_type",
+        "minutes",
+        "month",
+        "monthly_charge",
+        "plan",
+        "premium_charge",
+        "roaming_charge"
+      ],
+      "free_text": [
+        "plan"
+      ],
+      "canary_values": 15,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 27
+    },
+    {
+      "agent": "fairwire-ticket-sla",
+      "masked": [
+        "assignee"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "first_response_at",
+        "opened_at",
+        "priority",
+        "reopen_count",
+        "resolved_at",
+        "state",
+        "team",
+        "ticket"
+      ],
+      "free_text": [],
+      "canary_values": 5,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-uptime-incidents",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "acknowledged_at",
+        "availability_pct",
+        "change_id",
+        "incident_id",
+        "postmortem",
+        "resolved_at",
+        "service",
+        "severity",
+        "started_at",
+        "target_pct"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    },
+    {
+      "agent": "fairwire-vpn-access",
+      "masked": [
+        "client_ip",
+        "user"
+      ],
+      "masked_in_strict_only": [],
+      "clear": [
+        "client_version",
+        "connected_at",
+        "country",
+        "disconnected_at",
+        "end_date",
+        "gateway",
+        "result"
+      ],
+      "free_text": [],
+      "canary_values": 22,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 21
+    },
+    {
+      "agent": "fairwire-wifi-health",
+      "masked": [],
+      "masked_in_strict_only": [],
+      "clear": [
+        "ap",
+        "band",
+        "bssid",
+        "capable_5ghz",
+        "channel",
+        "classification",
+        "client",
+        "enabled",
+        "firmware",
+        "last_seen",
+        "model",
+        "on_wire",
+        "rssi",
+        "security",
+        "site",
+        "ssid",
+        "ssid_count",
+        "status",
+        "utilization_pct"
+      ],
+      "free_text": [],
+      "canary_values": 0,
+      "canary_leaks": [],
+      "pseudonyms_in_result": 0
+    }
+  ]
+}
