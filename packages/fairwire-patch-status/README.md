@@ -26,7 +26,7 @@ Pass a settings file with `settings`. Every setting is optional; a misspelt sett
 |---|---|
 | `days_to_patch` | Your patch policy: days after release by which each severity must be installed |
 | `stale_scan_days` | Days since the last scan after which a device counts as not reporting (default 7) |
-| `unsupported_os` | Operating system names past end of support, matched as text (default: Windows 7, 8, 8.1 and 10, Windows Server 2008 and 2012) |
+| `unsupported_os` | Operating systems past end of support, matched as text; "*" stands for any text, and LTSC, LTSB or IoT systems are only matched by an entry that names them (default: END_OF_SUPPORT_OS as of 19 Nov 2026: Windows 2000, XP, Vista, 7, 8, 8.1 and 10, Windows 10 LTSB, Windows 11 21H2 to 23H2 and Home and Pro 24H2, Windows Server 2003, 2008 and 2012) |
 | `widely_missing_pct` | Share of devices missing one update above which it is flagged (default 20) |
 
 ## What it never does

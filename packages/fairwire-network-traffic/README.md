@@ -78,7 +78,7 @@ low top_talker_share: 10.0.3.50 carried 94.2% of all bytes (720 MB of 764 MB). F
 
 ▶ Draft the note for a person
   status: executed  decision: allow  (auto)
-  change request 2026-11-19 drafted with 1 open marker(s) ([TO CONFIRM network change board]). Nothing was sent.
+  change request 2026-11-18 drafted with 1 open marker(s) ([TO CONFIRM network change board]). Nothing was sent.
 
 ▶ Auto: approving it still waits for one named person
   status: needs_approval  decision: ask

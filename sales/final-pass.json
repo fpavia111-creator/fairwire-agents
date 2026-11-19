@@ -1,0 +1,55 @@
+{
+  "product": "Fairwire",
+  "repo": "https://github.com/fpavia111-creator/fairwire-agents",
+  "try_it": ["git clone https://github.com/fpavia111-creator/fairwire-agents", "cd fairwire-agents", "npm install", "node packages/fairwire-firewall-rules/bin/fairwire-firewall-rules.js demo"],
+  "accuracy": { "agents": 31, "planted_found": 270, "planted_total": 270, "clean_rows": 424, "clean_false_positives": 0, "mutation_cases": 66, "mutation_caught": 66, "note": "On fictional test data, 19 Nov 2026. Every planted problem was found and nothing else was reported. The clean set first showed 2 false findings (one host 'carrying most of the bytes' in an export with only 4 hosts); that check now needs at least 5 hosts. Not yet measured on a customer's own exports." },
+  "real_data": [
+    ["UCI incident management event log (ServiceNow)", "https://archive.ics.uci.edu/dataset/498", "2026-11-19", "CC BY 4.0", "Ticket SLA read 24,918 real incidents: 57 teams flagged for missed resolution targets, 56 of them also flagged by the instance's own SLA field; the first run counted 1,556 closed tickets as open (fixed)."],
+    ["BPI Challenge 2014 change records (Rabobank, HP Service Manager)", "https://data.4tu.nl/datasets/e9c00fe9-c87a-450e-8bd6-d5e06a6b309a", "2026-11-19", "4TU.ResearchData General Terms of Use", "Change Calendar read 18,000 changes on 30,275 rows: approval, back-out and test checks skipped because the export has no such columns; overlaps fell from 38,564 to 2,419 once months-long planning windows were left out (not verified with the change board)."],
+    ["IANA DNS root zone", "https://www.internic.net/domain/root.zone", "2026-11-19", "Published by IANA for public download; no licence stated", "DNS Records read all 25,020 records of the real master file: 0 findings, none expected."],
+    ["endoflife.date (Windows, Windows Server)", "https://endoflife.date", "2026-11-19", "MIT", "The dated end-of-support list flags 43 of 53 ended Windows releases and no supported one (it flagged 3 supported LTSC releases before the fix)."]
+  ],
+  "formats": [
+    ["Palo Alto Networks PAN-OS", "Security policy rules exported to CSV", "written from documentation"],
+    ["Fortinet FortiGate", "Firewall policy list exported to CSV", "written from documentation"],
+    ["Microsoft Entra ID", "Sign-in logs downloaded as CSV", "written from documentation"],
+    ["Okta", "System Log exported as CSV", "written from documentation"],
+    ["Microsoft Entra ID", "User registration details (authentication methods)", "written from documentation"],
+    ["Amazon Web Services", "Cost and Usage Report, CSV", "written from documentation"],
+    ["Microsoft Azure", "Cost details export, CSV", "written from documentation"],
+    ["Google Cloud", "Billing report downloaded as CSV", "written from documentation"],
+    ["Veeam Backup & Replication", "Job session history exported to CSV", "written from documentation"],
+    ["Microsoft Intune", "All devices list exported to CSV", "written from documentation"],
+    ["Microsoft Defender for Endpoint", "Device inventory exported to CSV", "written from documentation"],
+    ["Windows Server DHCP", "Address leases exported from the DHCP console", "written from documentation"],
+    ["ServiceNow", "Incident list exported to CSV", "written from documentation"],
+    ["ServiceNow", "Incident fields as in the public UCI audit log (number, incident_state, priority, opened_at, resolved_at, assignment_group)", "tested on a public sample"],
+    ["Jira Service Management", "Issue search exported to CSV", "written from documentation"],
+    ["HP Service Manager", "Change records (BPI Challenge 2014)", "tested on a public sample"],
+    ["BIND, Windows DNS, zone transfer", "DNS zone (master) file", "tested on a public sample"]
+  ],
+  "human_review": [
+    ["Network traffic and DNS", "Whether a flagged port, upload, scan or DNS name is expected; any firewall, DNS or DHCP change is made by the network owner."],
+    ["Call quality", "Whether poor calls are the provider's fault before the drafted ticket is sent; codec and route changes stay with the voice team."],
+    ["AI usage and retries", "Whether repeated prompts or large models are deliberate, and the price table used for costs; app and gateway changes stay with the owner."],
+    ["Firewall, VPN and Wi-Fi", "Each drafted change request (a rule, port, VLAN or network); a named person approves it and makes the change on the device."],
+    ["Identity and admins", "Whether a flagged sign-in or role is legitimate before any account is blocked or role removed; the identity owner makes every change."],
+    ["Devices and software", "Which devices to upgrade, wipe or retire and which installs to remove; licence counts are checked against the contracts."],
+    ["Backups and operations", "Restore priorities, change board decisions, ticket escalations and retention changes; the agents start, stop and delete nothing."],
+    ["IT spend", "Every cancellation, notice letter and commitment purchase; the agents draft lists and letters, a person sends or buys."],
+    ["Whole IT team", "All of the above, plus the thresholds in the settings files, which are working defaults until your team sets them."],
+    ["For MSPs and IT firms", "Each client's settings and export mapping, and every client-facing note before it is sent."]
+  ],
+  "common_problems": [
+    "Firewall rules that open RDP or FTP to the internet, allow any to any, or never match because an earlier rule does",
+    "People who have left still connecting to the VPN, or still enrolled on company phones",
+    "Administrators without phishing-resistant MFA, and more top administrators than your cap",
+    "Critical systems with no recent good backup, no offsite copy, or no restore test on record",
+    "Devices on Windows releases past end of support, or missing critical updates past your deadline",
+    "Cloud spend in regions you do not use, untagged spend, and test machines running all month",
+    "Contracts that renew automatically within weeks, and vendors paid with no contract on file",
+    "DNS names pointing at cloud resources that may no longer exist (takeover risk)"
+  ],
+  "reaches_the_model": "A Fairwire tool reads the exported file on your own computer and returns a summary and a list of findings. Before that result leaves the computer, names, sign-in names, e-mail addresses, phone numbers, IMEIs and the public addresses people connected from are replaced with stable pseudonyms (16 of the 31 agents read such fields; of 262 personal values in the test files, none reached the model). Dates, counts, amounts, codes, device names and internal addresses are sent in clear; strict mode also masks host names and every address. Free-text fields such as rule descriptions or ticket titles are scrubbed of e-mail addresses, phone numbers and names seen elsewhere in the file, but other personal details typed into them can get through. The result goes to whichever AI model your assistant uses; for regulated data, use a local model or one covered by your own agreements.",
+  "rules_maintained": "Thresholds such as days to patch, retention days, SLA targets, call-quality limits and the top-admin cap are working defaults in each agent's settings, and a customer changes them in a settings file without touching code. Facts that come from vendors are dated and kept in one place, fairwire-core: the Windows end-of-support list (as of 19 Nov 2026, checked against endoflife.date), risky inbound ports, cleartext protocols, cloud host names used for takeover checks, and the 14 vendor export layouts the agents recognise. A customer can override each of them in settings or in fairwire-sources.json; Mythos Machines updates the defaults in new releases, and support covers export layouts that a vendor changes."
+}

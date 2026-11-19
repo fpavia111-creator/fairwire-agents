@@ -26,7 +26,7 @@ Pass a settings file with `settings`. Every setting is optional; a misspelt sett
 | Setting | What it does |
 |---|---|
 | `stale_days` | Days without a logon after which a computer counts as stale (default 90) |
-| `unsupported_os` | Operating systems past end of support (default Windows 7, 8, 10, Server 2008, Server 2012) |
+| `unsupported_os` | Operating systems past end of support, matched as text; "*" stands for any text, and LTSC, LTSB or IoT systems are only matched by an entry that names them (default: END_OF_SUPPORT_OS as of 19 Nov 2026: Windows 2000, XP, Vista, 7, 8, 8.1 and 10, Windows 10 LTSB, Windows 11 21H2 to 23H2 and Home and Pro 24H2, Windows Server 2003, 2008 and 2012) |
 | `privileged_groups` | Groups that grant admin rights (default Domain Admins, Enterprise Admins, Schema Admins, Administrators, Account Operators, Backup Operators) |
 | `service_account_prefixes` | Name prefixes of service accounts, e.g. "svc-" (their non-expiring passwords are low, not medium) |
 | `builtin_groups` | Groups that need no owner (default the built-in admin and user groups) |

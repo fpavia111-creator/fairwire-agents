@@ -119,7 +119,7 @@ Table inputs can be CSV, TSV, semicolon- or pipe-separated text, Excel `.xlsx`, 
 | `opened_at` (required) | date and time | Opened, Created, opened_at, Created Date, Submitted | Erstellt am, Ouvert le, 起票日時, 创建时间 |
 | `first_response_at` | date and time | First Response, First Responded, Responded At, First Reply | - |
 | `resolved_at` | date and time | Resolved, Resolved At, Closed, Resolution Date, resolved_at | Gelöst am, Résolu le, 解決日時, 解决时间 |
-| `state` | text | State, Status, Ticket Status | - |
+| `state` | text | State, Status, Ticket Status, incident_state, Incident state | - |
 | `team` | text | Assignment group, Team, Group, Queue, assignment_group | Team, Équipe, 担当チーム, 团队 |
 | `assignee` | text | Assigned to, Assignee, Agent, Technician, Owner | - |
 | `reopen_count` | number | Reopen Count, Reopened, Times Reopened | - |

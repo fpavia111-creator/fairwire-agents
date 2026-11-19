@@ -28,6 +28,7 @@ Pass a settings file with `settings`. Every setting is optional; a misspelt sett
 | `business_hours` | First and last hour of business, e.g. [8, 18] (default) |
 | `emergency_share_pct` | Share of emergency changes above which it is flagged (default 15) |
 | `failed_min` | Failed or rolled-back changes on one system before it is flagged (default 2) |
+| `max_window_hours` | A planned window longer than this is a planning range, not an implementation window: it is counted (long_windows) but not compared for overlaps (default 72) |
 
 ## What it never does
 
@@ -112,12 +113,13 @@ Table inputs can be CSV, TSV, semicolon- or pipe-separated text, Excel `.xlsx`, 
 | Column | Type | Also read as | For example, in other languages |
 |---|---|---|---|
 | `change_id` (required) | text | Change, Change ID, Number, ID, Key | - |
-| `system` (required) | text | System, Configuration Item, CI, Service, Application | Anwendung, Application, アプリケーション, 应用 |
+| `system` (required) | text | System, Configuration Item, CI, CI Name, CI Name (aff), Affected CI | Anwendung, Application, アプリケーション, 应用 |
 | `title` | text | Title, Short Description, Summary, Description | Produkt, Produit, 製品, 产品 |
 | `start` (required) | date and time | Planned Start, Start, Start Date, Scheduled Start, Window Start | Startzeit, Heure de début, 開始日時, 开始时间 |
 | `end` | date and time | Planned End, End, End Date, Scheduled End, Window End | Endzeit, Heure de fin, 終了日時, 结束时间 |
-| `risk` | text | Risk, Risk Level, Impact | - |
+| `risk` | text | Risk, Risk Level, Risk Assessment, Impact | - |
 | `type` | text | Type, Change Type, Category | Typ, Type, 種類, 类型 |
+| `emergency` | text | Emergency Change, Emergency, Is Emergency | - |
 | `approval` | text | Approval, Approved, Approval Status, CAB Approval | - |
 | `backout_plan` | text | Backout Plan, Back-out Plan, Rollback Plan, Backout | - |
 | `test_evidence` | text | Test Evidence, Test Plan, Tested, Testing | - |
