@@ -60,7 +60,7 @@ Kurt's naming rule of 18 November 2026 ("name it after what it does") came in af
 
 All 31 new names were free on npm on 18 November 2026 (`npm view`, read-only). The rename was done by `scripts/rename-agents.cjs` (folders and bin files moved with `git mv`) and checked by `npm run check`, which now fails on a name, bin, `mcpName` or prefix that breaks the rule.
 
-## Checks run, and results
+## Checks run, and results (build, 18 November; the final numbers are under "Final pass" below)
 
 All on this machine: Windows 10, Node 24.20.0, npm 11.19.0.
 
@@ -117,6 +117,192 @@ Per agent: 4 shared tests (argument docs, one-click policy, evals, stdio MCP), u
 8. **Sample reports**: firewall rules, sign-in logs, backup jobs, cloud costs, network traffic, ticket SLA, patch status and DNS records, in `sample-reports/` with an index page.
 9. **npm**: nothing published, nothing pushed; local commits only, as Kurt Francisco Pavia with the noreply address.
 
+## Final pass (19 November 2026)
+
+Kurt asked every family for one final pass: the brief's eight-point checklist, his five review questions with numbers, and tests on real public data. Everything below ran on Windows 10, Node 24.20.0. The evidence is committed in `evidence/` and can be run again: `npm run accuracy`, `npm run model-view`, `npm run realdata` (downloads into the git-ignored `_realdata/`).
+
+### Checklist
+
+| # | Point | Result |
+|---|---|---|
+| 1 | Names | Every package, bin, `mcpName`, tool prefix, title, README and CHANGELOG uses `fairwire-<what it does>`; `npm run check` now fails on a name that breaks the rule. The themed names appear only in the Names table above, `scripts/names.json` and `scripts/rename-agents.cjs` (history). |
+| 2 | Read as a buyer | Every agent README is generated from the agent (what it checks, settings, what it refuses, limits, a captured demo). Changed: DNS Records now says it reads zone files; Change Calendar lists the HP Service Manager columns and the planning-window setting; Network Traffic documents `share_min_hosts`. The README demo now shows a fixed date, so `readme:check` no longer fails on the next day. |
+| 3 | Honest copy | Scanned READMEs, package files, `site.json`, the pricing page and sample reports for compliance, certification, savings and guarantee words: only disclaimers and product names (AWS "Savings Plan") were found. The package keyword `licence-compliance` was removed. |
+| 4 | Binding actions | Every agent refuses live changes (firewall, DNS, directory, device, cloud, mail, payments) and drafts only; each draft's request is a one-click category that waits for a named person even in Auto (`npm run check`: 31 agents, 341 tools (279 distinct that run), every policy ending in a default block). |
+| 5 | Full bar from a clean install | From a fresh `git clone` and `npm install` in `%TEMP%`: 892 tests pass, 653/653 evals, `intl` 370 cases in 8 languages, the hostile data pass 0 findings, accuracy and masking unchanged, `readme:check` and `plugin:check` pass, and `release:check:offline` passes on a clean tree (32 packages, 621 KB). In the main repository: `hostile:args` 22,228 calls, 0 findings; `bench` 93 tool runs at 10,000 rows, median 678 ms. One run took 13 s (Mobile Devices' report); run again alone it took 2.5 s, so that was load on this machine. The first fresh clone found a Windows problem: with `core.autocrlf` on, files were checked out with CRLF, npm then rewrote the 35 bin scripts and the generated-file checks failed. A `.gitattributes` now keeps LF (the fixtures for other countries keep their bytes) and the checks ignore line endings. |
+| 6 | Fictional fixtures | Every e-mail address uses a reserved domain (`corp.example`, `example.test`, `vendor.example` and so on); addresses are private or documentation ranges, plus 8.8.8.8 as the example of an outside resolver; phone numbers are 555-01xx; companies are the usual fictional ones (Contoso, Fabrikam, Northwind). The Patch Status fleet moved from Windows 11 Pro 24H2 (servicing ended 13 Oct 2026) to 25H2. Masking is on by default. |
+| 7 | `site.json`, pricing, agents | All 31 agents are named once in the pricing page; `site.json` and the pricing page carry the same 10 packages and prices; 31 checks in 5 groups. Sample reports regenerated (unchanged). |
+| 8 | Package contents | `release:check:offline`: no tests, state, `fairwire-out`, keys or `.npmrc` in any package; secret scan clean; `_realdata/` is git-ignored. |
+
+### Question 1: accuracy
+
+Method (`scripts/accuracy.mjs`, cases in `evidence/accuracy-cases.json`):
+
+- **Planted set:** each agent's own fixtures. The expected findings (code and key) were written from the planted problems listed in each `fixtures/README.md` and checked line by line against what the agent reports. Recall = expected findings found; "unexpected" = anything reported that is not on the list.
+- **Clean set:** the same fixtures with the planted rows dropped, or set back to a normal value. No finding is expected.
+- **Mutations:** the clean set with one row changed to plant one problem (for example a rule's hits set to 0); the named finding is expected.
+
+Limits, said plainly: the fixtures, the expected lists and the agents were written by the same builder, so this measures whether the agents do what their fixtures describe, not how they do on a customer's data. Some clean sets are small (3 to 7 rows for the identity agents).
+
+| Agent | Planted found | Unexpected | Clean rows | Findings on clean | Mutations caught |
+|---|---:|---:|---:|---:|---:|
+| `fairwire-admin-roles` | 9/9 | 0 | 4 | 0 | 3/3 |
+| `fairwire-ai-usage` | 6/6 | 0 | 7 | 0 | 2/2 |
+| `fairwire-api-retries` | 10/10 | 0 | 21 | 0 | 1/1 |
+| `fairwire-asset-inventory` | 10/10 | 0 | 4 | 0 | 2/2 |
+| `fairwire-backup-jobs` | 8/8 | 0 | 14 | 0 | 2/2 |
+| `fairwire-call-quality` | 11/11 | 0 | 27 | 0 | 2/2 |
+| `fairwire-change-calendar` | 8/8 | 0 | 5 | 0 | 2/2 |
+| `fairwire-cloud-costs` | 10/10 | 0 | 14 | 0 | 2/2 |
+| `fairwire-contract-renewals` | 10/10 | 0 | 10 | 0 | 2/2 |
+| `fairwire-dhcp-leases` | 8/8 | 0 | 117 | 0 | 2/2 |
+| `fairwire-directory-hygiene` | 11/11 | 0 | 6 | 0 | 2/2 |
+| `fairwire-dns-queries` | 6/6 | 0 | 4 | 0 | 2/2 |
+| `fairwire-dns-records` | 8/8 | 0 | 5 | 0 | 3/3 |
+| `fairwire-email-gateway` | 6/6 | 0 | 20 | 0 | 2/2 |
+| `fairwire-endpoint-protection` | 10/10 | 0 | 8 | 0 | 3/3 |
+| `fairwire-firewall-rules` | 13/13 | 0 | 4 | 0 | 3/3 |
+| `fairwire-log-retention` | 7/7 | 0 | 5 | 0 | 2/2 |
+| `fairwire-mfa-coverage` | 8/8 | 0 | 3 | 0 | 3/3 |
+| `fairwire-mobile-devices` | 8/8 | 0 | 5 | 0 | 2/2 |
+| `fairwire-network-traffic` | 9/9 | 0 | 6 | 0 | 2/2 |
+| `fairwire-patch-status` | 11/11 | 0 | 24 | 0 | 2/2 |
+| `fairwire-print-fleet` | 8/8 | 0 | 12 | 0 | 2/2 |
+| `fairwire-restore-tests` | 6/6 | 0 | 7 | 0 | 2/2 |
+| `fairwire-sign-in-logs` | 8/8 | 0 | 5 | 0 | 2/2 |
+| `fairwire-software-licenses` | 6/6 | 0 | 34 | 0 | 2/2 |
+| `fairwire-switch-ports` | 8/8 | 0 | 10 | 0 | 2/2 |
+| `fairwire-telecom-bills` | 7/7 | 0 | 13 | 0 | 2/2 |
+| `fairwire-ticket-sla` | 11/11 | 0 | 3 | 0 | 2/2 |
+| `fairwire-uptime-incidents` | 10/10 | 0 | 3 | 0 | 2/2 |
+| `fairwire-vpn-access` | 7/7 | 0 | 10 | 0 | 2/2 |
+| `fairwire-wifi-health` | 12/12 | 0 | 14 | 0 | 2/2 |
+| **Family (31)** | **270/270** | **0** | **424** | **0** | **66/66** |
+
+What the measurement found:
+
+- **One real false positive, fixed:** on a clean export with 3 or 4 hosts, Network Traffic reported "one host carried most of the bytes" (true, but meaningless with so few hosts). Share findings now need at least `share_min_hosts` (default 5) hosts or destinations.
+- **Two mistakes in my own cases, not in the agents:** a telecom "repair" left a line at 6 GB of a 50 GB plan (correctly reported as oversized), and a firewall mutation that opened SSH to the internet put the rule behind the default deny (correctly reported as shadowed; SSH is also not on the default risky list).
+
+### Question 2: what reaches the AI model
+
+When an assistant calls a tool, the result (summary and findings) passes through the masker before it leaves the computer. Files the tools write locally keep the real values. Per agent (`scripts/model-view.mjs`, `evidence/model-view.json`); every field not listed is sent in clear (dates, counts, amounts, codes, ids, device and host names, internal addresses, settings):
+
+| Agent | Masked before the model sees it | Masked only in strict mode | Free text sent (scrubbed of e-mails, phones, known names) |
+|---|---|---|---|
+| `fairwire-admin-roles` | display_name, mailbox, user | - | note |
+| `fairwire-ai-usage` | prompt (never returned; a hash only), user | - | - |
+| `fairwire-api-retries` | none (no personal fields) | endpoint | - |
+| `fairwire-asset-inventory` | owner | hostname | - |
+| `fairwire-backup-jobs` | none (no personal fields) | - | - |
+| `fairwire-call-quality` | caller_number | - | - |
+| `fairwire-change-calendar` | requester | - | backout_plan, outcome, test_evidence, title |
+| `fairwire-cloud-costs` | none (no personal fields) | - | - |
+| `fairwire-contract-renewals` | owner | - | - |
+| `fairwire-dhcp-leases` | none (no personal fields) | hostname, ip | - |
+| `fairwire-directory-hygiene` | name (user objects) | - | - |
+| `fairwire-dns-queries` | none (no personal fields) | - | query |
+| `fairwire-dns-records` | none (no personal fields) | - | - |
+| `fairwire-email-gateway` | recipient, sender | - | dlp_rule |
+| `fairwire-endpoint-protection` | none (no personal fields) | device | title |
+| `fairwire-firewall-rules` | owner | - | description |
+| `fairwire-log-retention` | none (no personal fields) | host | - |
+| `fairwire-mfa-coverage` | display_name, user | - | - |
+| `fairwire-mobile-devices` | imei, user | device | - |
+| `fairwire-network-traffic` | none (no personal fields) | dst_ip, src_ip | - |
+| `fairwire-patch-status` | none (no personal fields) | device | title |
+| `fairwire-print-fleet` | none (no personal fields) | - | - |
+| `fairwire-restore-tests` | signed_off_by | - | - |
+| `fairwire-sign-in-logs` | client_ip, user | - | failure_reason |
+| `fairwire-software-licenses` | none (no personal fields) | device | - |
+| `fairwire-switch-ports` | none (no personal fields) | - | description |
+| `fairwire-telecom-bills` | line_number, user | - | plan |
+| `fairwire-ticket-sla` | assignee | - | - |
+| `fairwire-uptime-incidents` | none (no personal fields) | - | - |
+| `fairwire-vpn-access` | client_ip, user | - | - |
+| `fairwire-wifi-health` | none (no personal fields) | - | - |
+
+- **Canary:** each agent's planted case ran in the default mode and every value of a masked field in its input files was searched for in what the model would receive: 262 personal values, 0 found. The per-agent memory test checks the same on every `npm test`.
+- **Hostile inputs:** the data pass (planted formulas, HTML, `../` ids and instructions aimed at an AI) and the argument pass run again after this pass's changes: data pass 3,272 calls with 1,691 planted values, 0 findings; argument pass 22,228 calls (nulls, numbers, nested arrays, 200,000-character strings, NUL bytes, `../` and absolute paths, folders, missing files), 0 findings.
+- **Free text** (rule descriptions, ticket titles, change titles, DLP rule names) is scrubbed of e-mail addresses, phone numbers and any name seen in a masked field, but a personal detail typed only into free text can get through. AI Usage never returns prompt text, only a hash of it.
+- Results go to whatever model the user's assistant uses. For regulated data, use a local model or one covered by the user's own agreements. No claim of HIPAA, GDPR or any other compliance is made.
+
+### Question 3: compatibility
+
+| Vendor or system | Export | Basis |
+|---|---|---|
+| ServiceNow | Incident fields as in the public UCI audit log (`number`, `incident_state`, `priority`, `opened_at`, `resolved_at`, `assignment_group`) | tested on a public sample |
+| HP Service Manager | Change records (BPI Challenge 2014) | tested on a public sample |
+| BIND, Windows DNS, a zone transfer | DNS zone (master) file | tested on a public sample (the IANA root zone) |
+| Palo Alto PAN-OS, FortiGate, Entra ID sign-ins, Entra MFA registration, Okta System Log, AWS CUR, Azure cost details, Google Cloud billing, Veeam, Intune, Defender for Endpoint, Windows DHCP, ServiceNow incident list, Jira Service Management | The 14 named layouts the agents recognise | written from knowledge of the vendors' documented exports; not compared line by line with the vendor pages and not tested on a real export |
+
+Every other input is read by column name (with aliases in 9 languages). No customer export has been read. A 15th layout (Cisco Meraki clients) is in the core catalogue but no agent uses it.
+
+### Question 4: commercial traction
+
+None yet: no paying customers, and no checkout is live (the main session answers for the suite).
+
+### Question 5: support and dated rules
+
+| Rule | Where it lives | Source | As of | How a customer changes it |
+|---|---|---|---|---|
+| Windows end of support (`END_OF_SUPPORT_OS`) | `fairwire-core/src/it.js`, used by Patch Status and Directory Hygiene | Microsoft lifecycle dates, checked against endoflife.date by `npm run realdata` | 19 Nov 2026 | `unsupported_os` in the agent's settings file (for example drop "Windows 10" while paying for extended security updates) |
+| Risky inbound ports | `fairwire-core/src/it.js` (`RISKY_INBOUND_PORTS`) | common hardening guidance (RDP, SMB, FTP, Telnet, databases, SNMP, TFTP); SSH left out on purpose | 18 Nov 2026 | `risky_ports` in Firewall Rules and Network Traffic settings |
+| Cleartext protocols | `fairwire-core/src/it.js` (`CLEARTEXT`) | protocol specifications | 18 Nov 2026 | not a setting; changed in a release |
+| Cloud host suffixes for takeover checks | `fairwire-dns-records/src/logic.js` | public lists of takeover-prone services, recalled | 18 Nov 2026 | `cloud_suffixes` and `active_cloud_hosts` |
+| Weak and phishing-resistant MFA methods | `fairwire-mfa-coverage` defaults | public guidance on phishing-resistant MFA | 18 Nov 2026 | `weak_methods`, `strong_methods` |
+| Legacy sign-in protocols | `fairwire-sign-in-logs/src/logic.js` | Microsoft basic-authentication retirement | 18 Nov 2026 | not a setting; changed in a release |
+| Weak Wi-Fi security (WEP, TKIP, open) | `fairwire-wifi-health/src/logic.js` | Wi-Fi Alliance WPA2 and WPA3 | 18 Nov 2026 | not a setting; changed in a release |
+| Mobile minimum OS | `fairwire-mobile-devices` (`min_os`, empty by default) | vendor support (endoflife.date shows iOS 15, 16, 18, 26, 27 and Android 14 to 17 still supported) | 19 Nov 2026 | `min_os`, for example `{"iOS": "18.0", "Android": "14"}` |
+| Export layouts (14) | `fairwire-core/src/exports.js` | knowledge of vendor exports ("recalled") | 18 Nov 2026 | `fairwire-sources.json` (`columns`, `profile`, `date_order`) |
+| Working thresholds (days to patch, retention days, SLA targets, MOS and jitter, top-admin cap, unused days and so on) | each agent's `DEFAULTS` in `src/logic.js` | common practice, not a standard | 18 Nov 2026 | the agent's settings file |
+
+Mythos Machines updates the defaults in new releases; support after setup covers export layouts a vendor changes. Nobody is yet assigned to watch vendor lifecycle pages: re-running `npm run realdata` before each release is the current check.
+
+### Real data
+
+| Source (licence) | Format | Agent | What ran | What it found | False positives |
+|---|---|---|---|---|---|
+| [UCI incident management event log](https://archive.ics.uci.edu/dataset/498), a ServiceNow audit log of an IT company (CC BY 4.0; Amaral, Fantinato and Peres 2018) | CSV, day-first dates, `?` for empty, 141,712 event rows (2.4 MB zip) | Ticket SLA | 24,918 incidents (each incident's latest row, as an incident list export shows it) | 0 open (every incident ends Closed); 30 reopened twice or more (the file has 30); 57 teams above the 20% breach rate on the default targets; the first-response check skipped (no such column) | Compared with the instance's own SLA field (`made_sla`): 56 of the 57 flagged teams are also over 20% there; 1 is flagged only by the agent, 4 only by ServiceNow, whose SLA definitions are not published. The first run reported 1,556 closed incidents as open and breached (fixed). |
+| [BPI Challenge 2014: change details](https://data.4tu.nl/datasets/e9c00fe9-c87a-450e-8bd6-d5e06a6b309a), Rabobank Group ICT, HP Service Manager (4TU General Terms of Use; van Dongen 2014) | semicolon CSV, day-first dates, one row per affected CI, 30,275 rows (6.7 MB, MD5 matches the publisher) | Change Calendar | 18,000 changes on 10,193 configuration items | 2,419 pairs of changes on the same item in overlapping implementation windows; 52 major changes starting in business hours; 35 emergency changes (0.2%); 6,230 changes with planning windows over 72 hours counted, not compared; approval, back-out and test checks skipped (no such columns) | The first run reported 38,564 overlaps, nearly all from planning windows of weeks or months (fixed). The 2,419 left were not verified: shared maintenance windows are common, so many may be intended. |
+| [IANA root zone](https://www.internic.net/domain/root.zone) (published for public download; no licence stated) | DNS master file, 2.3 MB | DNS Records | all 25,020 records (A, AAAA, NS, DS, RRSIG, NSEC, DNSKEY, SOA, ZONEMD), 7,344 names | 0 findings, as expected for the root zone | 0 |
+| [endoflife.date](https://endoflife.date) (MIT): Windows, Windows Server, iOS, Android | JSON | Patch Status and Directory Hygiene end-of-support list; Mobile Devices guidance | 53 ended Windows and Windows Server releases, written the way device exports name them per edition | 43 of 53 flagged after the fix (32 before); not covered: 9 Windows Server semi-annual-channel builds and one 2015 IoT release | 0 supported releases flagged after the fix (3 LTSC releases before) |
+
+For the other 27 agents no public file in a vendor's real format with a clear licence was used in this pass. The search was short, not exhaustive. The FinOps FOCUS cloud billing samples were found, but no licence could be confirmed, so they were not used. Public Zeek DNS and connection logs are a candidate for DNS Queries and Network Traffic in ver 2. Those 27 agents are measured on fictional data only.
+
+Fixes the real files led to (each with a test):
+
+- **Empty markers:** "?" (the UCI file), "NULL", "(null)" and "#N/A" in a mapped column now read as empty; "N/A", "none" and dashes too in date and number columns. Before, 1,556 closed incidents with `?` as their resolution time were reported as open and breached.
+- **Missing columns:** a "value is missing" check whose column is not in the export at all is skipped and named in `checks_skipped`, instead of flagging every row. 14 agents declare the columns (`needs`). A Palo Alto rule export, which has no owner column, no longer reports every rule as ownerless.
+- **Ticket SLA:** ServiceNow's `incident_state` is read as the state; a closed ticket with no resolution time is not counted as breached.
+- **Change Calendar:** reads `CI Name (aff)`, `Risk Assessment` and the separate `Emergency Change` column; planned windows longer than `max_window_hours` (72) are counted, not compared; a change is never paired with itself; the emergency share counts changes, not rows.
+- **DNS Records:** reads zone (master) files; DNSSEC records next to a CNAME are not a conflict.
+- **End of support:** one shared, dated list now covers Windows 2000, XP, Vista, Server 2003, LTSB and the Windows 11 feature updates whose servicing has ended (21H2 to 23H2, and Home and Pro 24H2). Long-term servicing editions (LTSC, IoT) are only matched by an entry that names them, so Windows 10 Enterprise LTSC 2021 is no longer flagged. Against endoflife.date it went from 32 to 43 of 53 ended releases flagged, and from 3 supported releases wrongly flagged to 0. Not covered: Windows Server semi-annual-channel builds and one 2015 IoT release.
+
+### Final numbers
+
+| Check | Result |
+|---|---|
+| `npm test` (clean clone) | 892 tests, 892 pass (146 in fairwire-core; 24 per agent, 25 in Change Calendar and DNS Records) |
+| `npm run evals` | 653 cases, 653 pass |
+| `npm run accuracy` | planted 270/270 found, 0 unexpected; 0 findings on 424 clean rows; 66/66 mutations caught |
+| `npm run model-view` | 16 agents read personal fields; 262 personal values in the fixtures, 0 reached the model |
+| `npm run hostile` / `hostile:args` | 3,272 and 22,228 calls, 0 findings |
+| `npm run intl` | 370 cases in 8 languages, all pass |
+| `npm run bench` | 93 tool runs at 10,000 rows, median 678 ms (one 13 s outlier, 2.5 s when run alone) |
+| `npm run release:check:offline` (clean clone) | passed, no warning; 32 packages, 621 KB |
+| `npm run realdata` | 3 public data files (24,918 incidents, 30,275 change rows, 25,020 DNS records) and the endoflife.date lists; findings and false positives in the table above |
+| npm names | the 31 job names and `fairwire-core` were free on 18 November 2026 (the packages are now published by the main session) |
+
+### For Kurt to decide
+
+1. **Windows 10 in the default end-of-support list.** Devices whose owner pays for extended security updates are flagged too; the finding says so, and the customer can remove the entry. Keep it in the default?
+2. **Mobile minimum OS.** The default checks no OS version (`min_os` is empty), so an old iPhone is not flagged unless the customer sets one. Set a default such as iOS 18 and Android 14?
+3. **SSH from the internet** is not on the default risky-port list, because SSH gateways are often exposed on purpose. Add port 22?
+4. **The BPI Challenge 2014 file** is under the 4TU General Terms of Use, not an open licence. Only results are published here, never the data; confirm that citing them on the site is fine.
+5. **"Written from documentation"** on the site: the 14 layouts were written from knowledge of the vendors' exports and not yet compared line by line with the vendor pages. Compare them before the site says "documented", or keep the plain wording.
+6. **The unused Meraki layout:** wire it to Wi-Fi Health or remove it.
+
 ## Ideas for ver 2
 
-Read one real, de-identified export per vendor to mark layouts as checked; business-hours SLA clocks in `fairwire-ticket-sla`; a monthly "IT health pack" runner that runs the identity and device agents in order; money formatting in reports; native review of the translations.
+Read one real, de-identified export per vendor to mark layouts as checked; business-hours SLA clocks in `fairwire-ticket-sla`; a monthly "IT health pack" runner that runs the identity and device agents in order; money formatting in reports; native review of the translations. From the final pass: compare the 14 export layouts line by line with the vendors' pages; test DNS Queries and Network Traffic on public Zeek logs; a version-aware Windows rule (build numbers as well as names); a default minimum mobile OS if Kurt wants one.
