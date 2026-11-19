@@ -121,7 +121,17 @@ export function decodeText(buf, { encoding = null, lang = null, words = null } =
   if (buf[0] === 0xff && buf[1] === 0xfe) return { text: new TextDecoder('utf-16le').decode(buf.subarray(2)), encoding: 'utf-16le', how: 'bom' };
   if (buf[0] === 0xfe && buf[1] === 0xff) return { text: new TextDecoder('utf-16be').decode(buf.subarray(2)), encoding: 'utf-16be', how: 'bom' };
   const utf8 = tryDecode(buf, 'utf-8');
-  if (utf8 !== null) return { text: utf8, encoding: 'utf-8', how: 'utf-8' };
+  if (utf8 !== null) {
+    // A short legacy header can be valid UTF-8 by accident: GBK writes 状态 ("status") as D7 B4 CC AC, which
+    // UTF-8 reads as "״̬". When the header holds non-ASCII text, keep UTF-8 unless a legacy decoding of the same
+    // bytes finds more known column names.
+    if (/[^\x00-\x7f]/.test(utf8.slice(0, 8000))) {
+      const h8 = headerHits(utf8, words); const head = buf.subarray(0, 65536); let alt = null;
+      for (const enc of LEGACY) { const t = tryDecode(head, enc, head.length < buf.length); if (t === null) continue; const h = headerHits(t, words); if (h > h8 && (!alt || h > alt.h)) alt = { enc, h }; }
+      if (alt) return { text: decodeAs(buf, alt.enc), encoding: alt.enc, how: 'guessed', candidates: [{ encoding: alt.enc, header_words: alt.h }, { encoding: 'utf-8', header_words: h8 }] };
+    }
+    return { text: utf8, encoding: 'utf-8', how: 'utf-8' };
+  }
   // UTF-16 without a mark: every other byte of an ASCII-heavy header is zero.
   const sample = buf.subarray(0, 4000);
   let evenZero = 0, oddZero = 0;
