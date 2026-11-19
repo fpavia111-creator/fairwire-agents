@@ -300,7 +300,7 @@ Fixes the real files led to (each with a test):
 2. **Mobile minimum OS.** The default checks no OS version (`min_os` is empty), so an old iPhone is not flagged unless the customer sets one. Set a default such as iOS 18 and Android 14?
 3. **SSH from the internet** is not on the default risky-port list, because SSH gateways are often exposed on purpose. Add port 22?
 4. **The BPI Challenge 2014 file** is under the 4TU General Terms of Use, not an open licence. Only results are published here, never the data; confirm that citing them on the site is fine.
-5. **"Written from documentation"** on the site: the 14 layouts were written from knowledge of the vendors' exports and not yet compared line by line with the vendor pages. Compare them before the site says "documented", or keep the plain wording.
+5. **Format labels (settled 19 November 2026):** the 14 layouts are now labelled "written from knowledge of the export; not yet checked against documentation or a real export" in `sales/final-pass.json`, the suite's fixed wording. To move one to "checked against the vendor's published documentation", compare its columns with the vendor page first.
 6. **The unused Meraki layout:** wire it to Wi-Fi Health or remove it.
 
 ## Ideas for ver 2
