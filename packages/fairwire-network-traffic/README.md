@@ -30,6 +30,7 @@ Pass a settings file with `settings`. Every setting is optional; a misspelt sett
 | `business_hours` | First and last hour of the working day, e.g. [7, 19] (default) |
 | `large_upload_bytes` | Bytes to one outside address out of hours that count as a large upload (default 500000000) |
 | `top_share_pct` | Share of all bytes above which one host or destination is flagged (default 40) |
+| `share_min_hosts` | Inside hosts (or outside destinations) the export must hold before one of them carrying most of the bytes is flagged (default 5; with fewer, one host always dominates) |
 | `small_packet_bytes` | Average packet size under which a host is flagged (default 100) |
 | `min_packets` | Packets a host needs before the small-packet check applies (default 1000) |
 | `scan_ports` | Distinct ports one source tries on one host before it counts as a possible scan (default 20) |
@@ -77,7 +78,7 @@ low top_talker_share: 10.0.3.50 carried 94.2% of all bytes (720 MB of 764 MB). F
 
 ▶ Draft the note for a person
   status: executed  decision: allow  (auto)
-  change request 2026-11-18 drafted with 1 open marker(s) ([TO CONFIRM network change board]). Nothing was sent.
+  change request 2026-11-19 drafted with 1 open marker(s) ([TO CONFIRM network change board]). Nothing was sent.
 
 ▶ Auto: approving it still waits for one named person
   status: needs_approval  decision: ask

@@ -29,11 +29,12 @@ export const SETTINGS_SCHEMA = { type: 'object', additionalProperties: false, pr
   business_hours: { type: 'array', items: { type: 'integer', minimum: 0, maximum: 24 }, minItems: 2, maxItems: 2, description: 'First and last hour of the working day, e.g. [7, 19] (default)' },
   large_upload_bytes: { type: 'number', minimum: 1, description: 'Bytes to one outside address out of hours that count as a large upload (default 500000000)' },
   top_share_pct: { type: 'number', minimum: 1, maximum: 100, description: 'Share of all bytes above which one host or destination is flagged (default 40)' },
+  share_min_hosts: { type: 'integer', minimum: 2, description: 'Inside hosts (or outside destinations) the export must hold before one of them carrying most of the bytes is flagged (default 5; with fewer, one host always dominates)' },
   small_packet_bytes: { type: 'number', minimum: 1, description: 'Average packet size under which a host is flagged (default 100)' },
   min_packets: { type: 'integer', minimum: 1, description: 'Packets a host needs before the small-packet check applies (default 1000)' },
   scan_ports: { type: 'integer', minimum: 2, description: 'Distinct ports one source tries on one host before it counts as a possible scan (default 20)' },
 } };
-export const DEFAULTS = Object.freeze({ internal_cidrs: [], risky_ports: RISKY_INBOUND_PORTS, allowed_inbound: [], business_hours: [7, 19], large_upload_bytes: 500e6, top_share_pct: 40, small_packet_bytes: 100, min_packets: 1000, scan_ports: 20 });
+export const DEFAULTS = Object.freeze({ internal_cidrs: [], risky_ports: RISKY_INBOUND_PORTS, allowed_inbound: [], business_hours: [7, 19], large_upload_bytes: 500e6, top_share_pct: 40, share_min_hosts: 5, small_packet_bytes: 100, min_packets: 1000, scan_ports: 20 });
 
 const HIGH_CLEAR = new Set([21, 23, 110, 69]);
 const NAMED_PORT = { http: 80, ftp: 21, telnet: 23, pop3: 110, imap: 143, tftp: 69, snmp: 161, ldap: 389 };
@@ -99,8 +100,9 @@ export function reviewFlows(rows, settings = {}) {
     if (inside(f.src)) add(byHost, f.src, f); else if (inside(f.dst)) add(byHost, f.dst, f);
     if (inside(f.src) && !inside(f.dst)) { add(byDest, f.dst, f); out += f.bytes; }
   }
-  if (total) for (const [h, e] of byHost) { const sh = pct(e.bytes, total); if (sh > s.top_share_pct) items.push(finding('top_talker_share', 'low', h, `${h} carried ${sh}% of all bytes (${humanBytes(e.bytes)} of ${humanBytes(total)}).`, 'Check whether this host should be on its own link, scheduled off-peak or rate-limited.', { subject: h, share_pct: sh, bytes: e.bytes })); }
-  if (out) for (const [d, e] of byDest) { const sh = pct(e.bytes, out); if (sh > s.top_share_pct) items.push(finding('top_destination_share', 'low', d, `${d} received ${sh}% of the bytes sent out (${humanBytes(e.bytes)}).`, 'Confirm what service this is and that it is expected.', { subject: d, share_pct: sh, bytes: e.bytes })); }
+  // With only a handful of hosts one of them always carries most of the bytes; that is not a finding.
+  if (total && byHost.size >= s.share_min_hosts) for (const [h, e] of byHost) { const sh = pct(e.bytes, total); if (sh > s.top_share_pct) items.push(finding('top_talker_share', 'low', h, `${h} carried ${sh}% of all bytes (${humanBytes(e.bytes)} of ${humanBytes(total)}).`, 'Check whether this host should be on its own link, scheduled off-peak or rate-limited.', { subject: h, share_pct: sh, bytes: e.bytes })); }
+  if (out && byDest.size >= s.share_min_hosts) for (const [d, e] of byDest) { const sh = pct(e.bytes, out); if (sh > s.top_share_pct) items.push(finding('top_destination_share', 'low', d, `${d} received ${sh}% of the bytes sent out (${humanBytes(e.bytes)}).`, 'Confirm what service this is and that it is expected.', { subject: d, share_pct: sh, bytes: e.bytes })); }
 
   // Small packets.
   for (const [h, e] of byHost) if (e.packets >= s.min_packets) { const avg = round1(e.bytes / e.packets); if (avg < s.small_packet_bytes) items.push(finding('small_packets', 'low', h, `${h} averaged ${avg} bytes per packet over ${e.packets} packets.`, 'Look at what sends many tiny packets; batching or a longer polling interval may help.', { subject: h, avg_packet_bytes: avg })); }

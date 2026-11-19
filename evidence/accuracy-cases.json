@@ -1,0 +1,1374 @@
+{
+  "about": "Accuracy cases for scripts/accuracy.mjs (npm run accuracy). expected: every finding (code|key) the planted fixtures should give, written from the planted problems in each fixtures/README.md and checked line by line on 19 Nov 2026. drop and repair turn the fixtures into a clean set (no finding expected): drop removes the planted rows, repair sets a planted value back to a normal one. mutations change one row of the clean set and name the finding expected. A selector is [column, value] or {column: value} (all must match); /regex/ values are regular expressions.",
+  "agents": {
+    "fairwire-admin-roles": {
+      "expected": [
+        "admin_reads_mail|bkim@corp.example",
+        "admin_without_mfa|dlee@corp.example",
+        "break_glass_no_note|bg2@corp.example",
+        "break_glass_signed_in|bg1@corp.example",
+        "guest_with_admin_role|partner_it#EXT#@corp.example",
+        "stale_admin|fnunez@corp.example",
+        "standing_admin|bkim@corp.example",
+        "standing_admin|partner_it#EXT#@corp.example",
+        "too_many_global_admins|global-admins"
+      ],
+      "drop": [
+        ["user", "/^(bkim|dlee|fnunez|bg1|bg2|partner_it)/"]
+      ],
+      "mutations": [
+        {
+          "id": "admin-loses-mfa",
+          "where": ["user", "aortiz@corp.example"],
+          "set": {
+            "mfa": ""
+          },
+          "expect": "admin_without_mfa"
+        },
+        {
+          "id": "permanent-assignment",
+          "where": ["user", "cdiaz@corp.example"],
+          "set": {
+            "assignment_type": "Active (permanent)"
+          },
+          "expect": "standing_admin"
+        },
+        {
+          "id": "admin-goes-quiet",
+          "where": ["user", "emoss@corp.example"],
+          "set": {
+            "last_sign_in": "2026-05-01"
+          },
+          "all": true,
+          "expect": "stale_admin"
+        }
+      ]
+    },
+    "fairwire-ai-usage": {
+      "expected": [
+        "cut_off_answers|doc-summarizer",
+        "large_payload|doc-summarizer",
+        "large_prompt|doc-summarizer",
+        "no_app_tag|(no app)",
+        "oversized_model|code-helper|large-model-x",
+        "repeated_prompt|prompt#73962422e42b"
+      ],
+      "drop": [
+        ["request_id", "/^req-(10[2-7]|20[1-3]|30[5-8]|40[1-3])$/"]
+      ],
+      "repair": [
+        {
+          "where": ["stop_reason", "length"],
+          "set": {
+            "stop_reason": "end_turn"
+          },
+          "all": true
+        }
+      ],
+      "mutations": [
+        {
+          "id": "huge-prompt",
+          "where": ["request_id", "req-204"],
+          "set": {
+            "prompt_tokens": "60000"
+          },
+          "expect": "large_prompt"
+        },
+        {
+          "id": "untagged-request",
+          "where": ["request_id", "req-101"],
+          "set": {
+            "app": ""
+          },
+          "expect": "no_app_tag"
+        }
+      ]
+    },
+    "fairwire-api-retries": {
+      "expected": [
+        "no_backoff|/v1/chat",
+        "retries_exhausted|/v1/embed",
+        "retries_exhausted|/v1/files",
+        "retry_after_ignored|/v1/chat",
+        "retry_on_client_error|/v1/embed",
+        "retry_spend|/v1/chat",
+        "retry_spend|/v1/embed",
+        "retry_spend|/v1/files",
+        "server_error_rate|/v1/chat",
+        "server_error_rate|/v1/files"
+      ],
+      "drop": [
+        ["request_id", "/^R-00[2346]$/"]
+      ],
+      "mutations": [
+        {
+          "id": "embed-5xx",
+          "where": ["request_id", "R-005"],
+          "set": {
+            "status": "503"
+          },
+          "expect": "server_error_rate"
+        }
+      ]
+    },
+    "fairwire-asset-inventory": {
+      "expected": [
+        "duplicate_serial|SN-A1006",
+        "ghost_record|AST-1010",
+        "hostname_mismatch|AST-1009",
+        "missing_owner_or_location|AST-1004",
+        "missing_owner_or_location|AST-1008",
+        "not_in_cmdb|CAM-LOBBY",
+        "not_in_cmdb|SN-A2001",
+        "retired_but_seen|AST-1003",
+        "warranty_ended|AST-1004",
+        "warranty_ended|AST-1005"
+      ],
+      "drop": [
+        ["asset_id", "/^AST-10(0[3-9]|10)$/"],
+        ["hostname", "/^(LAPTOP-10[3-9]|DESK-105|SRV-108|LAPTOP-9X|LAPTOP-201|CAM-LOBBY|LAPTOP-110)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "owner-missing",
+          "file": "cmdb",
+          "where": ["asset_id", "AST-1002"],
+          "set": {
+            "owner": ""
+          },
+          "expect": "missing_owner_or_location"
+        },
+        {
+          "id": "retired-but-seen",
+          "file": "cmdb",
+          "where": ["asset_id", "AST-1001"],
+          "set": {
+            "status": "Retired"
+          },
+          "expect": "retired_but_seen"
+        }
+      ]
+    },
+    "fairwire-backup-jobs": {
+      "expected": [
+        "no_offsite_copy|FILE-01",
+        "no_offsite_copy|MAIL-01",
+        "no_recent_good_backup|FILE-01",
+        "not_covered|APP-02",
+        "repeated_failures|FILE-01",
+        "short_retention|MAIL-01",
+        "size_drop|SQL-01",
+        "warnings_ignored|MAIL-01"
+      ],
+      "drop": [
+        ["system", "/^(FILE-01|MAIL-01|APP-02)$/"]
+      ],
+      "repair": [
+        {
+          "where": ["size_bytes", "180000000000"],
+          "set": {
+            "size_bytes": "520000000000"
+          }
+        }
+      ],
+      "mutations": [
+        {
+          "id": "short-retention",
+          "file": "jobs",
+          "where": ["job", "Nightly-SQL"],
+          "set": {
+            "retention_days": "14"
+          },
+          "all": true,
+          "expect": "short_retention"
+        },
+        {
+          "id": "critical-system-uncovered",
+          "file": "critical",
+          "where": ["system", "SQL-01"],
+          "set": {
+            "system": "APP-09"
+          },
+          "expect": "not_covered"
+        }
+      ]
+    },
+    "fairwire-call-quality": {
+      "expected": [
+        "one_way_audio|HQ-016",
+        "poor_call|BR-001",
+        "poor_call|WH-006",
+        "poor_call|WH-007",
+        "poor_call|WH-008",
+        "poor_call|WH-009",
+        "poor_call|WH-010",
+        "poor_hour|14:00",
+        "short_dropped_calls|+1 555 0100 777",
+        "site_poor_share|Warehouse",
+        "trunk_poor_share|carrier-b"
+      ],
+      "drop": [
+        ["call_id", "/^(HQ-016|BR-001|WH-0(0[6-9]|10)|BR-0(09|10|11))$/"]
+      ],
+      "mutations": [
+        {
+          "id": "low-mos",
+          "where": ["call_id", "HQ-005"],
+          "set": {
+            "mos": "3.0"
+          },
+          "expect": "poor_call"
+        },
+        {
+          "id": "no-audio-back",
+          "where": ["call_id", "HQ-006"],
+          "set": {
+            "packets_received": "0"
+          },
+          "expect": "one_way_audio"
+        }
+      ]
+    },
+    "fairwire-change-calendar": {
+      "expected": [
+        "emergency_share|emergency",
+        "in_freeze_window|CHG-6003",
+        "no_backout_plan|CHG-6004",
+        "no_test_evidence|CHG-6003",
+        "not_approved|CHG-6003",
+        "overlapping_changes|CHG-6001+CHG-6002",
+        "repeat_failed_changes|Web shop",
+        "risky_in_business_hours|CHG-6003"
+      ],
+      "drop": [
+        ["change_id", "/^CHG-(6002|6003|6004|5995)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "approval-missing",
+          "where": ["change_id", "CHG-6001"],
+          "set": {
+            "approval": ""
+          },
+          "expect": "not_approved"
+        },
+        {
+          "id": "backout-missing",
+          "where": ["change_id", "CHG-6001"],
+          "set": {
+            "backout_plan": ""
+          },
+          "expect": "no_backout_plan"
+        }
+      ]
+    },
+    "fairwire-cloud-costs": {
+      "expected": [
+        "commitment_expiring|SP-001",
+        "dev_always_on|i-dev1",
+        "dev_always_on|i-test9",
+        "egress_share|prod-acct",
+        "marketplace_charge|prod-acct|fw-subscription",
+        "month_jump|prod-acct|AWS Marketplace",
+        "month_jump|prod-acct|DataTransfer",
+        "month_jump|prod-acct|EC2",
+        "region_not_allowed|prod-acct|ap-southeast-2",
+        "untagged_spend|2026-10"
+      ],
+      "drop": [
+        ["resource_id", "/^(i-test9|fw-subscription)$/"],
+        ["commitment", "SP-001"]
+      ],
+      "repair": [
+        {
+          "where": {
+            "service": "DataTransfer",
+            "cost": "450"
+          },
+          "set": {
+            "cost": "110"
+          }
+        },
+        {
+          "where": ["resource_id", "i-dev1"],
+          "set": {
+            "usage_hours": "400"
+          },
+          "all": true
+        }
+      ],
+      "mutations": [
+        {
+          "id": "region-outside-list",
+          "file": "costs",
+          "where": {
+            "resource_id": "i-web1",
+            "cost": "1250"
+          },
+          "set": {
+            "region": "sa-east-1"
+          },
+          "expect": "region_not_allowed"
+        },
+        {
+          "id": "commitment-ends-soon",
+          "file": "commitments",
+          "where": ["commitment", "RI-002"],
+          "set": {
+            "end_date": "2026-12-15"
+          },
+          "expect": "commitment_expiring"
+        }
+      ]
+    },
+    "fairwire-contract-renewals": {
+      "expected": [
+        "expired_still_paid|Old Phone Co",
+        "no_owner|CT-103",
+        "notice_deadline|CT-101",
+        "notice_deadline|CT-102",
+        "notice_deadline|CT-103",
+        "notice_missed|CT-105",
+        "overlapping_contracts|CT-104+CT-105",
+        "spend_over_contract|Contoso Helpdesk",
+        "spend_without_contract|Litware Cloud Storage",
+        "uplift_above_cap|CT-102"
+      ],
+      "drop": [
+        ["contract_id", "/^CT-10[56]$/"],
+        ["vendor", "/^(Old Phone Co|Litware Cloud Storage)$/"],
+        {
+          "vendor": "Contoso Helpdesk",
+          "amount": "9500"
+        }
+      ],
+      "repair": [
+        {
+          "where": ["contract_id", "CT-101"],
+          "set": {
+            "end_date": "2027-12-31"
+          }
+        },
+        {
+          "where": ["contract_id", "CT-102"],
+          "set": {
+            "end_date": "2027-12-31",
+            "uplift_pct": "3"
+          }
+        },
+        {
+          "where": ["contract_id", "CT-103"],
+          "set": {
+            "end_date": "2027-12-31",
+            "owner": "Eli Moss"
+          }
+        }
+      ],
+      "mutations": [
+        {
+          "id": "owner-missing",
+          "file": "contracts",
+          "where": ["contract_id", "CT-104"],
+          "set": {
+            "owner": ""
+          },
+          "expect": "no_owner"
+        },
+        {
+          "id": "paid-over-contract",
+          "file": "spend",
+          "where": ["vendor", "Northwind Monitoring"],
+          "set": {
+            "amount": "9000"
+          },
+          "expect": "spend_over_contract"
+        }
+      ]
+    },
+    "fairwire-dhcp-leases": {
+      "expected": [
+        "ip_conflict|10.10.1.120",
+        "ip_conflict|10.10.1.150",
+        "mac_in_many_scopes|da:1a:2b:00:00:05",
+        "random_mac_share|10.10.1.0/24",
+        "reservation_in_dynamic_range|10.10.1.120",
+        "rogue_dhcp_server|192.168.0.1",
+        "scope_near_exhaustion|10.10.1.0/24",
+        "unknown_devices|10.10.1.0/24"
+      ],
+      "drop": [
+        ["mac", "/^.[26ae]:/"],
+        ["mac", "00:1a:2b:ff:00:01"],
+        ["ip", "10.10.1.120"],
+        ["server", "192.168.0.1"],
+        ["mac", "/^00:1a:2b:00:00:5[3-7]$/"]
+      ],
+      "mutations": [
+        {
+          "id": "second-dhcp-server",
+          "file": "leases",
+          "where": ["ip", "10.10.1.140"],
+          "set": {
+            "server": "10.99.0.1"
+          },
+          "expect": "rogue_dhcp_server"
+        },
+        {
+          "id": "address-given-twice",
+          "file": "leases",
+          "where": ["ip", "10.10.1.141"],
+          "set": {
+            "ip": "10.10.1.142"
+          },
+          "expect": "ip_conflict"
+        }
+      ]
+    },
+    "fairwire-directory-hygiene": {
+      "expected": [
+        "disabled_in_groups|dlee",
+        "empty_group|Old Project",
+        "group_without_owner|VPN Users",
+        "nested_group_loop|finance readers > finance share",
+        "password_never_expires|bkim",
+        "password_never_expires|svc-backup",
+        "password_not_required|cdiaz",
+        "stale_computer|PC-102",
+        "stale_computer|SRV-OLD",
+        "unsupported_os_computer|PC-103",
+        "unsupported_os_computer|SRV-OLD"
+      ],
+      "drop": [
+        ["name", "/^(cdiaz|bkim|svc-backup|dlee|PC-102|PC-103|SRV-OLD|VPN Users|Old Project|Finance Share|Finance Readers)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "password-never-expires",
+          "where": ["name", "aortiz"],
+          "set": {
+            "pwd_never_expires": "True"
+          },
+          "expect": "password_never_expires"
+        },
+        {
+          "id": "old-windows",
+          "where": ["name", "PC-101"],
+          "set": {
+            "os": "Windows 8.1 Pro"
+          },
+          "expect": "unsupported_os_computer"
+        }
+      ]
+    },
+    "fairwire-dns-queries": {
+      "expected": [
+        "blocked_client|10.0.1.14",
+        "chatty_name|10.0.1.10>www.example.com",
+        "nxdomain_client|10.0.1.12",
+        "outside_resolver|10.0.1.13>8.8.8.8",
+        "possible_tunnel|10.0.1.11>example.net",
+        "servfail_name|api.vendor.example"
+      ],
+      "drop": [
+        ["client", "/^10\\.0\\.1\\.1[0-4]$/"],
+        ["rcode", "SERVFAIL"]
+      ],
+      "mutations": [
+        {
+          "id": "outside-resolver",
+          "where": ["client", "10.0.1.16"],
+          "set": {
+            "resolver": "1.1.1.1"
+          },
+          "expect": "outside_resolver"
+        },
+        {
+          "id": "chatty-client",
+          "where": ["client", "10.0.1.15"],
+          "set": {
+            "count": "1500"
+          },
+          "expect": "chatty_name"
+        }
+      ]
+    },
+    "fairwire-dns-records": {
+      "expected": [
+        "cname_conflict|status.example.com",
+        "dangling_cname|promo2024.example.com",
+        "duplicate_record|mail.example.com|A|203.0.113.25",
+        "ip_not_owned|legacy.example.com|198.51.100.77",
+        "private_ip_in_public_zone|intranet.example.com|10.20.0.15",
+        "ttl_out_of_range|api.example.com|A|203.0.113.30",
+        "ttl_out_of_range|status.example.com|CNAME|status-page.example.net",
+        "wildcard_record|*.preview.example.com|A|203.0.113.40"
+      ],
+      "drop": [
+        ["name", "/^(promo2024|intranet|legacy|mail|status|\\*\\.preview|api)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "tiny-ttl",
+          "where": ["name", "www"],
+          "set": {
+            "ttl": "20"
+          },
+          "expect": "ttl_out_of_range"
+        },
+        {
+          "id": "private-address-public",
+          "where": ["name", "@"],
+          "set": {
+            "value": "192.168.1.10"
+          },
+          "expect": "private_ip_in_public_zone"
+        },
+        {
+          "id": "cloud-host-gone",
+          "where": ["name", "docs"],
+          "set": {
+            "value": "old-docs.github.io."
+          },
+          "expect": "dangling_cname"
+        }
+      ]
+    },
+    "fairwire-email-gateway": {
+      "expected": [
+        "allowlist_sent_threat|partner@supplier.example",
+        "dlp_hits|analyst@corp.example",
+        "late_clawback|MSG-0031",
+        "most_targeted|cfo@corp.example",
+        "outbound_spam|sales.rep@corp.example",
+        "released_threat|MSG-0027"
+      ],
+      "drop": [
+        ["verdict", "/^(?!clean$)/"],
+        ["dlp_rule", "/./"]
+      ],
+      "mutations": [
+        {
+          "id": "phish-released",
+          "where": ["message_id", "MSG-0002"],
+          "set": {
+            "verdict": "Phish",
+            "action": "Released"
+          },
+          "expect": "released_threat"
+        },
+        {
+          "id": "allowlisted-malware",
+          "where": ["message_id", "MSG-0003"],
+          "set": {
+            "verdict": "Malware",
+            "allowlisted": "yes"
+          },
+          "expect": "allowlist_sent_threat"
+        }
+      ]
+    },
+    "fairwire-endpoint-protection": {
+      "expected": [
+        "agent_not_reporting|PC-106",
+        "no_agent|PC-108",
+        "no_agent|SRV-202",
+        "old_agent|PC-106",
+        "old_signatures|PC-106",
+        "open_high_alert|AL-9001",
+        "passive_mode|PC-105",
+        "protection_off|PC-103",
+        "tamper_off|PC-104",
+        "two_products|PC-107"
+      ],
+      "drop": [
+        ["device", "/^(PC-10[3-8]|SRV-202)$/"],
+        ["alert_id", "AL-9001"]
+      ],
+      "mutations": [
+        {
+          "id": "tamper-off",
+          "file": "devices",
+          "where": ["device", "PC-101"],
+          "set": {
+            "tamper_protection": "Off"
+          },
+          "expect": "tamper_off"
+        },
+        {
+          "id": "passive-mode",
+          "file": "devices",
+          "where": ["device", "PC-102"],
+          "set": {
+            "mode": "Passive"
+          },
+          "expect": "passive_mode"
+        },
+        {
+          "id": "high-alert-open",
+          "file": "alerts",
+          "where": ["alert_id", "AL-9002"],
+          "set": {
+            "severity": "High"
+          },
+          "expect": "open_high_alert"
+        }
+      ]
+    },
+    "fairwire-firewall-rules": {
+      "expected": [
+        "allow_without_logging|any-any-test",
+        "any_any_allow|any-any-test",
+        "disabled_rule|old-rule",
+        "duplicate_rule|allow-dns-out-2",
+        "expired_temporary_rule|temp-vendor-ftp",
+        "internet_to_risky_port|rdp-from-internet",
+        "internet_to_risky_port|temp-vendor-ftp",
+        "no_owner_or_ticket|any-any-test",
+        "shadowed_rule|allow-web-out-copy",
+        "unused_rule|allow-dns-out-2",
+        "unused_rule|allow-web-out-copy",
+        "unused_rule|legacy-smb",
+        "unused_rule|temp-vendor-ftp"
+      ],
+      "drop": [
+        ["rule_id", "/^(rdp-from-internet|temp-vendor-ftp|any-any-test|allow-web-out-copy|allow-dns-out-2|legacy-smb|old-rule)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "logging-off",
+          "where": ["rule_id", "mgmt-ssh"],
+          "set": {
+            "log": "no"
+          },
+          "expect": "allow_without_logging"
+        },
+        {
+          "id": "no-hits",
+          "where": ["rule_id", "allow-web-out"],
+          "set": {
+            "hits": "0"
+          },
+          "expect": "unused_rule"
+        },
+        {
+          "id": "rdp-from-internet",
+          "note": "one row: zone, position and service. With src_zone alone the rule sits behind block-bad and is correctly reported as shadowed; SSH (22) is not on the default risky list (add it in risky_ports), so the service is RDP",
+          "where": ["rule_id", "mgmt-ssh"],
+          "set": {
+            "src_zone": "untrust",
+            "position": "3",
+            "service": "tcp/3389"
+          },
+          "expect": "internet_to_risky_port"
+        }
+      ]
+    },
+    "fairwire-log-retention": {
+      "expected": [
+        "asset_not_logging|file-01",
+        "asset_not_logging|sw-core-01",
+        "kept_too_long|Payroll app audit@payroll-01",
+        "retention_too_short|Firewall traffic@fw-edge-01",
+        "retention_too_short|Proxy@proxy-01",
+        "source_silent|Domain controller security@dc-02",
+        "volume_jump|Web app@web-01"
+      ],
+      "drop": [
+        ["host", "/^(fw-edge-01|dc-02|web-01|proxy-01|payroll-01|file-01|sw-core-01)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "retention-cut",
+          "file": "sources",
+          "where": ["host", "vpn-01"],
+          "set": {
+            "retention_days": "30"
+          },
+          "expect": "retention_too_short"
+        },
+        {
+          "id": "volume-jump",
+          "file": "sources",
+          "where": ["host", "dc-01"],
+          "set": {
+            "daily_gb": "20"
+          },
+          "expect": "volume_jump"
+        }
+      ]
+    },
+    "fairwire-mfa-coverage": {
+      "expected": [
+        "admin_without_strong_mfa|aortiz@example.test",
+        "admin_without_strong_mfa|breakglass1@example.test",
+        "excluded_from_mfa|emoss@example.test",
+        "no_mfa|cdiaz@example.test",
+        "registered_never_used|emoss@example.test",
+        "registered_never_used|fnunez@example.test",
+        "shared_account_can_sign_in|reception@example.test",
+        "weak_methods_only|dlee@example.test"
+      ],
+      "drop": [
+        ["user", "/^(aortiz|cdiaz|dlee|emoss|fnunez|reception|breakglass1)@/"]
+      ],
+      "mutations": [
+        {
+          "id": "sms-only",
+          "where": ["user", "gpark@example.test"],
+          "set": {
+            "methods": "sms"
+          },
+          "expect": "weak_methods_only"
+        },
+        {
+          "id": "admin-app-only",
+          "where": ["user", "bkim@example.test"],
+          "set": {
+            "methods": "authenticator app"
+          },
+          "expect": "admin_without_strong_mfa"
+        },
+        {
+          "id": "excluded",
+          "where": ["user", "gpark@example.test"],
+          "set": {
+            "excluded": "yes"
+          },
+          "expect": "excluded_from_mfa"
+        }
+      ]
+    },
+    "fairwire-mobile-devices": {
+      "expected": [
+        "jailbroken|AND-103",
+        "leaver_device|IPH-106",
+        "no_owner|IPD-107",
+        "no_passcode_or_encryption|AND-104",
+        "noncompliant|AND-108",
+        "old_os|AND-104",
+        "old_os|IPH-102",
+        "stale_check_in|IPH-105"
+      ],
+      "drop": [
+        ["device", "/^(AND-103|AND-104|IPH-105|IPH-106)$/"]
+      ],
+      "repair": [
+        {
+          "where": ["device", "IPH-102"],
+          "set": {
+            "os_version": "18.1",
+            "compliance": "Compliant"
+          }
+        },
+        {
+          "where": ["device", "IPD-107"],
+          "set": {
+            "user": "hquinn@corp.example"
+          }
+        },
+        {
+          "where": ["device", "AND-108"],
+          "set": {
+            "compliance": "Compliant"
+          }
+        }
+      ],
+      "mutations": [
+        {
+          "id": "not-encrypted",
+          "file": "devices",
+          "where": ["device", "IPH-101"],
+          "set": {
+            "encrypted": "no"
+          },
+          "expect": "no_passcode_or_encryption"
+        },
+        {
+          "id": "leaver-device",
+          "file": "devices",
+          "where": ["device", "AND-108"],
+          "set": {
+            "user": "fnunez@corp.example"
+          },
+          "expect": "leaver_device"
+        }
+      ]
+    },
+    "fairwire-network-traffic": {
+      "expected": [
+        "cleartext_protocol|10.0.2.15:23",
+        "cleartext_protocol|10.0.2.40:80",
+        "inbound_risky_port|10.0.5.20:3389",
+        "inbound_risky_port|10.0.5.30:445",
+        "large_upload_after_hours|10.0.3.50>203.0.113.200",
+        "possible_port_scan|10.0.9.99>10.0.5.20",
+        "small_packets|10.0.7.7",
+        "top_destination_share|203.0.113.200",
+        "top_talker_share|10.0.3.50"
+      ],
+      "drop": [
+        ["src_ip", "/^(198\\.51\\.100\\.23|203\\.0\\.113\\.45)$/"],
+        ["src_host", "/^(lab-switch-mgmt|kiosk-02|fileserver-01|it-laptop-09|sensor-hub)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "ftp-out",
+          "where": ["src_host", "desk-12"],
+          "set": {
+            "dst_port": "21"
+          },
+          "expect": "cleartext_protocol"
+        },
+        {
+          "id": "rdp-to-unlisted-host",
+          "where": ["src_ip", "192.0.2.66"],
+          "set": {
+            "dst_ip": "10.0.5.99"
+          },
+          "expect": "inbound_risky_port"
+        }
+      ]
+    },
+    "fairwire-patch-status": {
+      "expected": [
+        "not_reporting|SRV-202",
+        "overdue_critical|PC-107",
+        "overdue_critical|PC-109",
+        "overdue_critical|SRV-202",
+        "overdue_update|PC-108",
+        "overdue_update|SRV-202",
+        "pending_reboot|SRV-201",
+        "repeated_failure|PC-109",
+        "unsupported_os|PC-110",
+        "widely_missing|KB5040001",
+        "widely_missing|KB5040010"
+      ],
+      "drop": [
+        ["device", "/^(PC-10[7-9]|PC-110|SRV-20[12])$/"]
+      ],
+      "mutations": [
+        {
+          "id": "windows-10",
+          "where": ["device", "PC-101"],
+          "set": {
+            "os": "Windows 10 Pro 22H2"
+          },
+          "all": true,
+          "expect": "unsupported_os"
+        },
+        {
+          "id": "stopped-reporting",
+          "where": ["device", "PC-102"],
+          "set": {
+            "last_scan": "2026-10-01 08:00:00"
+          },
+          "all": true,
+          "expect": "not_reporting"
+        }
+      ]
+    },
+    "fairwire-print-fleet": {
+      "expected": [
+        "high_color_share|PRN-HQ-02",
+        "high_cost_per_page|PRN-WH-01",
+        "idle_printer|PRN-BR2-01",
+        "lease_ending|PRN-WH-01",
+        "low_supplies|PRN-HQ-02",
+        "not_in_assets|PRN-WH-02",
+        "old_firmware|PRN-HQ-03",
+        "printer_offline|PRN-BR2-02"
+      ],
+      "drop": [
+        ["printer", "PRN-WH-02"]
+      ],
+      "repair": [
+        {
+          "where": ["printer", "PRN-HQ-02"],
+          "set": {
+            "color_pages": "600",
+            "supply_pct": "55"
+          }
+        },
+        {
+          "where": ["printer", "PRN-HQ-03"],
+          "set": {
+            "firmware": "4.2.1"
+          }
+        },
+        {
+          "where": ["printer", "PRN-BR2-01"],
+          "set": {
+            "mono_pages": "1500"
+          }
+        },
+        {
+          "where": ["printer", "PRN-BR2-02"],
+          "set": {
+            "status": "Online",
+            "last_seen": "2026-11-18 07:00:00"
+          }
+        },
+        {
+          "where": ["printer", "PRN-WH-01"],
+          "set": {
+            "lease_monthly": "30",
+            "lease_end": "2028-01-31"
+          }
+        }
+      ],
+      "mutations": [
+        {
+          "id": "toner-low",
+          "file": "printers",
+          "where": ["printer", "PRN-HQ-01"],
+          "set": {
+            "supply_pct": "5"
+          },
+          "expect": "low_supplies"
+        },
+        {
+          "id": "barely-used",
+          "file": "printers",
+          "where": ["printer", "PRN-BR2-01"],
+          "set": {
+            "mono_pages": "40"
+          },
+          "expect": "idle_printer"
+        }
+      ]
+    },
+    "fairwire-restore-tests": {
+      "expected": [
+        "failed_not_retested|FILE-01",
+        "never_tested|ERP-01",
+        "no_sign_off|WEB-01",
+        "rpo_missed|MAIL-01",
+        "rto_missed|SQL-01",
+        "test_overdue|MAIL-01"
+      ],
+      "drop": [
+        ["system", "/^(FILE-01|MAIL-01|ERP-01)$/"]
+      ],
+      "repair": [
+        {
+          "where": ["test_id", "RT-102"],
+          "set": {
+            "restore_minutes": "200"
+          }
+        },
+        {
+          "where": ["test_id", "RT-105"],
+          "set": {
+            "signed_off_by": "Eve Park"
+          }
+        }
+      ],
+      "mutations": [
+        {
+          "id": "data-too-old",
+          "file": "tests",
+          "where": ["test_id", "RT-102"],
+          "set": {
+            "data_age_hours": "30"
+          },
+          "expect": "rpo_missed"
+        },
+        {
+          "id": "last-test-failed",
+          "file": "tests",
+          "where": ["test_id", "RT-107"],
+          "set": {
+            "result": "Fail"
+          },
+          "expect": "failed_not_retested"
+        }
+      ]
+    },
+    "fairwire-sign-in-logs": {
+      "expected": [
+        "country_not_allowed|aortiz@corp.example",
+        "disabled_account_attempts|old.hand@corp.example",
+        "failed_burst|dlee@corp.example",
+        "legacy_protocol|cdiaz@corp.example",
+        "password_spray|203.0.113.66",
+        "service_account_interactive|svc-report@corp.example",
+        "success_after_failures|bkim@corp.example",
+        "two_places_at_once|aortiz@corp.example"
+      ],
+      "drop": [
+        ["client_ip", "203.0.113.66"],
+        ["user", "/^(bkim|cdiaz|dlee|old\\.hand)@/"],
+        ["country", "RO"],
+        ["app", "Azure Portal"]
+      ],
+      "mutations": [
+        {
+          "id": "country-outside-list",
+          "where": ["user", "emma@corp.example"],
+          "set": {
+            "country": "BR"
+          },
+          "expect": "country_not_allowed"
+        },
+        {
+          "id": "pop3",
+          "where": ["user", "fred@corp.example"],
+          "set": {
+            "client_app": "POP3"
+          },
+          "expect": "legacy_protocol"
+        }
+      ]
+    },
+    "fairwire-software-licenses": {
+      "expected": [
+        "many_versions|7-Zip 24.08 (x64)",
+        "old_version|7-Zip 24.08 (x64)",
+        "over_deployed|Visio Professional",
+        "prohibited_software|uTorrent",
+        "unapproved_software|Fun Game Launcher",
+        "unused_entitlements|Design Suite Pro"
+      ],
+      "drop": [
+        ["product", "/^(uTorrent|Fun Game Launcher)$/"],
+        {
+          "product": "Visio Professional",
+          "device": "/^PC-10[67]$/"
+        }
+      ],
+      "repair": [
+        {
+          "where": ["product", "7-Zip 24.08 (x64)"],
+          "set": {
+            "version": "24.08"
+          },
+          "all": true
+        },
+        {
+          "where": ["product", "Design Suite Pro"],
+          "set": {
+            "seats": "3"
+          }
+        }
+      ],
+      "mutations": [
+        {
+          "id": "prohibited-install",
+          "file": "installs",
+          "where": ["device", "PC-112"],
+          "set": {
+            "product": "uTorrent"
+          },
+          "expect": "prohibited_software"
+        },
+        {
+          "id": "fewer-licences",
+          "file": "entitlements",
+          "where": ["product", "Visio Professional"],
+          "set": {
+            "seats": "3"
+          },
+          "expect": "over_deployed"
+        }
+      ]
+    },
+    "fairwire-switch-ports": {
+      "expected": [
+        "access_in_vlan1|sw-floor-2 Gi1/0/5",
+        "crc_errors|sw-core-01 Gi1/0/4",
+        "half_duplex|sw-floor-2 Gi1/0/6",
+        "no_description|sw-core-01 Gi1/0/2",
+        "trunk_all_vlans|sw-core-01 Gi1/0/2",
+        "unused_enabled_port|sw-floor-2 Gi1/0/7",
+        "unused_vlan|VLAN 40",
+        "vlan_not_in_plan|sw-floor-2 Gi1/0/9"
+      ],
+      "drop": [
+        {
+          "switch": "sw-core-01",
+          "port": "/^Gi1\\/0\\/[24]$/"
+        },
+        {
+          "switch": "sw-floor-2",
+          "port": "/^Gi1\\/0\\/[5679]$/"
+        },
+        ["vlan", "/^(40|99)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "half-duplex",
+          "file": "ports",
+          "where": ["description", "printer 2-1"],
+          "set": {
+            "duplex": "half"
+          },
+          "expect": "half_duplex"
+        },
+        {
+          "id": "crc-errors",
+          "file": "ports",
+          "where": ["description", "server-01"],
+          "set": {
+            "crc_errors": "500"
+          },
+          "expect": "crc_errors"
+        }
+      ]
+    },
+    "fairwire-telecom-bills": {
+      "expected": [
+        "line_of_leaver|+1 555 0100 207",
+        "oversized_plan|+1 555 0100 202",
+        "premium_charges|+1 555 0100 205",
+        "roaming_spike|+1 555 0100 204",
+        "two_lines_one_user|Ana Ortiz",
+        "unused_line|+1 555 0100 203",
+        "unused_line|+1 555 0300 100"
+      ],
+      "drop": [
+        ["line_number", "/^\\+1 555 0100 20[67]$/"]
+      ],
+      "repair": [
+        {
+          "where": ["line_number", "+1 555 0100 202"],
+          "set": {
+            "data_gb": "30"
+          },
+          "all": true
+        },
+        {
+          "where": ["line_number", "+1 555 0100 203"],
+          "set": {
+            "data_gb": "30",
+            "minutes": "120"
+          },
+          "all": true
+        },
+        {
+          "where": ["roaming_charge", "267.5"],
+          "set": {
+            "roaming_charge": "0",
+            "monthly_charge": "45"
+          }
+        },
+        {
+          "where": ["premium_charge", "9.99"],
+          "set": {
+            "premium_charge": "0",
+            "monthly_charge": "30"
+          }
+        },
+        {
+          "where": ["line_number", "+1 555 0300 100"],
+          "set": {
+            "minutes": "60"
+          },
+          "all": true
+        }
+      ],
+      "mutations": [
+        {
+          "id": "roaming",
+          "file": "lines",
+          "where": {
+            "line_number": "+1 555 0100 205",
+            "month": "2026-10-01"
+          },
+          "set": {
+            "roaming_charge": "120"
+          },
+          "expect": "roaming_spike"
+        },
+        {
+          "id": "leaver-line",
+          "file": "leavers",
+          "where": ["user", "Fay Nunez"],
+          "set": {
+            "user": "Eli Moss"
+          },
+          "expect": "line_of_leaver"
+        }
+      ]
+    },
+    "fairwire-ticket-sla": {
+      "expected": [
+        "no_assignee|INC-1003",
+        "parked_on_hold|INC-1004",
+        "parked_on_hold|INC-1011",
+        "reopened_often|INC-1005",
+        "resolution_breached|INC-1002",
+        "resolution_breached|INC-1004",
+        "resolution_breached|INC-1011",
+        "response_breached|INC-1003",
+        "response_breached|INC-1008",
+        "team_breach_rate|Applications",
+        "team_breach_rate|Service Desk"
+      ],
+      "drop": [
+        ["ticket", "/^INC-10(0[2-8]|11)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "reopened",
+          "where": ["ticket", "INC-1010"],
+          "set": {
+            "reopen_count": "4"
+          },
+          "expect": "reopened_often"
+        },
+        {
+          "id": "unassigned",
+          "where": ["ticket", "INC-1009"],
+          "set": {
+            "assignee": ""
+          },
+          "expect": "no_assignee"
+        }
+      ]
+    },
+    "fairwire-uptime-incidents": {
+      "expected": [
+        "below_slo|uptime:Customer portal",
+        "change_caused|Customer portal",
+        "error_budget_nearly_spent|uptime:Email",
+        "missing_postmortem|IR-201",
+        "missing_postmortem|IR-206",
+        "repeat_failures|Customer portal",
+        "slow_acknowledge|IR-201",
+        "slow_acknowledge|IR-205",
+        "slow_resolve|IR-201",
+        "slow_resolve|IR-205"
+      ],
+      "drop": [
+        ["incident_id", "/^IR-20[1356]$/"],
+        ["service", "/^(Customer portal|Email)$/"]
+      ],
+      "mutations": [
+        {
+          "id": "no-review",
+          "file": "incidents",
+          "where": ["incident_id", "IR-204"],
+          "set": {
+            "postmortem": ""
+          },
+          "expect": "missing_postmortem"
+        },
+        {
+          "id": "below-target",
+          "file": "uptime",
+          "where": ["service", "VPN"],
+          "set": {
+            "availability_pct": "99.5"
+          },
+          "expect": "below_slo"
+        }
+      ]
+    },
+    "fairwire-vpn-access": {
+      "expected": [
+        "country_not_allowed|aortiz@example.test",
+        "failed_login_burst|bkim@example.test",
+        "leaver_connected|jdoe@example.test",
+        "long_session|cdiaz@example.test",
+        "old_client|dlee@example.test",
+        "shared_account|svc-shared@example.test",
+        "two_places_at_once|aortiz@example.test"
+      ],
+      "drop": [
+        ["user", "/^(jdoe|cdiaz|dlee)@/"],
+        ["country", "RO"],
+        ["result", "failure"],
+        ["client_ip", "198.51.100.99"]
+      ],
+      "mutations": [
+        {
+          "id": "old-client",
+          "file": "sessions",
+          "where": ["user", "emma@example.test"],
+          "set": {
+            "client_version": "4.9.0"
+          },
+          "expect": "old_client"
+        },
+        {
+          "id": "leaver-still-connects",
+          "file": "leavers",
+          "where": ["user", "old.hand@example.test"],
+          "set": {
+            "user": "gina@example.test"
+          },
+          "expect": "leaver_connected"
+        }
+      ]
+    },
+    "fairwire-wifi-health": {
+      "expected": [
+        "ap_offline|AP-WH-01",
+        "bad_24_channel|AP-HQ-02",
+        "crowded_channel|AP-HQ-02",
+        "old_firmware|AP-HQ-03",
+        "rogue_ap|aa:bb:cc:00:11:01",
+        "rogue_ap|aa:bb:cc:00:11:02",
+        "sticky_24_clients|AP-HQ-01",
+        "too_many_ssids|AP-HQ-02",
+        "weak_clients|AP-HQ-02",
+        "weak_security|Guest",
+        "weak_security|Legacy-Cam",
+        "weak_security|Scanner"
+      ],
+      "drop": [
+        ["ap", "AP-WH-01"],
+        ["ssid", "/^(Guest|Scanner|Legacy-Cam)$/"],
+        ["client", "/^(laptop-101|laptop-102|phone-103|phone-105|laptop-106|tablet-107)$/"],
+        ["classification", "rogue"]
+      ],
+      "repair": [
+        {
+          "where": {
+            "ap": "AP-HQ-02",
+            "band": "2.4"
+          },
+          "set": {
+            "channel": "6"
+          }
+        },
+        {
+          "where": ["ap", "AP-HQ-02"],
+          "set": {
+            "utilization_pct": "30",
+            "ssid_count": "3"
+          },
+          "all": true
+        },
+        {
+          "where": ["ap", "AP-HQ-03"],
+          "set": {
+            "firmware": "10.4.2"
+          },
+          "all": true
+        }
+      ],
+      "mutations": [
+        {
+          "id": "tkip",
+          "file": "ssids",
+          "where": ["ssid", "Corp"],
+          "set": {
+            "security": "WPA-TKIP"
+          },
+          "expect": "weak_security"
+        },
+        {
+          "id": "rogue-on-wire",
+          "file": "rogues",
+          "where": ["bssid", "AA:BB:CC:00:11:03"],
+          "set": {
+            "on_wire": "yes",
+            "classification": "rogue"
+          },
+          "expect": "rogue_ap"
+        }
+      ]
+    }
+  }
+}

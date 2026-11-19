@@ -1,0 +1,852 @@
+{
+  "run": "2026-11-19",
+  "node": "v24.20.0",
+  "totals": {
+    "agents": 31,
+    "planted_found": 270,
+    "planted_total": 270,
+    "unexpected": 0,
+    "clean_rows": 424,
+    "clean_false_positives": 0,
+    "mutation_cases": 66,
+    "mutation_caught": 66
+  },
+  "agents": [
+    {
+      "agent": "fairwire-admin-roles",
+      "planted_total": 9,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 9,
+      "clean_rows": 4,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "admin-loses-mfa",
+          "expect": "admin_without_mfa",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "permanent-assignment",
+          "expect": "standing_admin",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "admin-goes-quiet",
+          "expect": "stale_admin",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 3
+    },
+    {
+      "agent": "fairwire-ai-usage",
+      "planted_total": 6,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 6,
+      "clean_rows": 7,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "huge-prompt",
+          "expect": "large_prompt",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "untagged-request",
+          "expect": "no_app_tag",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-api-retries",
+      "planted_total": 10,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 10,
+      "clean_rows": 21,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "embed-5xx",
+          "expect": "server_error_rate",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 1
+    },
+    {
+      "agent": "fairwire-asset-inventory",
+      "planted_total": 10,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 10,
+      "clean_rows": 4,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "owner-missing",
+          "expect": "missing_owner_or_location",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "retired-but-seen",
+          "expect": "retired_but_seen",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-backup-jobs",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 14,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "short-retention",
+          "expect": "short_retention",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "critical-system-uncovered",
+          "expect": "not_covered",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-call-quality",
+      "planted_total": 11,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 11,
+      "clean_rows": 27,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "low-mos",
+          "expect": "poor_call",
+          "applied": true,
+          "caught": true,
+          "other": [
+            "poor_hour|11:00"
+          ]
+        },
+        {
+          "id": "no-audio-back",
+          "expect": "one_way_audio",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-change-calendar",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 5,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "approval-missing",
+          "expect": "not_approved",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "backout-missing",
+          "expect": "no_backout_plan",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-cloud-costs",
+      "planted_total": 10,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 10,
+      "clean_rows": 14,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "region-outside-list",
+          "expect": "region_not_allowed",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "commitment-ends-soon",
+          "expect": "commitment_expiring",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-contract-renewals",
+      "planted_total": 10,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 10,
+      "clean_rows": 10,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "owner-missing",
+          "expect": "no_owner",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "paid-over-contract",
+          "expect": "spend_over_contract",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-dhcp-leases",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 117,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "second-dhcp-server",
+          "expect": "rogue_dhcp_server",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "address-given-twice",
+          "expect": "ip_conflict",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-directory-hygiene",
+      "planted_total": 11,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 11,
+      "clean_rows": 6,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "password-never-expires",
+          "expect": "password_never_expires",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "old-windows",
+          "expect": "unsupported_os_computer",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-dns-queries",
+      "planted_total": 6,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 6,
+      "clean_rows": 4,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "outside-resolver",
+          "expect": "outside_resolver",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "chatty-client",
+          "expect": "chatty_name",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-dns-records",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 5,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "tiny-ttl",
+          "expect": "ttl_out_of_range",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "private-address-public",
+          "expect": "private_ip_in_public_zone",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "cloud-host-gone",
+          "expect": "dangling_cname",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 3
+    },
+    {
+      "agent": "fairwire-email-gateway",
+      "planted_total": 6,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 6,
+      "clean_rows": 20,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "phish-released",
+          "expect": "released_threat",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "allowlisted-malware",
+          "expect": "allowlist_sent_threat",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-endpoint-protection",
+      "planted_total": 10,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 10,
+      "clean_rows": 8,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "tamper-off",
+          "expect": "tamper_off",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "passive-mode",
+          "expect": "passive_mode",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "high-alert-open",
+          "expect": "open_high_alert",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 3
+    },
+    {
+      "agent": "fairwire-firewall-rules",
+      "planted_total": 13,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 13,
+      "clean_rows": 4,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "logging-off",
+          "expect": "allow_without_logging",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "no-hits",
+          "expect": "unused_rule",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "rdp-from-internet",
+          "expect": "internet_to_risky_port",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 3
+    },
+    {
+      "agent": "fairwire-log-retention",
+      "planted_total": 7,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 7,
+      "clean_rows": 5,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "retention-cut",
+          "expect": "retention_too_short",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "volume-jump",
+          "expect": "volume_jump",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-mfa-coverage",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 3,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "sms-only",
+          "expect": "weak_methods_only",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "admin-app-only",
+          "expect": "admin_without_strong_mfa",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "excluded",
+          "expect": "excluded_from_mfa",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 3
+    },
+    {
+      "agent": "fairwire-mobile-devices",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 5,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "not-encrypted",
+          "expect": "no_passcode_or_encryption",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "leaver-device",
+          "expect": "leaver_device",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-network-traffic",
+      "planted_total": 9,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 9,
+      "clean_rows": 6,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "ftp-out",
+          "expect": "cleartext_protocol",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "rdp-to-unlisted-host",
+          "expect": "inbound_risky_port",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-patch-status",
+      "planted_total": 11,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 11,
+      "clean_rows": 24,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "windows-10",
+          "expect": "unsupported_os",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "stopped-reporting",
+          "expect": "not_reporting",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-print-fleet",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 12,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "toner-low",
+          "expect": "low_supplies",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "barely-used",
+          "expect": "idle_printer",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-restore-tests",
+      "planted_total": 6,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 6,
+      "clean_rows": 7,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "data-too-old",
+          "expect": "rpo_missed",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "last-test-failed",
+          "expect": "failed_not_retested",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-sign-in-logs",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 5,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "country-outside-list",
+          "expect": "country_not_allowed",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "pop3",
+          "expect": "legacy_protocol",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-software-licenses",
+      "planted_total": 6,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 6,
+      "clean_rows": 34,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "prohibited-install",
+          "expect": "prohibited_software",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "fewer-licences",
+          "expect": "over_deployed",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-switch-ports",
+      "planted_total": 8,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 8,
+      "clean_rows": 10,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "half-duplex",
+          "expect": "half_duplex",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "crc-errors",
+          "expect": "crc_errors",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-telecom-bills",
+      "planted_total": 7,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 7,
+      "clean_rows": 13,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "roaming",
+          "expect": "roaming_spike",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "leaver-line",
+          "expect": "line_of_leaver",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-ticket-sla",
+      "planted_total": 11,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 11,
+      "clean_rows": 3,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "reopened",
+          "expect": "reopened_often",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "unassigned",
+          "expect": "no_assignee",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-uptime-incidents",
+      "planted_total": 10,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 10,
+      "clean_rows": 3,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "no-review",
+          "expect": "missing_postmortem",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "below-target",
+          "expect": "below_slo",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-vpn-access",
+      "planted_total": 7,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 7,
+      "clean_rows": 10,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "old-client",
+          "expect": "old_client",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "leaver-still-connects",
+          "expect": "leaver_connected",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    },
+    {
+      "agent": "fairwire-wifi-health",
+      "planted_total": 12,
+      "missed": [],
+      "unexpected": [],
+      "planted_found": 12,
+      "clean_rows": 14,
+      "clean_findings": [],
+      "mutations": [
+        {
+          "id": "tkip",
+          "expect": "weak_security",
+          "applied": true,
+          "caught": true,
+          "other": []
+        },
+        {
+          "id": "rogue-on-wire",
+          "expect": "rogue_ap",
+          "applied": true,
+          "caught": true,
+          "other": []
+        }
+      ],
+      "mutations_caught": 2
+    }
+  ]
+}

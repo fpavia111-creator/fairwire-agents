@@ -8,7 +8,7 @@ const codes = (r) => r.items.map((i) => i.code).sort();
 
 test('an outside address on RDP is high; the same port allowed in settings, or reached from inside, is not', () => {
   const rows = [f({ src_ip: '203.0.113.5', dst_ip: '10.0.0.20', dst_port: '3389' })];
-  assert.deepEqual(codes(reviewFlows(rows)), ['inbound_risky_port', 'top_talker_share']);
+  assert.deepEqual(codes(reviewFlows(rows)), ['inbound_risky_port'], 'one host on its own is not a share finding');
   assert.ok(!codes(reviewFlows(rows, { allowed_inbound: ['10.0.0.20:3389'] })).includes('inbound_risky_port'));
   assert.ok(!codes(reviewFlows([f({ src_ip: '10.0.0.7', dst_ip: '10.0.0.20', dst_port: '3389' })])).includes('inbound_risky_port'));
 });
@@ -40,12 +40,16 @@ test('many ports with tiny flows is a possible scan; ports with real traffic are
   assert.ok(!codes(reviewFlows(tiny.map((r) => ({ ...r, packets: '50' })))).includes('possible_port_scan'));
 });
 
-test('shares and small packets follow the settings', () => {
+test('shares and small packets follow the settings; with fewer hosts than share_min_hosts no share is flagged', () => {
   const rows = [f({ bytes: '600', packets: '1200' }), f({ src_ip: '10.0.0.6', bytes: '400', packets: '4' })];
-  const r = reviewFlows(rows);
+  const r = reviewFlows(rows, { share_min_hosts: 2 });
   assert.ok(r.items.some((i) => i.code === 'top_talker_share' && i.key === '10.0.0.5' && i.share_pct === 60));
   assert.ok(r.items.some((i) => i.code === 'small_packets' && i.key === '10.0.0.5'));
-  assert.ok(!codes(reviewFlows(rows, { top_share_pct: 70, min_packets: 5000 })).some((c) => c === 'top_talker_share' || c === 'small_packets'));
+  assert.ok(!codes(reviewFlows(rows, { share_min_hosts: 2, top_share_pct: 70, min_packets: 5000 })).some((c) => c === 'top_talker_share' || c === 'small_packets'));
+  // Found by the final-pass clean set: three desks and a gateway, one desk naturally carries most of the bytes.
+  assert.ok(!codes(reviewFlows(rows)).includes('top_talker_share'), 'two hosts are under the default minimum of five');
+  const five = ['10.0.0.5', '10.0.0.6', '10.0.0.7', '10.0.0.8', '10.0.0.9'].map((ip, k) => f({ src_ip: ip, dst_ip: `198.51.100.${k + 1}`, bytes: k ? '100' : '5000' }));
+  assert.deepEqual(codes(reviewFlows(five)).filter((c) => /share/.test(c)), ['top_destination_share', 'top_talker_share']);
 });
 
 test('rows with bad addresses are skipped and counted; ports in exports with brackets or a port suffix still read', () => {
