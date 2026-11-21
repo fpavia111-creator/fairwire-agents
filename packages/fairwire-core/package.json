@@ -1,7 +1,7 @@
 {
   "name": "fairwire-core",
-  "version": "0.1.0",
-  "description": "Shared core for the Fairwire IT and network agents: personal-data masking, IP, port and date helpers, the agent builder, pinned-model pack manifests, allow/ask/block policy, Review/Assist/Auto modes with caps and a kill switch, hash-chained JSONL audit logs, a zero-dependency stdio MCP server and fixture-based evals.",
+  "version": "0.1.1",
+  "description": "Family kit (names, reading rules, data and domain helpers) on fair-agent-core for the Fairwire IT and network agents: personal-data masking, IP, port and date helpers, the agent builder, pinned-model pack manifests, allow/ask/block policy, Review/Assist/Auto modes with caps and a kill switch, hash-chained JSONL audit logs, a zero-dependency stdio MCP server and fixture-based evals.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -47,5 +47,8 @@
     "human-in-the-loop",
     "audit-log",
     "fairwire"
-  ]
+  ],
+  "dependencies": {
+    "fair-agent-core": "^8.0.0"
+  }
 }
