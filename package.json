@@ -4,6 +4,7 @@
   "description": "Fairwire: IT and network agents monorepo (31 agents). Each reads files an IT team exports and drafts notes; every change to a live system stays one named person's click.",
   "license": "MIT",
   "workspaces": [
+    "vendor/fair-agent-core",
     "packages/fairwire-core",
     "packages/*"
   ],

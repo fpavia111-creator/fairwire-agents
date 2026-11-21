@@ -1,0 +1,14 @@
+{
+  "name": "fair-agent-core",
+  "version": "8.0.0",
+  "description": "The one engine under every Fair agent family: pack manifests, allow/ask/block policy, Review/Assist/Auto modes with caps and a kill switch, hash-chained audit logs, human approvals, optional AES-256-GCM encryption of agent state, a zero-dependency MCP server and fixture-based evals.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": { "node": ">=20" },
+  "main": "src/index.js",
+  "exports": { ".": "./src/index.js", "./src/*": "./src/*", "./package.json": "./package.json" },
+  "files": ["src", "README.md", "LICENSE"],
+  "scripts": { "test": "node --test test/family.test.js test/state.test.js" },
+  "keywords": ["mcp", "mcp-server", "model-context-protocol", "ai-agents", "guardrails", "human-in-the-loop", "audit-log", "encryption"]
+}

@@ -40,7 +40,7 @@ jobs:
       - name: Pack contents stay clean
         shell: bash
         run: |
-          for p in packages/*/; do (cd "$p" && npm pack --dry-run --json > /tmp/pack.json && node -e "
-            const f=require('/tmp/pack.json')[0].files.map(x=>x.path);
+          for p in packages/*/; do (cd "$p" && npm pack --dry-run --json > "$RUNNER_TEMP/pack.json" && node -e "
+            const f=require(process.env.RUNNER_TEMP + '/pack.json')[0].files.map(x=>x.path);
             const bad=f.filter(x=>/(^|\/)(node_modules|\.fairwire|fairwire-out)\/|\.npmrc$|\.tgz$/.test(x));
             if(bad.length){console.error('$p', bad);process.exit(1)}") || exit 1; done

@@ -34,3 +34,5 @@ export { MODEL_PIN, OPEN_MARKER, filesHash, appendRow, htmlTable, writeWorklist,
 export { num, sum, str, low, pct, yes, round1, toMs, isoDate, isoTime, daysBetween, hoursBetween, minutesBetween, addDays, inWindow, monthOf, hourOf, weekdayOf, today, overlaps, groupBy, countBy, sortBy, isIpv4, isIpv6, isIp, cleanIp, ipToInt, intToIp, parseCidr, inCidr, inAnyCidr, isPrivateIp, isPublicIp, isAny, normMac, isRandomMac, PORT_NAMES, RISKY_INBOUND_PORTS, END_OF_SUPPORT_OS, END_OF_SUPPORT_AS_OF, osPastSupport, CLEARTEXT, portName, parsePorts, portsInclude, portsCover, hostKey, versionCompare, humanBytes, money } from './it.js';
 export { PiiMasker, PII_MODES, PII_KEY_FILE, loadPiiKey, piiKindOf } from './pii.js';
 export { wireAgent, KNOWN_EXCEPTION, SEVERITIES, sortFindings, byFinding, fileArg, AS_OF_ARG, SETTINGS_ARG, settingsFrom, finding } from './agent.js';
+export { stateSeal, envSeal, generateStateKey, parseStateKey, convertStateFile, StateKeyError, STATE_KINDS } from './state.js';
+export { FAMILY_PROFILE } from './engine.js';
