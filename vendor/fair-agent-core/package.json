@@ -9,6 +9,6 @@
   "main": "src/index.js",
   "exports": { ".": "./src/index.js", "./src/*": "./src/*", "./package.json": "./package.json" },
   "files": ["src", "README.md", "LICENSE"],
-  "scripts": { "test": "node --test \"test/*.test.js\"" },
+  "scripts": { "test": "node --test test/family.test.js test/state.test.js" },
   "keywords": ["mcp", "mcp-server", "model-context-protocol", "ai-agents", "guardrails", "human-in-the-loop", "audit-log", "encryption"]
 }
