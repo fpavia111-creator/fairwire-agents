@@ -40,7 +40,7 @@
     "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
     "directory": "packages/fairwire-contract-renewals"
   },
-  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-contract-renewals#readme",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/master/packages/fairwire-contract-renewals#readme",
   "bugs": {
     "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
   },

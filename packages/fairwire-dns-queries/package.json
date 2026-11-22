@@ -40,7 +40,7 @@
     "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
     "directory": "packages/fairwire-dns-queries"
   },
-  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-dns-queries#readme",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/master/packages/fairwire-dns-queries#readme",
   "bugs": {
     "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
   },

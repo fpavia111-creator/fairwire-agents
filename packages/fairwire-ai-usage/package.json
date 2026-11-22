@@ -40,7 +40,7 @@
     "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
     "directory": "packages/fairwire-ai-usage"
   },
-  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-ai-usage#readme",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/master/packages/fairwire-ai-usage#readme",
   "bugs": {
     "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
   },

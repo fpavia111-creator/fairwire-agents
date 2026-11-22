@@ -40,7 +40,7 @@
     "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
     "directory": "packages/fairwire-endpoint-protection"
   },
-  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-endpoint-protection#readme",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/master/packages/fairwire-endpoint-protection#readme",
   "bugs": {
     "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
   },

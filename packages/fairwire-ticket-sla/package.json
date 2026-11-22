@@ -40,7 +40,7 @@
     "url": "git+https://github.com/fpavia111-creator/fairwire-agents.git",
     "directory": "packages/fairwire-ticket-sla"
   },
-  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/fairwire-ticket-sla#readme",
+  "homepage": "https://github.com/fpavia111-creator/fairwire-agents/tree/master/packages/fairwire-ticket-sla#readme",
   "bugs": {
     "url": "https://github.com/fpavia111-creator/fairwire-agents/issues"
   },
