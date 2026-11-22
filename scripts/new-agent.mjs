@@ -28,7 +28,7 @@ for (const [name, description, kw] of list.filter(([n]) => !only.length || only.
     scripts: { test: 'node scripts/run-tests.cjs', demo: `node bin/${name}.js demo`, eval: `node bin/${name}.js eval` },
     dependencies: { 'fairwire-core': `^${corePkg.version}` },
     repository: { type: 'git', url: 'git+https://github.com/fpavia111-creator/fairwire-agents.git', directory: `packages/${name}` },
-    homepage: `https://github.com/fpavia111-creator/fairwire-agents/tree/main/packages/${name}#readme`,
+    homepage: `https://github.com/fpavia111-creator/fairwire-agents/tree/master/packages/${name}#readme`,
     bugs: { url: 'https://github.com/fpavia111-creator/fairwire-agents/issues' },
     keywords: ['mcp', 'mcp-server', 'it-operations', 'network', 'fairwire', ...kw.split(',').filter(Boolean)],
     ...(old.mcpName ? { mcpName: old.mcpName } : {}),
