@@ -1,6 +1,6 @@
 name: test
 on:
-  push: { branches: [main] }
+  push: { branches: [main, master] }
   pull_request:
 permissions:
   contents: read
@@ -25,6 +25,8 @@ jobs:
             (cd "$p" && node "bin/$n.js" eval) || exit 1; done
       - name: Plugin files match the packages
         run: npm run plugin:check
+      - name: Agent Skills match the agents
+        run: npm run skills:check
       - name: Hostile inputs (planted formulas, HTML, path tricks and AI-directed text in every agent's data)
         run: npm run hostile
       - name: International files (every spreadsheet eval case in 8 languages, legacy encodings, comma decimals, kg and km)

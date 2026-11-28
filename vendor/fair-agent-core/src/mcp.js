@@ -2,6 +2,7 @@ import { P, inFamily, FAMILY, familyOf } from './family.js';
 import { createInterface } from 'node:readline';
 import { INSPECT_SCHEMA } from './runtime.js';
 import { describeSources } from './sources.js';
+import { compactEnvelope, maxResultChars, saveFullResult } from './compact.js';
 
 const SUPPORTED = ['2025-11-25', '2025-06-18', '2025-03-26', '2024-11-05'];
 
@@ -18,13 +19,11 @@ export function annotationsFor(t) {
 }
 
 /**
- * Minimal MCP stdio server (newline-delimited JSON-RPC 2.0) for one AgentRuntime.
- * Implements initialize, ping, tools/list, tools/call, prompts/list and
- * prompts/get (when the manifest ships prompts). No dependencies.
- * Logs go to stderr only; stdout carries protocol messages.
+ * The tool list an MCP client sees: the pack-info and inspect tools plus every agent tool,
+ * each with its input schema, the shared result envelope and annotations.
  */
-export function createMcpHandler(runtime) {
-  const m = runtime.manifest; const fam = runtime.family;
+export function toolDefinitions(runtime) {
+  const fam = runtime.family;
   const infoTool = {
     name: fam.infoTool,
     description: 'Show this pack: pinned model, mode, caps, Auto opt-ins, and the allow/ask/block decision for every tool.',
@@ -37,7 +36,6 @@ export function createMcpHandler(runtime) {
     inputSchema: INSPECT_SCHEMA,
     annotations: { title: 'Inspect an input file', readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   };
-  const prompts = Array.isArray(m.prompts) ? m.prompts : [];
   // Every agent tool answers with the same envelope (see AgentRuntime.call). Declaring it
   // lets hosts validate structuredContent and tells the model where approval_id and the
   // tool's own result live before it calls anything.
@@ -50,16 +48,45 @@ export function createMcpHandler(runtime) {
     },
   };
 
-  function toolList() {
-    return [infoTool, inspectTool, ...runtime.listTools().map((t) => ({
-      name: t.name,
-      title: annotationsFor(t).title,
-      description: `[${t.decision.toUpperCase()}${t.category ? ' · ' + t.category : ''}${t.tier === 'pro' ? ' · paid tier' : ''}] ${t.description}`,
-      inputSchema: t.inputSchema,
-      outputSchema,
-      annotations: annotationsFor(t),
-    }))];
-  }
+  return [infoTool, inspectTool, ...runtime.listTools().map((t) => ({
+    name: t.name,
+    title: annotationsFor(t).title,
+    description: `[${t.decision.toUpperCase()}${t.category ? ' · ' + t.category : ''}${t.tier === 'pro' ? ' · paid tier' : ''}] ${t.description}`,
+    inputSchema: t.inputSchema,
+    outputSchema,
+    annotations: annotationsFor(t),
+  }))];
+}
+
+/**
+ * The same tools in the format a model API takes directly, so a program can pass them to the
+ * model with no MCP server and run the chosen one with runtime.run(name, input):
+ *   anthropic: [{ name, description, input_schema }]                       (Claude Messages API)
+ *   openai:    [{ type: 'function', function: { name, description, parameters } }]  (Chat Completions)
+ *   mcp:       the MCP tools/list entries unchanged (the other two leave out blocked tools)
+ */
+export function toolSchemas(runtime, format = 'anthropic') {
+  // The pack-info tool only makes sense inside an MCP session, and blocked tools never run, so
+  // neither is worth the model's tokens; runtime.run() handles the rest.
+  const blocked = new Set(runtime.listTools().filter((t) => t.decision === 'block').map((t) => t.name));
+  const defs = toolDefinitions(runtime).filter((t) => format === 'mcp' || (t.name !== runtime.family.infoTool && !blocked.has(t.name)));
+  if (format === 'mcp') return defs;
+  if (format === 'anthropic') return defs.map((t) => ({ name: t.name, description: t.description, input_schema: t.inputSchema }));
+  if (format === 'openai') return defs.map((t) => ({ type: 'function', function: { name: t.name, description: t.description, parameters: t.inputSchema } }));
+  throw new Error(`unknown tool format "${format}" (use anthropic, openai or mcp)`);
+}
+
+/**
+ * Minimal MCP stdio server (newline-delimited JSON-RPC 2.0) for one AgentRuntime.
+ * Implements initialize, ping, tools/list, tools/call, prompts/list and
+ * prompts/get (when the manifest ships prompts). No dependencies.
+ * Logs go to stderr only; stdout carries protocol messages.
+ */
+export function createMcpHandler(runtime) {
+  const m = runtime.manifest; const fam = runtime.family;
+  const prompts = Array.isArray(m.prompts) ? m.prompts : [];
+  const toolList = () => toolDefinitions(runtime);
+  const maxChars = runtime.maxResultChars !== undefined ? maxResultChars(runtime.maxResultChars) : maxResultChars(undefined, fam.env('MAX_RESULT_CHARS'));
 
   // Compact JSON: the same data as structuredContent, with no indentation, so
   // clients that read the text block spend about a quarter fewer tokens on it.
@@ -120,7 +147,7 @@ export function createMcpHandler(runtime) {
         }
         if (name === fam.inspectTool) { const r = runtime.inspect(params.arguments || {}); return ok(text(r, r.status === 'blocked' || r.status === 'error')); }
         if (typeof name !== 'string') return fail(-32602, 'params.name is required');
-        const r = await runtime.call(name, params.arguments || {});
+        const r = compactEnvelope(await runtime.call(name, params.arguments || {}), { maxChars, save: (e) => saveFullResult(runtime, name, e) });
         return ok(text(r, r.status === 'blocked' || r.status === 'error' || r.status === 'needs_license'));
       }
       default:

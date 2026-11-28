@@ -1,7 +1,7 @@
 {
   "name": "fairwire-it",
   "owner": {
-    "name": "Mythos Machines"
+    "name": "Fair Agents"
   },
   "metadata": {
     "description": "Thirty-one IT and network agents. Each reads files an IT team exports, writes reports locally and waits for a named person before anything that changes a live device, firewall, DNS zone, directory or cloud account."

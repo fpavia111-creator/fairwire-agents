@@ -5,7 +5,7 @@
 //   node scripts/realdata.mjs            download what is missing, run, print, write evidence/realdata.json
 //   node scripts/realdata.mjs --refresh  download again
 //
-// What each run means is in REVIEW-ver1.md ("Final pass", real data).
+// What each run means is in docs/ ("Final pass", real data).
 import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';

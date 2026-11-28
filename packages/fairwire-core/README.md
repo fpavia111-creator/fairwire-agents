@@ -1,6 +1,6 @@
 # fairwire-core
 
-The shared core for the **Fairwire IT and network agents** (Mythos Machines): small MCP agents that each own one IT job and cannot act outside it. Forked from lodestar-core (with its Windows fixes of 18 November 2026) and extended with:
+The shared core for the **Fairwire IT and network agents** (Fair Agents): small MCP agents that each own one IT job and cannot act outside it. Forked from lodestar-core (with its Windows fixes of 18 November 2026) and extended with:
 
 - **Personal-data masking** (`pii.js`): names, sign-in names, e-mail addresses, phone numbers, device ids and client addresses become stable HMAC pseudonyms before any result reaches the model; files written for the team keep the real values. `--pii mask|strict|off`; off is recorded on every audit line.
 - **IT helpers** (`it.js`): IPv4/IPv6, CIDR ranges, private and public addresses, port lists and coverage, MAC addresses, version comparison, dates, counts and sorts that do not depend on row order.
@@ -259,14 +259,14 @@ The core reads exports the way systems in Germany, France, Spain, Brazil, Italy,
 
 **Limits.** The translations were written by Claude and have not been reviewed by native speakers; every translated page says so. The encoding guess can be wrong on very short files; set `encoding` when names look garbled. The column dictionaries cover common names, not every system's labels. The agents make no claim about any country's laws, tax rules or filing formats.
 
-## Paid tier (licence keys)
+## Paid tier (license keys)
 
-A tool marked `tier: 'pro'` (optionally with a `feature` name) runs only with a valid licence key. Without one it returns `status: 'needs_license'` with the reason; free tools keep working. The check runs after the policy, so a blocked tool stays blocked, an `ask` tool still asks, nothing is put on Auto and one-click categories are untouched; no approval is requested for a call that cannot run.
+A tool marked `tier: 'pro'` (optionally with a `feature` name) runs only with a valid license key. Without one it returns `status: 'needs_license'` with the reason; free tools keep working. The check runs after the policy, so a blocked tool stays blocked, an `ask` tool still asks, nothing is put on Auto and one-click categories are untouched; no approval is requested for a call that cannot run.
 
 A key is `FAIRWIRE1.<payload>.<Ed25519 signature>` with licensee, plan, agents (`*` or package names), features, issue and expiry dates. It is checked offline against the public keys in `src/license-keys.js` (empty in this release, so nothing can be unlocked yet). There is no environment variable or config file that adds a trusted key.
 
 - Customer: `<pack> license install key.txt` (copies it to `.fairwire/license.key`), `<pack> license status`, or set `FAIRWIRE_LICENSE` / `FAIRWIRE_LICENSE_FILE`. `fairwire_info` shows the plan, expiry and which tools are unlocked, never the key.
-- Seller, on their own computer: `npx -p fairwire-core fairwire-license keygen --out ~/fairwire-licence-keys`, paste the printed public key into `LICENSE_PUBLIC_KEYS`, release, then `fairwire-license issue --key ~/fairwire-licence-keys/private.pem --licensee "Customer" --plan pro --days 365 [--agents fairwire-dns-records] --out customer.key` and `fairwire-license verify customer.key --pubkey ~/fairwire-licence-keys/public.pem`. Withdrawn licence ids go in `LICENSE_REVOKED_IDS` and take effect from the next release.
+- Seller, on their own computer: `npx -p fairwire-core fairwire-license keygen --out ~/fairwire-license-keys`, paste the printed public key into `LICENSE_PUBLIC_KEYS`, release, then `fairwire-license issue --key ~/fairwire-license-keys/private.pem --licensee "Customer" --plan pro --days 365 [--agents fairwire-dns-records] --out customer.key` and `fairwire-license verify customer.key --pubkey ~/fairwire-license-keys/public.pem`. Withdrawn license ids go in `LICENSE_REVOKED_IDS` and take effect from the next release.
 - `ctx.license` gives a handler `{ status, valid, plan, features, has(feature) }`.
 
 This is not copy protection: the packages are MIT-licensed source and anyone can remove the check. It draws a clear line for honest customers.

@@ -2,7 +2,7 @@
 
 AI usage review from an LLM usage or request log: the same prompt sent again and again, very large prompts, a large model used for tiny jobs, answers cut off at the output limit, and spend by app and model from a price table you supply. Drafts notes for the app owner.
 
-Part of **Fairwire**, the IT and network family of [Mythos Machines](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person's click.
+Part of **Fairwire**, the IT and network family of [Fair Agents](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person's click.
 
 ## What it checks
 
@@ -209,6 +209,6 @@ Every call is written to `.fairwire/audit.jsonl` under the root: hash-chained JS
 - Results returned to the AI model have the names of people, sign-in names, e-mail addresses, phone numbers and client addresses masked. The files written here keep the real values: keep them in a secure folder.
 - Export layouts were written from knowledge of common exports and have not been tested on live customer accounts. Run `inspect` on a new export and name columns in `fairwire-sources.json` when they differ.
 
-## Licence
+## License
 
 MIT. Fictional data only in `fixtures/`.

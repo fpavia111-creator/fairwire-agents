@@ -2,7 +2,7 @@
 
 Telecom bill review: mobile lines with no use for months, lines still billed for people who left, roaming and premium charges, plans much bigger than the use, two lines for one person and fixed lines nobody calls from. Phone numbers masked for the model. Drafts cancellation lists; never cancels a line.
 
-Part of **Fairwire**, the IT and network family of [Mythos Machines](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person's click.
+Part of **Fairwire**, the IT and network family of [Fair Agents](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person's click.
 
 ## What it checks
 
@@ -208,6 +208,6 @@ Every call is written to `.fairwire/audit.jsonl` under the root: hash-chained JS
 - Totals are arithmetic on the numbers in your files, not forecasts or quotes.
 - Export layouts were written from knowledge of common exports and have not been tested on live customer accounts. Run `inspect` on a new export and name columns in `fairwire-sources.json` when they differ.
 
-## Licence
+## License
 
 MIT. Fictional data only in `fixtures/`.

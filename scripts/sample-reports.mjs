@@ -29,4 +29,4 @@ for (const n of agents) {
   console.log(`${n}: ${r.result.summary}`);
 }
 const body = `<h1>Fairwire sample reports</h1><p class="mut">Written by the agents on fictional data. Nothing was sent or changed.</p><ul>${links.map((l) => `<li><a href="${escapeHtml(l.name)}">${escapeHtml(l.n)}</a>: ${escapeHtml(l.summary)}</li>`).join('')}</ul>`;
-writeFileSync(join(out, 'index.html'), htmlPage({ title: 'Fairwire sample reports', bodyHtml: body, footer: 'Fictional data. Mythos Machines.', lang: 'en' }));
+writeFileSync(join(out, 'index.html'), htmlPage({ title: 'Fairwire sample reports', bodyHtml: body, footer: 'Fictional data. Fair Agents.', lang: 'en' }));

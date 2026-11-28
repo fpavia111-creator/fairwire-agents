@@ -4,7 +4,7 @@
 
 Trente et un petits agents MCP pour les équipes informatiques. Chacun a **une seule tâche**, par exemple revoir les règles de pare-feu, contrôler les sauvegardes, lire les journaux de connexion ou examiner la facture cloud, et ne peut pas agir au-delà. Ils lisent les fichiers que votre équipe exporte déjà des pare-feu, contrôleurs, fournisseurs d’identité, outils de gestion des appareils, de sauvegarde, de support et des consoles cloud, écrivent des rapports sur votre machine et rédigent des notes. Toute modification d’un équipement, d’un pare-feu, d’une zone DNS, d’un annuaire ou d’un compte cloud reste **le clic d’une personne nommée**.
 
-Fait partie de [Mythos Machines](https://fair-agents.com) (Fairwire sur le site). Le logiciel est gratuit (MIT) ; vous payez un prix fixe pour la mise en place sur vos fichiers.
+Fait partie de [Fair Agents](https://fair-agents.com) (Fairwire sur le site). Le logiciel est gratuit (MIT) ; vous payez un prix fixe pour la mise en place sur vos fichiers.
 
 Licence MIT · Node 20 ou plus récent · fichiers locaux uniquement · aucun identifiant · aucune dépendance · noms et adresses masqués pour le modèle
 
@@ -34,4 +34,4 @@ npx -y fairwire-sign-in-logs demo      # revue des journaux de connexion sur des
 - Noms, identifiants, adresses e-mail, numéros de téléphone et adresses des clients sont remplacés par des pseudonymes pour le modèle.
 - Les exports en neuf langues se lisent de la même façon (encodages, `1 234,56`, dates, noms de colonnes locaux). Les pages de rapport suivent `--lang fr`.
 
-Résultats et décisions : [REVIEW-ver1.md](REVIEW-ver1.md). Ce n’est pas un conseil juridique, de conformité ou de certification.
+Résultats et décisions : [docs/](docs/). Ce n’est pas un conseil juridique, de conformité ou de certification.
