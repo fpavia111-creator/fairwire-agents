@@ -3,7 +3,9 @@ import { mkdirSync, writeFileSync, rmSync, existsSync, readdirSync } from 'node:
 import { envSeal, generateStateKey, convertStateFile, isSealed } from './state.js';
 import { join, resolve, dirname } from 'node:path';
 import { AgentRuntime } from './runtime.js';
-import { serveStdio } from './mcp.js';
+import { serveStdio, toolSchemas, toolDefinitions } from './mcp.js';
+import { compactEnvelope, maxResultChars, saveFullResult } from './compact.js';
+import { renderSkill } from './skill.js';
 import { runEvalFile } from './evals.js';
 import { ApprovalStore } from './approvals.js';
 import { writeEvalReport } from './eval-report.js';
@@ -61,7 +63,10 @@ function usage(manifest, bin) {
 Usage:
   ${bin} mcp                      Start the stdio MCP server
   ${bin} tools                    List tools and their allow/ask/block decision
-  ${bin} call <tool> '<json>'     Run one tool through the policy gate
+  ${bin} tools --json [--format anthropic|openai|mcp]   Tool definitions to pass to a model API directly
+  ${bin} help <tool>              One tool's description and arguments
+  ${bin} call <tool> '<json>'     Run one tool through the policy gate (long results are cut; --full for all)
+  ${bin} skill [--command CMD] [--title T]   Print this agent's SKILL.md (Agent Skill for Claude Code and other hosts)
   ${bin} demo                     Run the built-in demo on the bundled fixtures
   ${bin} eval [cases.json]        Run the private evals (default: bundled cases)
   ${bin} eval --report DIR [--baseline old/report.json]   Also write report.html + report.json
@@ -91,6 +96,8 @@ Options:
   --auto tool_a,tool_b            Actions allowed to run without asking in Auto
   --max-steps N --max-spend USD   Caps (always enforced)
   --root DIR                      Folder the tools may read/write (default: cwd)
+  --max-chars N                   Longest result printed or sent to the model (default 20000; 0 = no limit; ${P().env('MAX_RESULT_CHARS')})
+  --full                          call: print the whole result
   --state-dir DIR                 Audit log, approvals, kill file (default: <root>/${P().stateDir})
   --session ID                    Session id for persisted caps (default: random per process)
   --max-steps-per-day N --max-spend-per-day USD   Daily caps (persisted in usage.json)
@@ -110,11 +117,23 @@ export async function runCli(manifest, argv, opts = {}) {
   const { flags, pos } = parseFlags(argv);
   const cmd = pos[0];
   const out = (o) => process.stdout.write((typeof o === 'string' ? o : JSON.stringify(o, null, 2)) + '\n');
-  if (!cmd || cmd === 'help' || flags.help) { out(usage(manifest, bin)); return 0; }
+  if (!cmd || (cmd === 'help' && !pos[1]) || flags.help) { out(usage(manifest, bin)); return 0; }
   if (cmd === 'version' || flags.version) { out(manifest.version); return 0; }
-  if (cmd === 'mcp') { serveStdio(runtimeFromFlags(manifest, flags)); return null; }
+  if (cmd === 'mcp') {
+    const rt = runtimeFromFlags(manifest, flags);
+    if (flags['max-chars'] !== undefined) rt.maxResultChars = maxResultChars(flags['max-chars']);
+    serveStdio(rt); return null;
+  }
+  if (cmd === 'help' && pos[1]) {
+    const t = toolDefinitions(runtimeFromFlags(manifest, flags)).find((x) => x.name === pos[1]);
+    if (!t) { out(`Unknown tool: ${pos[1]}. Run "${bin} tools" to list them.`); return 2; }
+    out({ name: t.name, description: t.description, arguments: t.inputSchema });
+    return 0;
+  }
+  if (cmd === 'skill') { out(renderSkill(runtimeFromFlags(manifest, flags), { command: typeof flags.command === 'string' ? flags.command : undefined, title: typeof flags.title === 'string' ? flags.title : undefined })); return 0; }
   if (cmd === 'tools') {
     const rt = runtimeFromFlags(manifest, flags);
+    if (flags.json || flags.format) { out(toolSchemas(rt, typeof flags.format === 'string' ? flags.format : 'anthropic')); return 0; }
     out(`mode: ${rt.mode}   model pin (declared): ${manifest.model.provider}/${manifest.model.id}`);
     for (const t of rt.listTools()) out(`  ${t.decision.padEnd(5)}  ${t.name.padEnd(34)} ${t.kind}${t.category ? ' · ' + t.category : ''}`);
     if (manifest.prompts && manifest.prompts.length) out(`prompts: ${manifest.prompts.map((p) => p.name).join(', ')}`);
@@ -125,7 +144,8 @@ export async function runCli(manifest, argv, opts = {}) {
     const rt = runtimeFromFlags(manifest, flags);
     let args = {};
     if (pos[2]) { try { args = JSON.parse(pos[2]); } catch { out('arguments must be JSON'); return 2; } }
-    const r = await rt.call(pos[1], args);
+    const full = await rt.call(pos[1], args);
+    const r = flags.full ? full : compactEnvelope(full, { maxChars: maxResultChars(flags['max-chars'], P().env('MAX_RESULT_CHARS')), save: (e) => saveFullResult(rt, pos[1], e) });
     out(r);
     return r.status === 'executed' || r.status === 'needs_approval' ? 0 : 1;
   }

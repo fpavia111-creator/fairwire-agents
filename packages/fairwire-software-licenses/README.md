@@ -1,15 +1,15 @@
 # Fairwire Software Licenses
 
-Software installs against licences: products installed on more devices than you own licences for, licences nobody uses, software not on your approved list, prohibited software, versions past end of support and several versions of one product. Drafts a true-up note; never uninstalls anything.
+Software installs against licenses: products installed on more devices than you own licenses for, licenses nobody uses, software not on your approved list, prohibited software, versions past end of support and several versions of one product. Drafts a true-up note; never uninstalls anything.
 
-Part of **Fairwire**, the IT and network family of [Mythos Machines](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person's click.
+Part of **Fairwire**, the IT and network family of [Fair Agents](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person's click.
 
 ## What it checks
 
 | Finding | What it means |
 |---|---|
 | `prohibited_software` | Software on your prohibited list installed on devices. |
-| `over_deployed` | A product installed on more devices than you own licences for. |
+| `over_deployed` | A product installed on more devices than you own licenses for. |
 | `old_version` | Devices running a version older than the minimum you set (often unsupported or with known flaws). |
 | `unapproved_software` | Software that is not on your approved list. |
 | `unused_entitlements` | Licences you pay for that are not installed anywhere (shelfware). |
@@ -26,13 +26,13 @@ Pass a settings file with `settings`. Every setting is optional; a misspelt sett
 | `approved` | Product names on your approved list (no check when empty); a name matches installs that start with it |
 | `prohibited` | Product names that must not be installed |
 | `min_versions` | Lowest acceptable version per product, e.g. {"7-Zip": "24.0"} |
-| `shelfware_pct` | Share of licences unused above which a product is flagged (default 20) |
-| `shelfware_min_seats` | Unused licences a product needs before it is flagged (default 5) |
+| `shelfware_pct` | Share of licenses unused above which a product is flagged (default 20) |
+| `shelfware_min_seats` | Unused licenses a product needs before it is flagged (default 5) |
 
 ## What it never does
 
 - `endpoint_uninstall_software` is refused: Fairwire Software Licenses never uninstalls or blocks software on a device.
-- `vendor_order_licences` is refused: Fairwire Software Licenses never orders licences.
+- `vendor_order_licences` is refused: Fairwire Software Licenses never orders licenses.
 - `licenses_request_send` waits for one named person's click, even in Auto (`binding_send`).
 - `licenses_accept_learning` waits for one named person's click, even in Auto (`accept_learning`).
 - `licenses_retire_memory` waits for one named person's click, even in Auto (`accept_learning`).
@@ -197,12 +197,12 @@ Every call is written to `.fairwire/audit.jsonl` under the root: hash-chained JS
 ## Limits
 
 - Reads only the files you export and give it. It does not log in to a firewall, switch, controller, cloud console, identity provider or any other live system.
-- Products are matched by name (case and bracketed editions ignored); licence terms such as per-user, per-core or second-device rights are not modelled, so a vendor's count can differ.
-- Not a licence compliance opinion; your agreement with each vendor decides what you owe.
+- Products are matched by name (case and bracketed editions ignored); license terms such as per-user, per-core or second-device rights are not modelled, so a vendor's count can differ.
+- Not a license compliance opinion; your agreement with each vendor decides what you owe.
 - Thresholds are working defaults in a settings file you control; they are not a vendor rule, a requirement of any standard or a security guarantee.
 - It changes nothing on a live device, firewall, DNS zone, directory or cloud account. Every change it suggests is a draft that one named person applies.
 - Export layouts were written from knowledge of common exports and have not been tested on live customer accounts. Run `inspect` on a new export and name columns in `fairwire-sources.json` when they differ.
 
-## Licence
+## License
 
 MIT. Fictional data only in `fixtures/`.

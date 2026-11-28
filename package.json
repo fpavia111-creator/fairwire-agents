@@ -28,7 +28,9 @@
     "check": "node scripts/family-check.mjs",
     "accuracy": "node scripts/accuracy.mjs",
     "model-view": "node scripts/model-view.mjs",
-    "realdata": "node scripts/realdata.mjs"
+    "realdata": "node scripts/realdata.mjs",
+    "skills": "node scripts/skill-files.mjs",
+    "skills:check": "node scripts/skill-files.mjs --check"
   },
   "engines": {
     "node": ">=20"

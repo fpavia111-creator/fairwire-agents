@@ -1,3 +1,5 @@
+import { toolSchemas } from './mcp.js';
+import { compactEnvelope, maxResultChars, saveFullResult } from './compact.js';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { join, resolve, relative, isAbsolute, dirname, basename, sep } from 'node:path';
 import { randomUUID } from 'node:crypto';
@@ -201,6 +203,20 @@ export class AgentRuntime {
     if (this.killed) return true;
     if (/^(1|true|yes)$/i.test(process.env[this.family.env('KILL')] || '')) return true;
     return !!(this.stateDir && existsSync(join(this.stateDir, 'KILL')));
+  }
+
+  /** Tool definitions for a model API: 'anthropic' (default), 'openai' or 'mcp'. See mcp.js toolSchemas. */
+  toolSchemas(format = 'anthropic') { return toolSchemas(this, format); }
+
+  /**
+   * Run one tool for a program that talks to the model itself (no MCP server): the same
+   * policy, approvals and audit as call(), the inspect tool included, and a result cut to
+   * maxChars (default about 5,000 tokens; 0 = everything) with the full result saved to a file.
+   */
+  async run(tool, args = {}, { maxChars } = {}) {
+    const limit = maxResultChars(maxChars ?? this.maxResultChars, this.family.env('MAX_RESULT_CHARS'));
+    const r = tool === this.family.inspectTool ? this.inspect(args) : await this.call(tool, args);
+    return compactEnvelope(r, { maxChars: limit, save: (e) => saveFullResult(this, tool, e) });
   }
 
   listTools() {

@@ -2,9 +2,9 @@
 
 Thirty-one small MCP agents for IT teams. Each one owns **one job**, such as reviewing firewall rules, checking backup results, reading sign-in logs or reviewing the cloud bill, and cannot act outside it. They read the files your IT team already exports from firewalls, controllers, identity providers, device management, backup tools, service desks and cloud consoles, write reports on your machine, and draft notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays **one named person's click**.
 
-Part of [Mythos Machines](https://fair-agents.com) (Fairwire on the site). The software is free (MIT); you pay a fixed price for the setup on your files.
+Part of [Fair Agents](https://fair-agents.com) (Fairwire on the site). The software is free (MIT); you pay a fixed price for the setup on your files.
 
-MIT licence · Node 20 or newer · local files only · no credentials · no dependencies · names and addresses masked for the model
+MIT license · Node 20 or newer · local files only · no credentials · no dependencies · names and addresses masked for the model
 
 Also in: [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md) · [Português (Brasil)](README.pt-BR.md) · [Italiano](README.it.md) · [日本語](README.ja.md) · [简体中文](README.zh-Hans.md) · [한국어](README.ko.md) (translated by Claude; native review pending)
 
@@ -51,7 +51,7 @@ Every agent has a `demo` that runs on fictional files, an `eval` that checks it 
 | [`fairwire-patch-status`](packages/fairwire-patch-status) | Patch status: overdue critical updates, unsupported OS, failures, silent devices, pending restarts | Sending a patch note |
 | [`fairwire-endpoint-protection`](packages/fairwire-endpoint-protection) | Endpoint protection: no agent, protection or tamper off, passive mode, stale signatures, old high alerts | Sending a security note |
 | [`fairwire-mobile-devices`](packages/fairwire-mobile-devices) | Mobile devices: jailbroken, leavers' devices, no passcode or encryption, silent, old OS | Sending a device note |
-| [`fairwire-software-licenses`](packages/fairwire-software-licenses) | Software against licences: prohibited, over-deployed, outdated, unapproved, shelfware | Sending a true-up note |
+| [`fairwire-software-licenses`](packages/fairwire-software-licenses) | Software against licenses: prohibited, over-deployed, outdated, unapproved, shelfware | Sending a true-up note |
 | [`fairwire-print-fleet`](packages/fairwire-print-fleet) | Print fleet: offline, idle, costly per page, colour-heavy, leases ending | Sending a consolidation note |
 
 **Operations and resilience**
@@ -98,4 +98,4 @@ npm run bench                   # 1,000 and 10,000 rows per agent
 npm run release:check:offline   # metadata, honest-copy scan, secret scan, npm pack
 ```
 
-Results and decisions are in [REVIEW-ver1.md](REVIEW-ver1.md). Not legal, compliance or security-certification advice.
+Results and decisions are in [docs/](docs/). Not legal, compliance or security-certification advice.

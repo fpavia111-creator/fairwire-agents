@@ -35,7 +35,7 @@ for (const n of readdirSync(PK).filter((x) => /^fairwire-(?!core$)/.test(x) && e
   const L = [
     `# ${title}`, '',
     pkg.description.slice(title.length + 2), '',
-    'Part of **Fairwire**, the IT and network family of [Mythos Machines](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person\'s click.', '',
+    'Part of **Fairwire**, the IT and network family of [Fair Agents](https://fair-agents.com) agents. The software is free (MIT); you pay a fixed price for the setup on your files. It reads files your IT team exports, on your own computer, and drafts notes. Every change to a live device, firewall, DNS zone, directory or cloud account stays one named person\'s click.', '',
     '## What it checks', '', '| Finding | What it means |', '|---|---|',
     ...Object.entries(mod.CHECKS || {}).map(([code, text]) => `| \`${code}\` | ${text.replace(/\|/g, '/')} |`), '',
     'Findings come back worst first (high, medium, low). A finding a named person has reviewed can be accepted as known, with a reason and a date to look again; it then moves to "Accepted as known" instead of counting as open.', '',

@@ -4,7 +4,7 @@
 
 Treinta y un pequeños agentes MCP para equipos de TI. Cada uno tiene **una sola tarea**, como revisar reglas del cortafuegos, comprobar copias de seguridad, leer registros de inicio de sesión o revisar la factura de la nube, y no puede actuar fuera de ella. Leen los archivos que su equipo ya exporta de cortafuegos, controladores, proveedores de identidad, gestión de dispositivos, herramientas de copia, mesa de ayuda y consolas de la nube, escriben informes en su equipo y redactan notas. Todo cambio en un dispositivo, cortafuegos, zona DNS, directorio o cuenta en la nube sigue siendo **el clic de una persona con nombre**.
 
-Parte de [Mythos Machines](https://fair-agents.com) (Fairwire en el sitio). El software es gratuito (MIT); usted paga un precio fijo por la puesta en marcha con sus archivos.
+Parte de [Fair Agents](https://fair-agents.com) (Fairwire en el sitio). El software es gratuito (MIT); usted paga un precio fijo por la puesta en marcha con sus archivos.
 
 Licencia MIT · Node 20 o posterior · solo archivos locales · sin credenciales · sin dependencias · nombres y direcciones enmascarados para el modelo
 
@@ -34,4 +34,4 @@ npx -y fairwire-sign-in-logs demo      # revisión de inicios de sesión con dat
 - Nombres, usuarios, correos, teléfonos y direcciones de cliente se sustituyen por seudónimos para el modelo.
 - Las exportaciones en nueve idiomas se leen igual (codificaciones, `1.234,56`, fechas, nombres de columna locales). Las páginas de informe siguen `--lang es`.
 
-Resultados y decisiones: [REVIEW-ver1.md](REVIEW-ver1.md). No es asesoramiento jurídico, de cumplimiento ni de certificación.
+Resultados y decisiones: [docs/](docs/). No es asesoramiento jurídico, de cumplimiento ni de certificación.

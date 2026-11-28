@@ -18,6 +18,8 @@ export * from './license-keys.js';
 export * from './license.js';
 export * from './manifest.js';
 export * from './mcp.js';
+export * from './compact.js';
+export * from './skill.js';
 export * from './memory.js';
 export * from './policy.js';
 export * from './runtime.js';
